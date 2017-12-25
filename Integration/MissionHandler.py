@@ -12,11 +12,11 @@ class MissionHandler(object):
     def run(cls):
         for mission in cls.active_missions:
             if not mission.am_i_running():
-                mission.is_running = True
+                mission.set_running()
                 mission.init()
 
             mission.execute()
 
             if mission.is_finished:
                 mission.finish()
-                mission.is_running = False
+                mission.stop_running()
