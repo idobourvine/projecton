@@ -1,11 +1,6 @@
-from Integration.MissionHandler import MissionHandler
+from Integration.Mission import Mission
 
-
-class Mission(object):
-
-    def __init__(self):
-        self.is_running = False
-
+class AimAtBalloonInPictureMission (Mission):
     def init(self):
         """
         To be overriden
@@ -19,6 +14,8 @@ class Mission(object):
         Code that happens periodically
         :return:
         """
+
+        print("running")
 
     def is_finished(self):
         """
@@ -35,9 +32,4 @@ class Mission(object):
         Code that happends at termination of mission
         :return:
         """
-
-    def am_i_running(self):
-        return self.is_running
-
-    def start(self):
-        MissionHandler.add_mission(self)
+        pass
