@@ -1,7 +1,7 @@
 import threading
 import time
 import cv2
-import Vision_Processing.GetBalloon
+import GetBalloon
 
 
 def Webcamera(bloons):

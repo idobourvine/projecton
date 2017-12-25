@@ -1,4 +1,4 @@
-from Integration.MissionHandler import MissionHandler
+from MissionHandler import MissionHandler
 
 
 class Mission(object):

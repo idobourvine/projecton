@@ -1,9 +1,8 @@
 import time
 import threading
 
-from Integration.AimAtBalloonInPictureMission import \
-    AimAtBalloonInPictureMission
-from Integration.MissionHandler import MissionHandler
+from AimAtBalloonInPictureMission import AimAtBalloonInPictureMission
+from MissionHandler import MissionHandler
 
 
 class CarMain(object):

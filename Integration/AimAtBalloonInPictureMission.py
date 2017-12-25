@@ -1,4 +1,4 @@
-from Integration.Mission import Mission
+from Mission import Mission
 
 class AimAtBalloonInPictureMission (Mission):
     def init(self):
