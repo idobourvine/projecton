@@ -45,6 +45,7 @@ def getBall(img):
         else:
             i += 1
             point = ellipse[0]
-            point = [(float(point[0]) - px/2)/px, -(float(point[1]) - py/2)/py]
+            point = [-(float(point[0]) - px/2)/px, -(float(point[1]) -
+                                                     py/2)/py]
             bloons.append([point[0]*hor, point[1]*ver])
     return bloons

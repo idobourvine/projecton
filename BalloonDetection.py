@@ -15,7 +15,6 @@ def Webcamera(bloons):
         for i in range(j):
             del bloons[i]
         bloons.append(GetBalloon.getBall(Image0))
-        #cv2.imshow("Webcamera",Image0)
         cv2.waitKey(10)
     if not IsOpen0:
         time.delay(0.5)
