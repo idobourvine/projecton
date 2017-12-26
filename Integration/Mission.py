@@ -39,5 +39,11 @@ class Mission(object):
     def am_i_running(self):
         return self.is_running
 
+    def set_running(self):
+        self.is_running = True
+
+    def stop_running(self):
+        self.is_running = False
+
     def start(self):
         MissionHandler.add_mission(self)
