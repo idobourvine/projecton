@@ -15,7 +15,7 @@ class CarMain(object):
         :return:
         """
         periodic_loop_thread = threading.Thread(target=self.do_every,
-                                              args=(0.02, self.periodic_loop))
+                                              args=(1, self.periodic_loop))
         periodic_loop_thread.start()
 
         aim = AimAtBalloonInPictureMission()
