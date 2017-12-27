@@ -11,13 +11,15 @@ def Webcamera(bloons):
     IsOpen0, Image0 = Channel0.read()
     while IsOpen0:
         IsOpen0, Image0 = Channel0.read()
-        j = len(bloons)
-        for i in range(j):
-            del bloons[i]
+        try:
+            cv2.imshow('image', Image0)
+        except Exception as e:
+            print(e)
+        del bloons[:]
         bloons.append(GetBalloon.getBall(Image0))
         cv2.waitKey(10)
     if not IsOpen0:
-        time.delay(0.5)
+        # time.delay(0.5)
         print "Error opening Web camera"
 
 
@@ -53,18 +55,20 @@ def Dancig(bloons):
         time.sleep(0.5)
         print "Error opening Dancig"
 
-try:
-    bloons1 = []
-    bloons2 = []
-    bloons3 = []
-    eg1 = threading.Thread(target=Webcamera, args=(bloons1,))
-    eg2 = threading.Thread(target=Panasonic, args=(bloons2,))
-    eg3 = threading.Thread(target=Dancig, args=(bloons3,))
-    eg1.start()
-    eg2.start()
-    eg3.start()
+if __name__ == "__main__":
+    try:
+        bloons1 = []
+        bloons2 = []
+        bloons3 = []
+        eg1 = threading.Thread(target=Webcamera, args=(bloons1,))
+        eg2 = threading.Thread(target=Panasonic, args=(bloons2,))
+        eg3 = threading.Thread(target=Dancig, args=(bloons3,))
+        eg1.start()
+        eg2.start()
+        eg3.start()
 
-except:
-    print "Error: unable to start thread"
-while 1:
-    pass
+    except:
+        print "Error: unable to start thread"
+    while 1:
+        pass
+
