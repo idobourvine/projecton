@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0955ef6-fc41-4bd9-b437-f10e25353e7d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Integration/AimAtBalloonInPictureMission.py" afterPath="$PROJECT_DIR$/Integration/AimAtBalloonInPictureMission.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Integration/CarMain.py" afterPath="$PROJECT_DIR$/Integration/CarMain.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Integration/Mission.py" afterPath="$PROJECT_DIR$/Integration/Mission.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Integration/MissionHandler.py" afterPath="$PROJECT_DIR$/Integration/MissionHandler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vision_Processing/BalloonDetection.py" afterPath="$PROJECT_DIR$/Vision_Processing/BalloonDetection.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vision_Processing/GetBalloon.py" afterPath="$PROJECT_DIR$/Vision_Processing/GetBalloon.py" />
     </list>
     <ignored path="projecton.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,7 +22,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CarMain.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CarMain.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Integration/CarMain.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="149">
@@ -57,7 +52,7 @@
       <file leaf-file-name="BalloonDetection.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Vision_Processing/BalloonDetection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
+            <state relative-caret-position="50">
               <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
@@ -66,11 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GetBalloon.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GetBalloon.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Vision_Processing/GetBalloon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="182">
+              <caret line="43" column="40" selection-start-line="43" selection-start-column="40" selection-end-line="43" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -120,6 +115,7 @@
         <option value="$PROJECT_DIR$/Integration/MissionHandler.py" />
         <option value="$PROJECT_DIR$/Integration/AimAtBalloonInPictureMission.py" />
         <option value="$PROJECT_DIR$/Integration/CarMain.py" />
+        <option value="$PROJECT_DIR$/Vision_Processing/GetBalloon.py" />
       </list>
     </option>
   </component>
@@ -696,30 +692,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Vision_Processing/GetBalloon.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Integration/AimAtBalloonInPictureMission.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Vision_Processing/BalloonDetection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -731,6 +709,24 @@
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vision_Processing/BalloonDetection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vision_Processing/GetBalloon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="43" column="40" selection-start-line="43" selection-start-column="40" selection-end-line="43" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
