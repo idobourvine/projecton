@@ -11,10 +11,11 @@ def Webcamera(bloons):
     IsOpen0, Image0 = Channel0.read()
     while IsOpen0:
         IsOpen0, Image0 = Channel0.read()
-        cv2.imshow('image', Image0)
-        j = len(bloons)
-        for i in range(j):
-            del bloons[i]
+        try:
+            cv2.imshow('image', Image0)
+        except Exception as e:
+            print(e)
+        del bloons[:]
         bloons.append(GetBalloon.getBall(Image0))
         cv2.waitKey(10)
     if not IsOpen0:

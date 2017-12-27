@@ -13,10 +13,11 @@ class MissionHandler(object):
         for mission in cls.active_missions:
             if not mission.am_i_running():
                 mission.set_running()
-                mission.init()
+                mission.initialize()
 
             mission.execute()
 
-            if mission.is_finished:
+            if mission.is_finished():
                 mission.finish()
                 mission.stop_running()
+                cls.active_missions.remove(mission)

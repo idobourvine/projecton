@@ -15,15 +15,16 @@ class CarMain(object):
         :return:
         """
         periodic_loop_thread = threading.Thread(target=self.do_every,
-                                              args=(1, self.periodic_loop))
+                                              args=(0.02, self.periodic_loop))
         periodic_loop_thread.start()
 
         aim = AimAtBalloonInPictureMission()
+
         aim.start()
 
     def periodic_loop(self):
         """
-        Method that will run periodically every 10 ms
+        Method that will run periodically
         :return:
         """
 
