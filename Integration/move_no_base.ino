@@ -1,6 +1,7 @@
 #define outputA 6
 #define outputDir 5
 #define buttonPin 8
+#define laserPin 12
 
 int encoder0PinA = 2;
 int encoder0PinB = 3;
@@ -24,6 +25,10 @@ int buttonState = 0;
 int max_vel = 20;
 bool last_dir = clockwise;
 int backlash = 7;
+bool dironpush = clockwise;
+int absmax = encoder0Pos + ratio*360;
+int absmin = encoder0Pos;
+
 void CountA()
 {
   n = digitalRead(encoder0PinA); 
@@ -48,6 +53,7 @@ void setup()
   pinMode(outputA,OUTPUT);
   pinMode(outputDir,OUTPUT);
   pinMode(buttonPin,INPUT);
+  pinMode(laserPin,OUTPUT);
   Serial.begin (2000000);
   
   attachInterrupt(1, CountA, CHANGE);
@@ -57,13 +63,20 @@ void setup()
 
 void loop()
 {
+    digitalWrite(laserPin,LOW); //laser Works all time long
     buttonState = digitalRead(buttonPin);
     if (buttonState == HIGH) {
-    //encoder0Pos = 0;
+    encoder0Pos = 0;
+    dironpush = clockwise;
     }
-    if (Serial.available() > 0) {
+    if (Serial.available() > 1) {
         stop = false;
-        angle = Serial.parseInt();
+        int angle1 = Serial.parseInt();
+        Serial.print(Serial.available());
+        int angle2 = Serial.parseInt();
+        //there's an option for resolution improvement
+        angle = (angle1*256 + angle2)%1024 -512;
+        Serial.print(angle);
         angle *= ratio;
         Serial.println("I received: ");
         clockwise = true;
@@ -87,6 +100,7 @@ void loop()
     analogWrite(outputA, max_vel); // Send PWM signal to L298N Enable pin
     digitalWrite(outputDir, HIGH);   // turn the motor dir
     }
+    
     if(!clockwise && !stop)
     {
     analogWrite(outputA, max_vel);
@@ -98,7 +112,15 @@ void loop()
     if (valNew != valOld) {
       Serial.print (encoder0Pos, DEC);
       //Serial.print ("--");
-    if((encoder0Pos > maxx && clockwise)||(encoder0Pos< minn && !clockwise) || (encoder0Pos < -10 && !clockwise))
+    if(encoder0Pos > absmax && clockwise || (encoder0Pos< absmin && !clockwise))
+    {
+        Serial.print("stop2");
+        digitalWrite(outputA, LOW);   // turn the motor off
+        digitalWrite(outputDir, LOW);   // turn the motor off
+        stop = true;
+    }
+      // if I got to the right place
+    if((encoder0Pos > maxx && clockwise)||(encoder0Pos< minn && !clockwise))
       {
         Serial.print("stop");
         digitalWrite(outputA, LOW);   // turn the motor off
