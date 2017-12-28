@@ -11,7 +11,8 @@ class Aiming:
         self.ser.close()
 
     def send(self, angle):
-        self.ser.write(str(angle%256))
+        print ("about to send: " + str(angle % 256))
+        self.ser.write(str(angle % 256))
 
 
 

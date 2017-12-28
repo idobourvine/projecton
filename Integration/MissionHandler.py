@@ -21,3 +21,9 @@ class MissionHandler(object):
                 mission.finish()
                 mission.stop_running()
                 cls.active_missions.remove(mission)
+
+    @classmethod
+    def close_all(cls):
+        for mission in cls.active_missions:
+            mission.finish()
+            mission.stop_running()
