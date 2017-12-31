@@ -20,7 +20,7 @@ class AimAtBalloonInPictureMission (Mission):
         self.bloons1 = []  # Array of balloons detected by vision processing
         self.eg1 = threading.Thread(target=Webcamera,
                                args=(self.bloons1,))  # Thread that runs
-        self.aiming = Aiming(2, 9600)  # Object of serial comm to
+        self.aiming = Aiming(2)  # Object of serial comm to
 
         self.pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
         keyboard.add_hotkey('ctrl+enter', self.update_pressed_hotkey)
@@ -71,11 +71,13 @@ class AimAtBalloonInPictureMission (Mission):
                         # pressing hotkey with no balloon present in picture
                         # Might cause system to move unexpectedly
 
+                        angle_to_send = int(round(min_balloon[0]))
+
                         # This should be log
-                        """print("Minimum balloon found: " + str(min_balloon))"""
+                        print("angle to send: " + str(angle_to_send))
 
                         # Sends angle to arduino
-                        self.aiming.send(int(round(min_balloon[0])))
+                        self.aiming.send(angle_to_send)
 
     def is_finished(self):
         """

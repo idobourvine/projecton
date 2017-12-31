@@ -3,11 +3,11 @@ Serial communication for controlling the azimuth motor
 """
 import serial
 import time
-import  struct
+import struct
 
 
 class Aiming:
-    def __init__(self, port, baudrate ):
+    def __init__(self, port, baudrate=2000000):
         self.ser = serial.Serial(port,baudrate)
         time.sleep(5)
 
@@ -25,7 +25,7 @@ class Aiming:
     def pack_to_two_angles(self, angle):
         angle = angle + 512
         print(int((angle)/256),int((angle)%256))
-        return int((angle)/256),int((angle)%256)
+        return (int((angle)/256),int((angle)%256))
 
 
 
