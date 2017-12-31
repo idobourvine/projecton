@@ -1,9 +1,16 @@
+"""
+Generic mission class that is run by the mission handler
+"""
 from MissionHandler import MissionHandler
 
 
 class Mission(object):
 
     def __init__(self):
+        """
+        This needs to be called explicitly in the __init__ of every
+        inheriting mission
+        """
         self.is_running = False
 
     def initialize(self):
@@ -41,11 +48,19 @@ class Mission(object):
 
     def set_running(self):
         self.is_running = True
-        print (self.__class__.__name__ + " set running")  # Debugging
+
+        # Should be log
+        """print (self.__class__.__name__ + " set running")  # Debugging"""
 
     def stop_running(self):
         self.is_running = False
-        print (self.__class__.__name__ + " stopped running")  # Debugging
+
+        # Should be log
+        """print (self.__class__.__name__ + " stopped running")  # Debugging"""
 
     def start(self):
+        """
+        Starts the mission by adding it to the mission handler
+        :return: None
+        """
         MissionHandler.add_mission(self)
