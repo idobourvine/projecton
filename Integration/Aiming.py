@@ -1,17 +1,28 @@
 import serial
 import time
+import  struct
 
 class Aiming:
-    def __init__(self, port, baudrate):
-        self.ser = serial.Serial(port)
+    def __init__(self, port, baudrate ):
+        self.ser = serial.Serial(port,baudrate)
         time.sleep(5)
-        self.ser.baudrate = baudrate
+
 
     def close(self):
         self.ser.close()
 
     def send(self, angle):
-        self.ser.write(str(angle%256))
+        angle1, angle2 = self.pack_to_two_angles(angle)
+        self.ser.write(struct.pack('>B',int(angle1)))
+        print(self.ser.read())
+        self.ser.write(struct.pack('>B', int(angle2)))
+        print(self.ser.read())
+
+    def pack_to_two_angles(self, angle):
+        angle = angle + 512
+        print(int((angle)/256),int((angle)%256))
+        return int((angle)/256),int((angle)%256)
+
 
 
 
