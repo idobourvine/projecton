@@ -1,6 +1,10 @@
+"""
+Serial communication for controlling the azimuth motor
+"""
 import serial
 import time
 import  struct
+
 
 class Aiming:
     def __init__(self, port, baudrate ):

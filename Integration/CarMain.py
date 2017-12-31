@@ -1,3 +1,6 @@
+"""
+Main class of the car
+"""
 import time
 import threading
 
@@ -7,19 +10,27 @@ from MissionHandler import MissionHandler
 
 class CarMain(object):
     def __init__(self):
+        """
+        self init of certain objects
+        """
         self.mission_handler = MissionHandler()
 
     def init_car(self):
         """
-        Initialization code
+        Main initialization code
+        Here should be the initialization of other modules, communications,
+        physical devices etc.
         :return:
         """
+        # Starts the main periodic execution loop
         periodic_loop_thread = threading.Thread(target=self.do_every,
                                               args=(0.02, self.periodic_loop))
         periodic_loop_thread.start()
 
-        aim = AimAtBalloonInPictureMission()
 
+
+        # Mission creation and starting them
+        aim = AimAtBalloonInPictureMission()
         aim.start()
 
     def periodic_loop(self):
@@ -27,10 +38,16 @@ class CarMain(object):
         Method that will run periodically
         :return:
         """
-
         self.mission_handler.run()
 
     def do_every(self, period, f, *args):
+        """
+        Calls a function every period of time
+        :param period: In seconds
+        :param f: function to call
+        :param args: arguments to pass the function
+        :return: None
+        """
         def g_tick():
             t = time.time()
             count = 0
