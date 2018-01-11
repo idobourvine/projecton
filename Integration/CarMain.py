@@ -1,21 +1,27 @@
 """
 Main class of the car
 """
-import time
 import threading
+import time
 
-from AimAtBalloonInPictureMission import AimAtBalloonInPictureMission
-from MissionHandler import MissionHandler
+from Devices.DeviceMap import DeviceMap
+from Missions.MissionHandler import MissionHandler
+from Missions.MissionPlanner import MissionPlanner
 
+class CarMain:
+    """
+    Main class of the car
+    """
 
-class CarMain(object):
-    def __init__(self):
-        """
-        self init of certain objects
-        """
-        self.mission_handler = MissionHandler()
+    """
+    self init of certain objects
+    """
+    device_map = DeviceMap()
+    mission_handler = MissionHandler()
+    mission_planner = MissionPlanner()
 
-    def init_car(self):
+    @classmethod
+    def init_car(cls):
         """
         Main initialization code
         Here should be the initialization of other modules, communications,
@@ -23,24 +29,24 @@ class CarMain(object):
         :return:
         """
         # Starts the main periodic execution loop
-        periodic_loop_thread = threading.Thread(target=self.do_every,
-                                              args=(0.02, self.periodic_loop))
+        periodic_loop_thread = threading.Thread(target=cls.do_every,
+                                                args=(0.02, cls.periodic_loop))
         periodic_loop_thread.start()
 
+        print("All set, let's go!")
 
 
-        # Mission creation and starting them
-        aim = AimAtBalloonInPictureMission()
-        aim.start()
-
-    def periodic_loop(self):
+    @classmethod
+    def periodic_loop(cls):
         """
         Method that will run periodically
-        :return:
         """
-        self.mission_handler.run()
 
-    def do_every(self, period, f, *args):
+        cls.mission_planner.manage_missions()
+        cls.mission_handler.run()
+
+    @classmethod
+    def do_every(cls, period, f, *args):
         """
         Calls a function every period of time
         :param period: In seconds
@@ -48,6 +54,7 @@ class CarMain(object):
         :param args: arguments to pass the function
         :return: None
         """
+
         def g_tick():
             t = time.time()
             count = 0
@@ -64,3 +71,4 @@ class CarMain(object):
 if __name__ == "__main__":
     car = CarMain()
     car.init_car()
+

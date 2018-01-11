@@ -2,24 +2,28 @@ import threading
 import time
 import cv2
 import GetBalloon
+import copy
 
 
-def Webcamera(bloons):
+def Webcamera(bloons, canShoot, didPop):
     Channel0 = cv2.VideoCapture(0)
-    #Channel0.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
-    #Channel0.set(cv2.CAP_PROP_FRAME_WIDTH, 400)
     IsOpen0, Image0 = Channel0.read()
     while IsOpen0:
+        Image1 = copy.deepcopy(Image0)
         IsOpen0, Image0 = Channel0.read()
         try:
             cv2.imshow('image', Image0)
         except Exception as e:
             print(e)
+        del didPop[:]
+        didPop.append(GetBalloon.didPop(Image1, Image0))
         del bloons[:]
         bloons.append(GetBalloon.getBall(Image0))
+        del canShoot[:]
+        canShoot.append(GetBalloon.canShoot(Image0))
         cv2.waitKey(10)
     if not IsOpen0:
-        # time.delay(0.5)
+        time.sleep(0.5)
         print "Error opening Web camera"
 
 
@@ -58,9 +62,10 @@ def Dancig(bloons):
 if __name__ == "__main__":
     try:
         bloons1 = []
+        canShoot1 = [0]
         bloons2 = []
         bloons3 = []
-        eg1 = threading.Thread(target=Webcamera, args=(bloons1,))
+        eg1 = threading.Thread(target=Webcamera, args=(bloons1,canShoot1,))
         eg2 = threading.Thread(target=Panasonic, args=(bloons2,))
         eg3 = threading.Thread(target=Dancig, args=(bloons3,))
         eg1.start()
