@@ -2,30 +2,25 @@
 Mission that aims at closest balloon to the center of car camera
 """
 import sys
-import threading
 import time
 
 import DestroyBalloon
-from Integration.Vision_Processing.BalloonDetection import Webcamera
-from Mission import Mission
-from Integration.Devices.DeviceMap import DeviceMap
+import Integration.Devices.DeviceMap
+import Mission
 
 sys.path.append('..')
 
 
-class AimAtBalloonInPictureMission(Mission):
+class AimAtBalloonInPictureMission(Mission.Mission):
     def __init__(self):
-        Mission.__init__(self)  # Critical line in every mission
+        Mission.Mission.__init__(self)  # Critical line in every mission
 
-        self.bloons1 = []  # Array of balloons detected by vision processing
-        self.canShoot = [0]
-        self.didPop = [0]
-        self.eg1 = threading.Thread(target=Webcamera,
-                                    args=(self.bloons1,self.canShoot,
-                                          self.didPop,))  # Thread that
+        import Integration.CarMain
+
+        self.vision_data = Integration.CarMain.CarMain.vision_data
         # runs
-        self.azimuth_motor = DeviceMap.azimuth_motor
-        self.pitch_motor = DeviceMap.pitch_motor
+        self.azimuth_motor = Integration.Devices.DeviceMap.DeviceMap.azimuth_motor
+        self.pitch_motor = Integration.Devices.DeviceMap.DeviceMap.pitch_motor
 
         self.shoot = DestroyBalloon.DestroyBalloon()
         # Variables for execute loop
@@ -51,9 +46,9 @@ class AimAtBalloonInPictureMission(Mission):
                   "used by another one")
             self.kill()
         else:
-            self.eg1.start()  # Starts the vision processing thread
-            #self.azimuth_motor.lock()  # Locks the motor for safety
-            #self.pitch_motor.lock()  # Locks the motor for safety
+            pass
+            # self.azimuth_motor.lock()  # Locks the motor for safety
+            # self.pitch_motor.lock()  # Locks the motor for safety
 
     def execute(self):
         """
@@ -61,7 +56,7 @@ class AimAtBalloonInPictureMission(Mission):
         Code that happens periodically
         :return:
         """
-        a = self.bloons1[:]
+        a = self.vision_data.get_bloons()
         if a:  # Might be empty if no balloons were detected
             inner = a[0]
             if inner:  # Will be empty if no balloons were detected
@@ -103,15 +98,15 @@ class AimAtBalloonInPictureMission(Mission):
                     if 1 <= abs(azimuth_angle_to_send) <= 3:
                         azimuth_angle_to_send *= 0.25
                     elif abs(azimuth_angle_to_send) < 1:
-                        azimuth_angle_to_send = 0.2 * azimuth_angle_to_send\
+                        azimuth_angle_to_send = 0.2 * azimuth_angle_to_send \
                                                 / abs(
                             azimuth_angle_to_send)
                     if 1 <= abs(pitch_angle_to_send) <= 3:
                         pitch_angle_to_send *= 0.25
                     elif abs(pitch_angle_to_send) < 1:
-                        pitch_angle_to_send = 0.2 * pitch_angle_to_send /\
+                        pitch_angle_to_send = 0.2 * pitch_angle_to_send / \
                                               abs(
-                            pitch_angle_to_send)
+                                                  pitch_angle_to_send)
                     self.azimuth_motor.send(azimuth_angle_to_send, False,
                                             True)
                     self.pitch_motor.send(pitch_angle_to_send, False, True)
@@ -119,14 +114,13 @@ class AimAtBalloonInPictureMission(Mission):
         if self.is_finished():
             self.kill()
 
-
     def is_finished(self):
         """
         Finishes when the the balloon is close enough to the aiming point
         (center of camera) for a certain number of loops
         :return:
         """
-        a = self.canShoot[:]
+        a = self.vision_data.get_can_shoot()
         if len(a) > 0:
             return a[0] == 1
         else:
@@ -137,8 +131,8 @@ class AimAtBalloonInPictureMission(Mission):
         Stops motors if they happen to be still turning
         :return:
         """
-        #self.azimuth_motor.send(0, False, True)
-        #self.pitch_motor.send(0, False, True)
+        # self.azimuth_motor.send(0, False, True)
+        # self.pitch_motor.send(0, False, True)
 
         # Unlocks the motors
         self.azimuth_motor.unlock()

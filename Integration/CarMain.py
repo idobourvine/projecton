@@ -4,9 +4,11 @@ Main class of the car
 import threading
 import time
 
-from Devices.DeviceMap import DeviceMap
-from Missions.MissionHandler import MissionHandler
-from Missions.MissionPlanner import MissionPlanner
+import Devices.DeviceMap
+import Missions.MissionHandler
+import Missions.MissionPlanner
+import Vision_Processing.VisionData
+
 
 class CarMain:
     """
@@ -16,9 +18,12 @@ class CarMain:
     """
     self init of certain objects
     """
-    device_map = DeviceMap()
-    mission_handler = MissionHandler()
-    mission_planner = MissionPlanner()
+    device_map = Devices.DeviceMap.DeviceMap()
+    vision_data = Vision_Processing.VisionData.VisionData()
+
+    mission_handler = Missions.MissionHandler.MissionHandler()
+    mission_planner = Missions.MissionPlanner.MissionPlanner(
+        device_map=device_map, vision_data=vision_data)
 
     @classmethod
     def init_car(cls):
@@ -34,7 +39,6 @@ class CarMain:
         periodic_loop_thread.start()
 
         print("All set, let's go!")
-
 
     @classmethod
     def periodic_loop(cls):
@@ -71,4 +75,3 @@ class CarMain:
 if __name__ == "__main__":
     car = CarMain()
     car.init_car()
-

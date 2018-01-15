@@ -2,30 +2,35 @@
 Mission that destroys all balloons from an array
 """
 import sys
-import time
-
-from Devices.DeviceMap import DeviceMap
 
 import AimAtBalloonInPictureMission
-from Mission import Mission
+import MoveTurretToAngle
+import SeriesMission
 
 sys.path.append('..')
 
-class ClearRoom(Mission):
-    def __init__(self, balloons):
-        Mission.__init__(self)
-        self.azimuth_motor = DeviceMap.azimuth_motor
-        self.pitch_motor = DeviceMap.pitch_motor
-        self.bloons = balloons
-        self.index = 0
-        self.aim = None
-        self.aim_done = False
 
+class ClearRoom(SeriesMission.SeriesMission):
+    def __init__(self, balloons):
+        SeriesMission.SeriesMission.__init__(self, list())
+        self.bloons = balloons
+        self.init_missions_list(self.bloons)
+
+    def init_missions_list(self, balloons):
+        self.missions = list()
+        for balloon in balloons:
+            self.missions.append(
+                MoveTurretToAngle.MoveTurretToAngle(balloon[0], balloon[1]))
+            self.missions.append(
+                AimAtBalloonInPictureMission.AimAtBalloonInPictureMission())
+
+
+"""
     def initialize(self):
         self.azimuth_motor.send(self.bloons[self.index][0], False, False)
         self.pitch_motor.send(self.bloons[self.index][1], False, False)
         time.sleep(3)
-        self.aim = AimAtBalloonInPictureMission.AimAtBalloonInPictureMission()
+        self.aim = AimAtBalloonInPictureMission()
         self.aim.start()
 
     def execute(self):
@@ -52,3 +57,4 @@ class ClearRoom(Mission):
     def finish(self):
         self.azimuth_motor.send(0, False, False)
         self.pitch_motor.send(0, False, False)
+"""
