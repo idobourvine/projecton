@@ -1,13 +1,14 @@
 """
 Mission that aims at closest balloon to the center of car camera
 """
-from Mission import Mission
-import threading
-from Vision_Processing.BalloonDetection import Webcamera
-from Aiming import Aiming
-
 import sys
+import threading
+
 import keyboard
+
+from Aiming import Aiming
+from Integration.Vision_Processing.BalloonDetection import Webcamera
+from Mission import Mission
 
 sys.path.append('..')
 
