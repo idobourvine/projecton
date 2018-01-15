@@ -13,6 +13,7 @@ class Mission(object):
         """
         self.is_running = False
         self.kill_flag = False
+        self.finished_called = False
 
     def initialize(self):
         """
@@ -47,6 +48,9 @@ class Mission(object):
     def am_i_running(self):
         return self.is_running
 
+    def finished_called_since_start(self):
+        return self.finished_called
+
     def set_running(self):
         self.is_running = True
 
@@ -56,6 +60,7 @@ class Mission(object):
     def stop_running(self):
         self.is_running = False
         self.kill_flag = False
+        self.finished_called = True
 
         # Should be log
         """print (self.__class__.__name__ + " stopped running")  # Debugging"""
@@ -75,4 +80,5 @@ class Mission(object):
         Starts the mission by adding it to the mission handler
         :return: None
         """
+        self.finished_called = False
         MissionHandler.add_mission(self)

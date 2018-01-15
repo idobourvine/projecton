@@ -2,8 +2,8 @@
 Responsible for executing all of the missions
 """
 
-class MissionHandler(object):
 
+class MissionHandler(object):
     active_missions = list()  # List of currently active missions
 
     @classmethod
