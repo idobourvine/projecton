@@ -5,9 +5,9 @@ import sys
 import threading
 import time
 
-from Devices.DeviceMap import DeviceMap
+import Integration.Devices.DeviceMap
 
-import ClearRoom
+import ClearStandpoint
 from Integration.Vision_Processing.BalloonDetection import Webcamera
 from Mission import Mission
 
@@ -28,8 +28,9 @@ class ScanRoom(Mission):
         self.starting_pitch = 0
         self.azimuth = 0
         self.pitch = 0
-        self.azimuth_motor = DeviceMap.azimuth_motor
-        self.pitch_motor = DeviceMap.pitch_motor
+        self.azimuth_motor = \
+            Integration.Devices.DeviceMap.DeviceMap.azimuth_motor
+        self.pitch_motor = Integration.Devices.DeviceMap.DeviceMap.pitch_motor
         self.angle_to_move = 15.0
 
     def initialize(self):
@@ -53,5 +54,5 @@ class ScanRoom(Mission):
         return diff >= 360.0 or diff <= -360.0
 
     def finish(self):
-        clear = ClearRoom.ClearRoom(self.bloons)
+        clear = ClearStandpoint.ClearStandpoint(self.bloons)
         clear.start()

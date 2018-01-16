@@ -10,7 +10,7 @@ import SeriesMission
 sys.path.append('..')
 
 
-class ClearRoom(SeriesMission.SeriesMission):
+class ClearStandpoint(SeriesMission.SeriesMission):
     def __init__(self, balloons):
         SeriesMission.SeriesMission.__init__(self, list())
         self.bloons = balloons
