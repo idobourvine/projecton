@@ -35,11 +35,7 @@ class MissionPlanner:
                 self.current_mission = self.return_next_mission()
                 self.current_mission.start()
 
-
     def return_next_mission(self):
         mis = ClearStandpoint.ClearStandpoint([[-65, 0], [-65, 35], [-85, 5],
                                                [-105, 0]])
         return mis
-
-
-    def
