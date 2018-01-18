@@ -2,7 +2,7 @@ import copy
 import threading
 import time
 
-import cv2.cv2 as cv2
+import cv2
 
 import GetBalloon
 

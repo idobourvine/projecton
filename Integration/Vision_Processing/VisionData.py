@@ -12,7 +12,7 @@ class VisionData:
         self.canShoot = [0]
         self.didPop = [0]
 
-        self.stream = WebcamStream.WebcamStream(queueSize=1).start()
+        self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
         self.eg1 = threading.Thread(target=Webcamera,
                                     args=(self.stream, self.bloons,
