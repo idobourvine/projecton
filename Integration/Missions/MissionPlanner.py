@@ -31,7 +31,7 @@ class MissionPlanner:
         # Before starting the first mission, waits some time for
         # system initialization to take place
         if not self.current_mission:
-            time.sleep(5)
+            time.sleep(10)
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():

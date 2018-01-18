@@ -1,9 +1,9 @@
-from Mission import Mission
+import Mission
 
 
-class ParallelMission(Mission):
+class ParallelMission(Mission.Mission):
     def __init__(self, missions):
-        Mission.__init__(self)  # Critical line in every mission
+        Mission.Mission.__init__(self)  # Critical line in every mission
 
         self.missions = missions  # List of missions
 

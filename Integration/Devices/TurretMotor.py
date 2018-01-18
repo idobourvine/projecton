@@ -7,13 +7,13 @@ import time
 import serial
 
 import Motor
-import Integration.Utils.Constants
+import Utils.Constants
 
 
 class TurretMotor(Motor.Motor):
     def __init__(self, port, baudrate=2000000):
         Motor.Motor.__init__(self)
-        self.use_devices = Integration.Utils.Constants.Constants.use_devices
+        self.use_devices = Utils.Constants.Constants.use_devices
         if self.use_devices:
             self.ser = serial.Serial(port, baudrate)
         time.sleep(5)

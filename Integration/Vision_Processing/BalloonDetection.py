@@ -13,10 +13,10 @@ def Webcamera(bloons, canShoot, didPop):
     while IsOpen0:
         Image1 = copy.deepcopy(Image0)
         IsOpen0, Image0 = Channel0.read()
-        try:
-            cv2.imshow('image', Image0)
-        except Exception as e:
-            print(e)
+        # try:
+        #     cv2.imshow('image', Image0)
+        # except Exception as e:
+        #     print(e)
         del didPop[:]
         didPop.append(GetBalloon.didPop(Image1, Image0))
         del bloons[:]

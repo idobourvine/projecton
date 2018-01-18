@@ -1,10 +1,9 @@
-from Integration.Missions.Mission import Mission
-from Integration.Devices.DeviceMap import DeviceMap
+import Mission
 import time
 
-class MoveTurretToAngle(Mission):
+class MoveTurretToAngle(Mission.Mission):
     def __init__(self, device_map, azimuth, pitch):
-        Mission.__init__(self)
+        Mission.Mission.__init__(self)
         self.azimuth_motor = device_map.azimuth_motor
         self.pitch_motor = device_map.pitch_motor
 
