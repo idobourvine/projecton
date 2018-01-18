@@ -2,31 +2,35 @@ import copy
 import threading
 import time
 
-import cv2
+import cv2.cv2 as cv2
 
 import GetBalloon
 
 
-def Webcamera(bloons, canShoot, didPop):
-    Channel0 = cv2.VideoCapture(0)
-    IsOpen0, Image0 = Channel0.read()
-    while IsOpen0:
-        Image1 = copy.deepcopy(Image0)
-        IsOpen0, Image0 = Channel0.read()
-        # try:
-        #     cv2.imshow('image', Image0)
-        # except Exception as e:
-        #     print(e)
-        del didPop[:]
-        didPop.append(GetBalloon.didPop(Image1, Image0))
-        del bloons[:]
-        bloons.append(GetBalloon.getBall(Image0))
-        del canShoot[:]
-        canShoot.append(GetBalloon.canShoot(Image0))
-        cv2.waitKey(10)
-    if not IsOpen0:
+def Webcamera(stream, bloons, canShoot, didPop):
+    Image0 = None
+    while not stream.stopped:
+        if stream.more():
+            Image1 = stream.read()
+            if Image0 is None:
+                Image0 = copy.deepcopy(Image1)
+            try:
+                cv2.imshow('image', Image1)
+            except Exception as e:
+                print(e)
+            del didPop[:]
+            didPop.append(GetBalloon.didPop(Image0, Image1))
+            del bloons[:]
+            bloons.append(GetBalloon.getBall(Image1))
+            del canShoot[:]
+            canShoot.append(GetBalloon.canShoot(Image1))
+            cv2.waitKey(10)
+
+            Image0 = copy.deepcopy(Image1)
+
+    if stream.stopped:
         time.sleep(0.5)
-        print "Error opening Web camera"
+        print "Stream died"
 
 
 def Panasonic(bloons):

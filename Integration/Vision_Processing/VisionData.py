@@ -1,7 +1,7 @@
 import threading
 
 from BalloonDetection import Webcamera
-
+import WebcamStream
 
 class VisionData:
     """
@@ -12,9 +12,12 @@ class VisionData:
         self.canShoot = [0]
         self.didPop = [0]
 
+        self.stream = WebcamStream.WebcamStream(queueSize=1).start()
+
         self.eg1 = threading.Thread(target=Webcamera,
-                                    args=(self.bloons, self.canShoot,
-                                          self.didPop,))  # Thread that runs
+                                    args=(self.stream, self.bloons,
+                                          self.canShoot,
+                                          self.didPop))  # Thread that runs
         self.eg1.start()
 
     def get_bloons(self):
