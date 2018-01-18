@@ -27,6 +27,7 @@ class MissionHandler(object):
             if not mission.am_i_running():
                 mission.set_running()
                 mission.initialize()
+                print("Mission " + str(mission.__class__) + " initialize")
             if not mission.get_kill_flag():
                 # Normal execution of the mission
                 mission.execute()
@@ -37,6 +38,7 @@ class MissionHandler(object):
             if mission.is_finished() or mission.get_kill_flag():
                 mission.finish()  # call finish code
                 mission.stop_running()
+                print("Mission " + str(mission.__class__) + " finished")
                 cls.active_missions.remove(mission)
 
     @classmethod

@@ -1,6 +1,7 @@
 # import keyboard
 
 import ClearStandpoint
+import time
 
 
 class MissionPlanner:
@@ -27,13 +28,19 @@ class MissionPlanner:
         """
         Decides if new missions are to be taken out each iteration
         """
-        if self.current_mission and \
+        # Before starting the first mission, waits some time for
+        # system initialization to take place
+        if not self.current_mission:
+            time.sleep(5)
+
+        if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
             if self.vision_data.continue_mission():
                 # if self.pressed_hotkey:
-                print("Initiated new mission in mission manager")
-                # self.pressed_hotkey = False
 
+                print("Initiated new mission in mission manager")
+
+                # self.pressed_hotkey = False
                 self.current_mission = self.return_next_mission()
                 self.current_mission.start()
 

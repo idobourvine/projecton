@@ -3,7 +3,7 @@ import threading
 from BalloonDetection import Webcamera
 
 
-class VisionData():
+class VisionData:
     """
     Wrapper class for the data that comes from vision processing
     """
