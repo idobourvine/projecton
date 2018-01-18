@@ -1,4 +1,4 @@
-import keyboard
+# import keyboard
 
 import ClearStandpoint
 
@@ -8,17 +8,19 @@ class MissionPlanner:
         self.device_map = device_map
         self.vision_data = vision_data
 
-        self.pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
+        # self.pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
         self.current_mission = None
-
+        """
         def update_pressed_hotkey():
-            """
+        """
+        """
             Function that is called by keyboard to update the flag if the hotkey
             was pressed
-            """
+        """
+        """
             self.pressed_hotkey = True
-
-        keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
+        """
+        # keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
         # Starts tracking if hotkey was pressed
 
     def manage_missions(self):
