@@ -5,24 +5,22 @@ import sys
 import time
 
 import DestroyBalloon
-import Integration.Devices.DeviceMap
 import Mission
 
 sys.path.append('..')
 
 
 class AimAtBalloonInPictureMission(Mission.Mission):
-    def __init__(self):
+    def __init__(self, device_map):
         Mission.Mission.__init__(self)  # Critical line in every mission
 
-        import Integration.CarMain
+        self.vision_data = device_map.vision_data
 
-        self.vision_data = Integration.CarMain.CarMain.vision_data
         # runs
-        self.azimuth_motor = Integration.Devices.DeviceMap.DeviceMap.azimuth_motor
-        self.pitch_motor = Integration.Devices.DeviceMap.DeviceMap.pitch_motor
+        self.azimuth_motor = device_map.azimuth_motor
+        self.pitch_motor = device_map.pitch_motor
 
-        self.shoot = DestroyBalloon.DestroyBalloon()
+        self.shoot = DestroyBalloon.DestroyBalloon(device_map)
         # Variables for execute loop
         self.min_balloon = None
         self.min_dist = 100000

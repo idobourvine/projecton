@@ -6,25 +6,25 @@ import time
 
 import serial
 
-from Motor import Motor
-from Utils.Constants import Constants
+import Motor
+import Integration.Utils.Constants
 
 
-class TurretMotor(Motor):
+class TurretMotor(Motor.Motor):
     def __init__(self, port, baudrate=2000000):
-        Motor.__init__(self)
-
-        if Constants.use_devices:
+        Motor.Motor.__init__(self)
+        self.use_devices = Integration.Utils.Constants.Constants.use_devices
+        if self.use_devices:
             self.ser = serial.Serial(port, baudrate)
         time.sleep(5)
 
     def close(self):
-        if Constants.use_devices:
+        if self.use_devices:
             self.ser.close()
 
     def send(self, angle, shut, isRel):
         angle1, angle2 = self.pack_to_two_angles(int(angle*5.825), shut, isRel)
-        if Constants.use_devices:
+        if self.use_devices:
             self.ser.write(struct.pack('>B', int(angle1)))
             #print(self.ser.read())
             self.ser.write(struct.pack('>B', int(angle2)))

@@ -16,14 +16,9 @@ class CarMain:
     """
 
     """
-    self init of certain objects
+    self init of global objects
     """
     device_map = Devices.DeviceMap.DeviceMap()
-    vision_data = Vision_Processing.VisionData.VisionData()
-
-    mission_handler = Missions.MissionHandler.MissionHandler()
-    mission_planner = Missions.MissionPlanner.MissionPlanner(
-        device_map=device_map, vision_data=vision_data)
 
     @classmethod
     def init_car(cls):
@@ -33,21 +28,25 @@ class CarMain:
         physical devices etc.
         :return:
         """
+
+        cls.mission_handler = Missions.MissionHandler.MissionHandler()
+        cls.mission_planner = Missions.MissionPlanner.MissionPlanner(
+            device_map=cls.device_map)
+
+        def periodic_loop():
+            """
+            Method that will run periodically
+            """
+            cls.mission_planner.manage_missions()
+            cls.mission_handler.run()
+
         # Starts the main periodic execution loop
         periodic_loop_thread = threading.Thread(target=cls.do_every,
-                                                args=(0.02, cls.periodic_loop))
+                                                args=(0.02, periodic_loop))
         periodic_loop_thread.start()
 
         print("All set, let's go!")
 
-    @classmethod
-    def periodic_loop(cls):
-        """
-        Method that will run periodically
-        """
-
-        cls.mission_planner.manage_missions()
-        cls.mission_handler.run()
 
     @classmethod
     def do_every(cls, period, f, *args):

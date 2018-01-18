@@ -1,13 +1,13 @@
 # import keyboard
 
-import ClearStandpoint
 import time
+
+import ClearStandpoint
 
 
 class MissionPlanner:
-    def __init__(self, device_map, vision_data):
+    def __init__(self, device_map):
         self.device_map = device_map
-        self.vision_data = vision_data
 
         # self.pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
         self.current_mission = None
@@ -35,16 +35,18 @@ class MissionPlanner:
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
-            if self.vision_data.continue_mission():
+            if self.device_map.vision_data.continue_mission():
                 # if self.pressed_hotkey:
 
                 print("Initiated new mission in mission manager")
 
                 # self.pressed_hotkey = False
-                self.current_mission = self.return_next_mission()
+                self.current_mission = self.return_next_mission(
+                    self.device_map)
                 self.current_mission.start()
 
-    def return_next_mission(self):
-        mis = ClearStandpoint.ClearStandpoint([[-65, 0], [-65, 35], [-85, 5],
-                                               [-105, 0]])
+    def return_next_mission(self, device_map):
+        mis = ClearStandpoint.ClearStandpoint(device_map, [[-65, 0], [-65, 35],
+                                                           [-85, 5],
+                                                           [-105, 0]])
         return mis

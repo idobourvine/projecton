@@ -11,18 +11,20 @@ sys.path.append('..')
 
 
 class ClearStandpoint(SeriesMission.SeriesMission):
-    def __init__(self, balloons):
+    def __init__(self, device_map, balloons):
         SeriesMission.SeriesMission.__init__(self, list())
         self.bloons = balloons
-        self.init_missions_list(self.bloons)
+        self.init_missions_list(device_map, self.bloons)
 
-    def init_missions_list(self, balloons):
+    def init_missions_list(self, device_map, balloons):
         self.missions = list()
         for balloon in balloons:
             self.missions.append(
-                MoveTurretToAngle.MoveTurretToAngle(balloon[0], balloon[1]))
+                MoveTurretToAngle.MoveTurretToAngle(device_map, balloon[0],
+                                                    balloon[1]))
             self.missions.append(
-                AimAtBalloonInPictureMission.AimAtBalloonInPictureMission())
+                AimAtBalloonInPictureMission.AimAtBalloonInPictureMission(
+                    device_map))
 
 
 """

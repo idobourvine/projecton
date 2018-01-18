@@ -10,17 +10,14 @@ sys.path.append('..')
 
 
 class DestroyBalloon(Mission.Mission):
-    def __init__(self):
+    def __init__(self, device_map):
         Mission.Mission.__init__(self)
-
-        import Integration.Devices.DeviceMap
-        import Integration.CarMain
 
         self.old_time = 0
         self.new_time = 0
 
-        self.laser_pointer = Integration.Devices.DeviceMap.DeviceMap.pitch_motor
-        self.vision_data = Integration.CarMain.CarMain.vision_data
+        self.laser_pointer = device_map.pitch_motor
+        self.vision_data = device_map.vision_data
 
     def initialize(self):
         self.old_time = time.time()
