@@ -18,15 +18,18 @@ def Webcamera(stream, bloons, canShoot, didPop):
                 cv2.imshow('image', Image1)
             except Exception as e:
                 print(e)
+            
             del didPop[:]
             didPop.append(GetBalloon.didPop(Image0, Image1))
             del bloons[:]
             bloons.append(GetBalloon.getBall(Image1))
             del canShoot[:]
             canShoot.append(GetBalloon.canShoot(Image1))
+            
             cv2.waitKey(10)
 
             Image0 = copy.deepcopy(Image1)
+
 
     if stream.stopped:
         time.sleep(0.5)
