@@ -2,13 +2,14 @@
 #define outputDir 5
 #define buttonPin 8
 #define laserPin 12
-#define baseencoder0Pos 0;
-int encoder0PinA = 2;
-int encoder0PinB = 3;
+#define encoder0PinA 2
+#define encoder0PinB 3
+#define baseencoder0Pos 1000
+#define RELATIVE 0
+#define ABSOLUTE 1
+
+
 int count = 0;
-//bool agneler(int input, bool clockwise ) {
-//  loop(input,clockwise);
-//}
 double ratio = 5.825;
 volatile int encoder0Pos = baseencoder0Pos;
 volatile int encoder0PinALast = LOW;
@@ -31,10 +32,16 @@ double derv = 1;
 bool last_dir = clockwise;
 int backlash = 7;
 bool dironpush = clockwise;
-bool right = false;
-bool left = false;
-int absmax = 360*ratio +50;
-int absmin = -1*50;
+bool lahutz = false;
+bool startup = true;
+
+int absmax = 90*ratio;
+int absmin = -1;
+
+int last_laser_on = 0;
+int laser_on = 0;
+int rORa = 0;
+
 void CountA()
 {
   n = digitalRead(encoder0PinA); 
@@ -69,33 +76,54 @@ void setup()
 
 void loop()
 {
-    digitalWrite(laserPin,LOW); //laser Works all time long
-
     //get the angle from the user.
-    if (Serial.available() > 0) {
+       if (Serial.available() > 1) {
         stop = false;
-        int angle1 = (int)Serial.parseInt();
-        //Serial.print(Serial.available());
-        //int angle2 = (int)Serial.read();
+        int angle1 = (int)Serial.read();
+        int angle2 = (int)Serial.read();
         //there's an option for resolution improvement
-        angle = angle1;
-        Serial.print(angle);
-        angle *= ratio;
-        Serial.print("received: ");
-        clockwise = true;
+        int raw_angle = angle1*256 + angle2;
+        angle = (raw_angle)%4096 - 2048;
+        //bit #13 is whether the laser on - 0 for off, 1 for on
+        laser_on = ((raw_angle/4096))%2;
+        //bit #14 is 0 for relative move and 1 for absoolute move
+        rORa = (raw_angle/8192)%2;
+        
+         if(rORa == RELATIVE)
+        {
+        clockwise = false;
         if (angle < 0) {
-          clockwise = false;
+          clockwise = true;
           angle = -angle;
         }
         if(last_dir != clockwise)
         {
           angle += backlash;
-          Serial.print("in");
         }
         maxx = encoder0Pos + angle;
         minn = encoder0Pos - angle;
-        Serial.println(angle, DEC);
-    }      
+        }
+        else // absolute 
+        {
+          if (angle < encoder0Pos)
+          {
+            clockwise = true;
+          }
+          else
+          {
+            clockwise = false;
+          }
+          maxx = angle;
+          minn = angle;
+        }
+    }  
+    if(startup)
+    {
+    clockwise = true;
+    minn = -10000;
+    maxx = 10000;
+    stop = false;
+    }
     if(encoder0Pos < maxx && clockwise)
     {
        delta = maxx - encoder0Pos;
@@ -132,56 +160,49 @@ void loop()
     //check for the button
     buttonState = digitalRead(buttonPin);
     if (buttonState == HIGH) {
-    if(last_dir != clockwise){
     encoder0Pos = 0;
-    }
-    if(!right&& !left)
-    {
-    if(clockwise)
-      right = true;
-    else
-      left = true;
-    }
+    startup = 0;
+    lahutz = true;
     }
     else
     {
-      right = left = false;
+      lahutz = false;
     }
     last_dir = clockwise; 
-    
     encoder0PinALast = n;
     valNew = encoder0Pos;
     if (valNew != valOld) {
-    //Serial.print (encoder0Pos, DEC);
-    //Serial.print ("--");
-    //if((encoder0Pos > absmax && clockwise)|| (encoder0Pos < absmin && !clockwise))
-    //{
-    //  Serial.print("I think you totally hegzamta");
-    //  stopp();
-    //}
     // if I got to the right place
-    if((encoder0Pos > maxx && clockwise) || (encoder0Pos< minn && !clockwise ))
+    if((encoder0Pos > maxx && !clockwise) || (encoder0Pos < minn && clockwise ))
     {
-      Serial.print("youve got to the right place!");
+      //Serial.print("youve got to the right place!");
       stopp();
     }
-    
-    if((clockwise && right)||(!clockwise && left))
-    {
-      Serial.print("this is illegitimate dir");
-      stopp();
-    }
-    
       valOld = valNew;
     }
+    
+    if((encoder0Pos > absmax && !clockwise && !startup) || (encoder0Pos < absmin && clockwise && !startup))
+    {
+      //Serial.print("youve got to the right place!");
+      stopp();
+    }
+    
+    if(clockwise && lahutz)
+    {
+      //Serial.print("this is illegitimate dir");
+      stopp();
+    }
+    change_laser(laser_on);
 }
 
 int stopp()
 {
-        digitalWrite(outputA, LOW);   // turn the motor off
-        digitalWrite(outputDir, LOW);   // turn the motor off
-        stop = true;
-        return 0;
+    digitalWrite(outputA, LOW);   // turn the motor off
+    stop = true;
+    return 0;
 } 
-
+int change_laser(int laser_on)
+{
+    digitalWrite(laserPin, laser_on);
+}
 
