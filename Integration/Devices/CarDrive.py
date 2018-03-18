@@ -14,7 +14,8 @@ class CarDrive():
     def close(self):
         if self.use_devices:
             self.ser.close()
-"""
+
+    """
     def send(self, angle, shut, isRel):
         angle1, angle2 = self.pack_to_two_angles(int(angle*5.825), shut, isRel)
         if self.use_devices:
@@ -39,7 +40,8 @@ class CarDrive():
             angle += 8192
         print(int((angle) / 256), int((angle) % 256))
         return (int((angle) / 256), int((angle) % 256))
-"""
+    """
+
     def move_distance(self, length):
         """
         Sends the arduino a command to drive a certain distance in a
@@ -48,12 +50,20 @@ class CarDrive():
         :return: None
         """
 
+        pass
+
+        # Sends to arduino to move length
+
     def finished_moving(self):
         """
         Returns whether the last movement (move distance or rotate) was
         finished
         :return: False if still running, true otherwise
         """
+
+        pass
+
+        # returns the read from the serial
 
     # TODO:
     # Add methods: rotate, get gyro angle, get encoder reading

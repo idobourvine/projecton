@@ -41,10 +41,10 @@ class Destruction(Mission.Mission):
     def is_finished(self):
         return self.new_time - self.old_time > 5 or self.isBalloonBlassed()
 
-
     def finish(self):
         self.laser_pointer.send(0, False, True)
-#check me - that the dynamic change doesn't matter
+        # check me - that the dynamic change doesn't matter
+
     def isBalloonBlassed(self):
         a = self.vision_data.get_did_pop()
         if len(a) > 0:

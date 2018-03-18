@@ -1,5 +1,5 @@
-`       """
-Mission that shoots the laser
+"""
+Mission that drives a distance in a straight line
 """
 import sys
 import time
@@ -9,21 +9,20 @@ import Mission
 sys.path.append('..')
 
 
-class Drive(Mission.Mission,):
-    def __init__(self, car,length):
+class Drive(Mission.Mission):
+    def __init__(self, car, length):
         Mission.Mission.__init__(self)
         self.CarDrive = car
-        self.length=length
+        self.length = length
 
     def initialize(self):
-        self.CarDrive.move(self.length)
+        self.CarDrive.move_distance(self.length)
 
     def execute(self):
         """"""
 
-
     def is_finished(self):
-        return self.CarDrive.isNotMove()
+        return self.CarDrive.finished_moving()
 
     def finish(self):
 
