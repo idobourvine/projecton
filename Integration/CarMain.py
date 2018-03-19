@@ -5,9 +5,8 @@ import threading
 import time
 
 import Devices.DeviceMap
+import Integration.Missions.Planning.MissionPlanner
 import Missions.MissionHandler
-import Missions.MissionPlanner
-import Vision_Processing.VisionData
 
 
 class CarMain:
@@ -30,7 +29,7 @@ class CarMain:
         """
 
         cls.mission_handler = Missions.MissionHandler.MissionHandler()
-        cls.mission_planner = Missions.MissionPlanner.MissionPlanner(
+        cls.mission_planner = Integration.Missions.Planning.MissionPlanner.MissionPlanner(
             device_map=cls.device_map)
 
         def periodic_loop():

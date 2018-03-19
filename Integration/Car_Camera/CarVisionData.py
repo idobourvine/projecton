@@ -3,7 +3,7 @@ import threading
 from BalloonDetection import Webcamera
 import WebcamStream
 
-class VisionData:
+class CarVisionData:
     """
     Wrapper class for the data that comes from vision processing
     """
@@ -20,7 +20,12 @@ class VisionData:
                                           self.didPop))  # Thread that runs
         self.eg1.start()
 
-    def get_bloons(self):
+    def get_hostile_bloons(self):
+        """
+        Returns a list of the balloons in the car camera that are hostile
+        each balloon is a tuple of azimuth angle and pitch angle
+        :return:
+        """
         return self.bloons[:]
 
     def get_can_shoot(self):
@@ -29,9 +34,3 @@ class VisionData:
     def get_did_pop(self):
         return self.didPop[:]
 
-    def continue_mission(self):
-        """
-        Should return whether there are more balloons to pop in the room
-        :return:
-        """
-        return True

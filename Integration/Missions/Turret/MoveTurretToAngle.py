@@ -1,9 +1,19 @@
-import Mission
+"""
+Moves turret to given azimuth and pitch angles
+the angles are relative to the car, and represent the actual setpoints for
+the turret (rather than change in angles)
+"""
+
 import time
 
-class MoveTurretToAngle(Mission.Mission):
+import Integration.Missions.Mission
+
+
+class MoveTurretToAngle(Integration.Missions.Mission.Mission):
     def __init__(self, device_map, azimuth, pitch):
-        Mission.Mission.__init__(self)
+
+        Integration.Missions.Mission.Mission.__init__(self)
+
         self.azimuth_motor = device_map.azimuth_motor
         self.pitch_motor = device_map.pitch_motor
 
@@ -28,4 +38,3 @@ class MoveTurretToAngle(Mission.Mission):
     def finish(self):
         self.azimuth_motor.send(0, False, False)
         self.pitch_motor.send(0, False, False)
-

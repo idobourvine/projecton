@@ -1,12 +1,12 @@
-import struct
 import time
+
+import Integration.Utils.Constants
 import serial
-import Utils.Constants
 
-class CarDrive():
 
+class CarDrive:
     def __init__(self, port, baudrate=2000000):
-        self.use_devices = Utils.Constants.Constants.use_devices
+        self.use_devices = Integration.Utils.Constants.Constants.use_devices
         if self.use_devices:
             self.ser = serial.Serial(port, baudrate)
         time.sleep(5)
@@ -54,6 +54,36 @@ class CarDrive():
 
         # Sends to arduino to move length
 
+    def rotate(self, angle):
+        """
+        Rotates in place a given angle
+        :param angle: The angle to rotate (positive for counter-clockwise,
+        negative for clockwise)
+        :return: None
+        """
+
+        pass
+
+        # Sends to arduino to rotate
+
+    def get_gyro_angle(self):
+        """
+        :return: Current reading from gyro
+        """
+
+        pass
+
+        # returns the read from the serial
+
+    def get_encoder_dist(self):
+        """
+        :return: Current reading from encoder
+        """
+
+        pass
+
+        # returns the read from the serial
+
     def finished_moving(self):
         """
         Returns whether the last movement (move distance or rotate) was
@@ -64,7 +94,3 @@ class CarDrive():
         pass
 
         # returns the read from the serial
-
-    # TODO:
-    # Add methods: rotate, get gyro angle, get encoder reading
-

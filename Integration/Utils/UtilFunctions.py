@@ -1,0 +1,16 @@
+import math
+
+def clamp_to_180(deg):
+    """
+    Returns the equivalent angle in the range [-180, 180]
+    """
+
+    return (deg % 360) - 180
+
+
+def to_degs(angle):
+    return angle * (180 / math.pi)
+
+
+def pythagoras(nums):
+    return math.sqrt(sum([x**2 for x in nums]))
