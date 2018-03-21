@@ -114,7 +114,7 @@ def getColor(img):
     return res1
 
 def didPop(imgBEFORE, imgAFTER):
-    """returns true if red balloon popped, false otherwise"""
+    """returns true if red bloon popped, false otherwise"""
     lowerBound = lower_red
     upperBound = upper_red
     min_size = MIN_SIZE

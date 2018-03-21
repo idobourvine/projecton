@@ -31,6 +31,9 @@ class SeriesMission(Mission.Mission):
         """
         Returns true after every mission has been started and then finished
         """
+        if len(self.missions) == 0:
+            return True
+
         return self.index >= len(self.missions)
 
     def finish(self):

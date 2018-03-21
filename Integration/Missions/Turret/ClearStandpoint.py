@@ -65,7 +65,7 @@ class ClearStandpoint(Integration.Missions.SeriesMission.SeriesMission):
         # Azimuth angle (in room coordinates) is arctan(y/x)
         room_azimuth_angle = to_degs(math.atan2(rel_y, rel_x))
 
-        azimuth_angle = clamp_to_180(self.position[2] - room_azimuth_angle)
+        azimuth_angle = clamp_to_180(room_azimuth_angle - self.position[2])
 
         return azimuth_angle, pitch_angle
 

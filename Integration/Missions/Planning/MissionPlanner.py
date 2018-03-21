@@ -1,6 +1,7 @@
 import time
 
 import Integration.Missions.Car.DriveToPoint
+import Integration.Missions.SeriesMission
 import Integration.Missions.Turret.ClearStandpoint
 from Integration.Utils.Constants import *
 from Integration.Utils.UtilFunctions import *
@@ -31,7 +32,7 @@ class MissionPlanner:
         self.mission_state = 1
 
         # For state 2
-        self.preset_standpoint = [(1, 2.5), (3, 2.5), (5, 2.5)]
+        self.preset_standpoint = [(1, 2.5), (0, 1), (1, 0)]
         self.entered_state_2 = False
         # These numbers are munfatsim
 
@@ -42,15 +43,20 @@ class MissionPlanner:
         # Before starting the first mission, waits some time for
         # system initialization to take place
         if not self.current_mission:
-            time.sleep(10)
+            if Constants.use_devices:
+                time.sleep(10)
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
             if self.device_map.security_vision_data.continue_mission():
                 self.current_mission = self.return_next_mission(
                     self.device_map)
-                self.current_mission.start()
-                print("Initiated new mission in mission manager")
+                if not self.current_mission:
+                    print("No mission returned, going to sleep")
+                    time.sleep(1)
+                else:
+                    self.current_mission.start()
+                    print("Initiated new mission in mission manager")
 
     def return_next_mission(self, device_map):
         """
@@ -102,7 +108,11 @@ class MissionPlanner:
                         (curr_position[0] - self.preset_standpoint[-1][0],
                          curr_position[1] - self.preset_standpoint[-1][1]))
 
-                    if dist_to_last < dist_to_first:
+                    # Each time the last bloon in the array is popped out of
+                    #  the list
+                    # So we want to reverse the order if the first is close
+                    # than the last
+                    if dist_to_last > dist_to_first:
                         self.preset_standpoint.reverse()
 
                 next_standpoint = self.preset_standpoint.pop()
@@ -120,6 +130,23 @@ class MissionPlanner:
                 clear_standpoint_mission = \
                     Integration.Missions.Turret.ClearStandpoint.ClearStandpoint(
                         device_map, bloons_to_destroy, next_position)
+
+                mis = Integration.Missions.SeriesMission.SeriesMission([
+                    driving_mission, clear_standpoint_mission])
+                return mis
+
+        elif self.mission_state == 3:
+            # State is 3 and next mission was asked - meaning there are
+            # still bloons in the room
+            hostile_bloons = \
+                self.device_map.security_vision_data.get_hostile_bloons()
+
+            # If there are no more bloons and we got here - there's a problem
+            if len(hostile_bloons) == 0:
+                return None
+
+            # Chooses next bloon arbitrarily
+            next_bloon = hostile_bloons[0]
 
     def get_bloons_relevant_for_standpoint(self, bloons, standpoint):
         """

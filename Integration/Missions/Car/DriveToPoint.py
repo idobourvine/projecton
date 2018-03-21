@@ -31,7 +31,7 @@ class DriveToPoint(Integration.Missions.SeriesMission.SeriesMission):
 
         movement_heading = to_degs(math.atan2(rel_y, rel_x))
         self.movement_heading = movement_heading
-        amount_to_rotate = self.starting_pos[2] - movement_heading
+        amount_to_rotate = movement_heading - self.starting_pos[2]
         self.missions.append(Integration.Missions.Car.Rotate.Rotate(
             device_map, amount_to_rotate))
 

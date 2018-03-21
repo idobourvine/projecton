@@ -30,6 +30,9 @@ class ParallelMission(Mission.Mission):
         Returns true if all missions have been started and the finish of
         each has been called since being started
         """
+        if len(self.missions) == 0:
+            return True
+
         return all(self.started) and all(
             [mission.finished_called_since_start() for mission in
              self.missions])

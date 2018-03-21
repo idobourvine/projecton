@@ -49,7 +49,7 @@ class CarDrive:
         :param length: distance to drive (in meters)
         :return: None
         """
-
+        print ("Moving " + str(length) + " meters")
         pass
 
         # Sends to arduino to move length
@@ -61,7 +61,7 @@ class CarDrive:
         negative for clockwise)
         :return: None
         """
-
+        print ("Rotating " + str(angle) + " degrees")
         pass
 
         # Sends to arduino to rotate
@@ -71,7 +71,7 @@ class CarDrive:
         :return: Current reading from gyro
         """
 
-        pass
+        return 0
 
         # returns the read from the serial
 
@@ -80,7 +80,7 @@ class CarDrive:
         :return: Current reading from encoder
         """
 
-        pass
+        return 0
 
         # returns the read from the serial
 
@@ -91,6 +91,6 @@ class CarDrive:
         :return: False if still running, true otherwise
         """
 
-        pass
+        return True
 
         # returns the read from the serial

@@ -1,9 +1,11 @@
+from Integration.Utils.Constants import *
 
 
 class SecurityVisionData:
     """
     Wrapper class for the data that comes from vision processing
     """
+
     def __init__(self):
         """
         Init method of this object
@@ -13,14 +15,24 @@ class SecurityVisionData:
 
     def get_bloons(self):
         """
-        Returns a list of the balloons in the room
-        each balloon is a tuple of [stuff] (such as id, x, y, z, alignment)
-        # Alignment is whether or not the balloon is hostile
-        :return: List of all balloons
+        Returns a list of the bloons in the room
+        each bloon is a tuple of (id, x, y, z, alignment)
+        # Alignment is whether or not the bloon is hostile
+        :return: List of all bloons
         """
 
-        pass
+        return list()
 
+    def get_hostile_bloons(self):
+        """
+        Returns a list of the hostile bloons in the room
+        each bloon is a tuple of (id, x, y, z, alignment)
+        # Alignment is whether or not the bloon is hostile
+        :return: List of all bloons with hostile alignment
+        """
+
+        return [bloon for bloon in self.get_bloons()
+                if bloon[4] == Constants.b_hostile]
 
     def get_car_position(self):
         """
@@ -28,19 +40,18 @@ class SecurityVisionData:
         :return: tuple of (x, y, theta)
         """
 
-        pass
-
+        return (0, 0, 0)
 
     def get_did_pop(self):
         """
-        :return: Whether there was a balloon popped
+        :return: Whether there was a bloon popped
         """
 
-        pass
+        return False
 
     def continue_mission(self):
         """
-        Should return whether there are more balloons to pop in the room
+        Should return whether there are more bloons to pop in the room
         :return:
         """
         return True
