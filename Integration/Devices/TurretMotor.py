@@ -16,6 +16,7 @@ class TurretMotor(Motor.Motor):
         self.use_devices = Utils.Constants.Constants.use_devices
         if self.use_devices:
             self.ser = serial.Serial(port, baudrate)
+            print("opened port " + str(port))
             time.sleep(5)
 
     def close(self):
