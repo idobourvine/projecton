@@ -174,6 +174,7 @@ def getEnemies(img):
             red_sizes.append(sizes[i])
     return [red_bloons, red_sizes]
 
+
 def getFriends(img):
     """returns a list of friendly balloons and their sizes in image"""
     friend_bloons = []
