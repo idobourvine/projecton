@@ -1,7 +1,7 @@
 # import keyboard
 
 import time
-
+import Test
 import ClearStandpoint
 
 
@@ -38,11 +38,12 @@ class MissionPlanner:
             if self.device_map.vision_data.continue_mission():
                 # if self.pressed_hotkey:
 
-                print("Initiated new mission in mission manager")
+                # print("Initiated new mission in mission manager")
 
                 # self.pressed_hotkey = False
-                self.current_mission = self.return_next_mission(
-                    self.device_map)
+
+                # self.current_mission.start()
+                self.current_mission = Test.Test(self.device_map)
                 self.current_mission.start()
 
     def return_next_mission(self, device_map):
