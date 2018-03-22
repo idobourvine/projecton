@@ -86,26 +86,22 @@ class MissionPlanner:
                 self.entered_state_0 = True
                 # Testing mode
                 print("Running tests")
+
                 print()
-                print("Testing Tzidud 20, Tzidud 10, Tzidud 5, Tzidud -20, "
-                      "Tzidud -10, Tzidud -5")
+                print("Testing Ilrud -20, Ilrud 20, Tzidud 20, Tzidud -20")
+                ilrud0 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, 0, -20)
+                ilrud1 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, 0, 20)
 
                 tzidud0 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
                     self.device_map, 20, 0)
-                tzidud1 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
-                    self.device_map, 10, 0)
-                tzidud2 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
-                    self.device_map, 5, 0)
 
-                tzidud3 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                tzidud1 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
                     self.device_map, -20, 0)
-                tzidud4 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
-                    self.device_map, -10, 0)
-                tzidud5 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
-                    self.device_map, -5, 0)
 
                 mis = Missions.SeriesMission.SeriesMission([
-                    tzidud0, tzidud1, tzidud2, tzidud3, tzidud4, tzidud5])
+                    ilrud0, ilrud1, tzidud0, tzidud1])
 
                 return mis
 
