@@ -29,7 +29,8 @@ class TurretMotor(Motor.Motor):
                                                  isRel)
         if self.use_devices:
             print(
-            "Sending (" + angle1 + ", " + angle2 + ") to " + str(self.port))
+            "Sending (" + str(angle1) + ", " + str(angle2) + ") to " + str(
+                self.port))
             self.ser.write(struct.pack('>B', int(angle1)))
             # print(self.ser.read())
             self.ser.write(struct.pack('>B', int(angle2)))
