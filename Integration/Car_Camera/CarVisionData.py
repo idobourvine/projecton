@@ -3,7 +3,7 @@ import threading
 from BloonDetection import Webcamera
 import WebcamStream
 
-from Integration.Utils.Constants import *
+from Utils.Constants import *
 
 class CarVisionData:
     """

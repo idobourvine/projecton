@@ -1,10 +1,10 @@
 import time
 
-import Integration.Missions.Car.DriveToPoint
-import Integration.Missions.SeriesMission
-import Integration.Missions.Turret.ClearStandpoint
-from Integration.Utils.Constants import *
-from Integration.Utils.UtilFunctions import *
+import Missions.Car.DriveToPoint
+import Missions.SeriesMission
+import Missions.Turret.ClearStandpoint
+from Utils.Constants import *
+from Utils.UtilFunctions import *
 
 
 class MissionPlanner:
@@ -78,7 +78,7 @@ class MissionPlanner:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(
                 curr_bloons, curr_position)
 
-            mis = Integration.Missions.Turret.ClearStandpoint.ClearStandpoint(
+            mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
                 device_map, bloons_to_destroy, curr_position)
 
             self.mission_state = 2  # Next mission that will be returned
@@ -117,7 +117,7 @@ class MissionPlanner:
 
                 next_standpoint = self.preset_standpoint.pop()
                 driving_mission = \
-                    Integration.Missions.Car.DriveToPoint.DriveToPoint(
+                    Missions.Car.DriveToPoint.DriveToPoint(
                         device_map, curr_position, next_standpoint)
 
                 # A position is a tuple of (x, y, angle)
@@ -128,10 +128,10 @@ class MissionPlanner:
                     curr_bloons, next_standpoint)
 
                 clear_standpoint_mission = \
-                    Integration.Missions.Turret.ClearStandpoint.ClearStandpoint(
+                    Missions.Turret.ClearStandpoint.ClearStandpoint(
                         device_map, bloons_to_destroy, next_position)
 
-                mis = Integration.Missions.SeriesMission.SeriesMission([
+                mis = Missions.SeriesMission.SeriesMission([
                     driving_mission, clear_standpoint_mission])
                 return mis
 

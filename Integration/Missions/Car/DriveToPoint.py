@@ -1,10 +1,10 @@
-import Integration.Missions.Car.MoveDistance
-import Integration.Missions.Car.Rotate
-import Integration.Missions.SeriesMission
-from Integration.Utils.UtilFunctions import *
+import Missions.Car.MoveDistance
+import Missions.Car.Rotate
+import Missions.SeriesMission
+from Utils.UtilFunctions import *
 
 
-class DriveToPoint(Integration.Missions.SeriesMission.SeriesMission):
+class DriveToPoint(Missions.SeriesMission.SeriesMission):
     def __init__(self, device_map, starting_pos, point):
         """
         Initialization
@@ -13,7 +13,7 @@ class DriveToPoint(Integration.Missions.SeriesMission.SeriesMission):
         x, y, angle)
         :param point: tuple of (x, y) we want to reach
         """
-        Integration.Missions.SeriesMission.SeriesMission.__init__(self, list())
+        Missions.SeriesMission.SeriesMission.__init__(self, list())
 
         self.security_vision_data = device_map.security_vision_data
         self.starting_pos = starting_pos
@@ -32,10 +32,10 @@ class DriveToPoint(Integration.Missions.SeriesMission.SeriesMission):
         movement_heading = to_degs(math.atan2(rel_y, rel_x))
         self.movement_heading = movement_heading
         amount_to_rotate = movement_heading - self.starting_pos[2]
-        self.missions.append(Integration.Missions.Car.Rotate.Rotate(
+        self.missions.append(Missions.Car.Rotate.Rotate(
             device_map, amount_to_rotate))
 
         dist = pythagoras((rel_x, rel_y))
         self.missions.append(
-            Integration.Missions.Car.MoveDistance.MoveDistance(device_map,
+            Missions.Car.MoveDistance.MoveDistance(device_map,
                                                                dist))

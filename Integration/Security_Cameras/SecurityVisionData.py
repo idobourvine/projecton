@@ -1,4 +1,4 @@
-from Integration.Utils.Constants import *
+from Utils.Constants import *
 
 
 class SecurityVisionData:

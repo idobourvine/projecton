@@ -4,14 +4,14 @@ Mission that destroys all bloons from an array
 import sys
 
 import AimAtBloonInPicture
-import Integration.Missions.SeriesMission
+import Missions.SeriesMission
 import MoveTurretToAngle
-from Integration.Utils.UtilFunctions import *
+from Utils.UtilFunctions import *
 
 sys.path.append('..')
 
 
-class ClearStandpoint(Integration.Missions.SeriesMission.SeriesMission):
+class ClearStandpoint(Missions.SeriesMission.SeriesMission):
     def __init__(self, device_map, bloons, position):
         """
         Initialization
@@ -19,7 +19,7 @@ class ClearStandpoint(Integration.Missions.SeriesMission.SeriesMission):
         :param position: the position the car will be at: tuple (x, y, angle)
         :param bloons: list of bloon tuples (id, x, y, z, alignment)
         """
-        Integration.Missions.SeriesMission.SeriesMission.__init__(self, list())
+        Missions.SeriesMission.SeriesMission.__init__(self, list())
 
         self.security_vision_data = device_map.security_vision_data
 

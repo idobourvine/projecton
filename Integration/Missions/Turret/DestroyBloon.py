@@ -4,14 +4,14 @@ Mission that shoots the laser
 import sys
 import time
 
-import Integration.Missions.Mission
+import Missions.Mission
 
 sys.path.append('..')
 
 
-class DestroyBalloon(Integration.Missions.Mission.Mission):
+class DestroyBalloon(Missions.Mission.Mission):
     def __init__(self, device_map):
-        Integration.Missions.Mission.Mission.__init__(self)
+        Missions.Mission.Mission.__init__(self)
 
         self.old_time = 0
         self.new_time = 0

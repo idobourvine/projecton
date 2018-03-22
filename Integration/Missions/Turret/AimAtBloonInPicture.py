@@ -5,14 +5,14 @@ import sys
 import time
 
 import DestroyBloon
-import Integration.Missions.Mission
+import Missions.Mission
 
 sys.path.append('..')
 
 
-class AimAtBloonInPicture(Integration.Missions.Mission.Mission):
+class AimAtBloonInPicture(Missions.Mission.Mission):
     def __init__(self, device_map):
-        Integration.Missions.Mission.Mission.__init__(self)  # Critical line in every mission
+        Missions.Mission.Mission.__init__(self)  # Critical line in every mission
 
         self.vision_data = device_map.vision_data
 

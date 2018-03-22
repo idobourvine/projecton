@@ -6,13 +6,13 @@ the turret (rather than change in angles)
 
 import time
 
-import Integration.Missions.Mission
+import Missions.Mission
 
 
-class MoveTurretToAngle(Integration.Missions.Mission.Mission):
+class MoveTurretToAngle(Missions.Mission.Mission):
     def __init__(self, device_map, azimuth, pitch):
 
-        Integration.Missions.Mission.Mission.__init__(self)
+        Missions.Mission.Mission.__init__(self)
 
         self.azimuth_motor = device_map.azimuth_motor
         self.pitch_motor = device_map.pitch_motor

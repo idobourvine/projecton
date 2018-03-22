@@ -4,14 +4,14 @@ Mission that drives a distance in a straight line
 import sys
 import time
 
-import Integration.Missions.Mission
+import Missions.Mission
 
 sys.path.append('..')
 
 
-class MoveDistance(Integration.Missions.Mission.Mission):
+class MoveDistance(Missions.Mission.Mission):
     def __init__(self, device_map, length):
-        Integration.Missions.Mission.Mission.__init__(self)
+        Missions.Mission.Mission.__init__(self)
         self.car_drive = device_map.car_drive
         self.length = length
 

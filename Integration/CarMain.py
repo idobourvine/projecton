@@ -5,7 +5,7 @@ import threading
 import time
 
 import Devices.DeviceMap
-import Integration.Missions.Planning.MissionPlanner
+import Missions.Planning.MissionPlanner
 import Missions.MissionHandler
 
 
@@ -28,7 +28,7 @@ class CarMain:
         :return:
         """
 
-        cls.mission_planner = Integration.Missions.Planning.MissionPlanner.MissionPlanner(
+        cls.mission_planner = Missions.Planning.MissionPlanner.MissionPlanner(
             device_map=cls.device_map)
         # cls.mission_handler = Missions.MissionHandler.MissionHandler()
 
@@ -38,7 +38,7 @@ class CarMain:
             """
             cls.mission_planner.manage_missions()
             # cls.mission_handler.run()
-            Integration.Missions.MissionHandler.MissionHandler.run()
+            Missions.MissionHandler.MissionHandler.run()
 
         # Starts the main periodic execution loop
         periodic_loop_thread = threading.Thread(target=cls.do_every,
