@@ -17,6 +17,7 @@ upper_red1 = np.array([255, 220, 255])
 #upper_red1 = np.array([255, 200, 255])
 MIN_SIZE = 150
 
+
 def getBall(img):
     ing = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask = cv2.inRange(ing, lower_red, upper_red)
