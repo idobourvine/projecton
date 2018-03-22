@@ -83,6 +83,7 @@ class MissionPlanner:
 
         if self.mission_state == 0:
             if not self.entered_state_0:
+                self.entered_state_0 = True
                 # Testing mode
                 print("Running tests")
                 print()
