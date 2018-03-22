@@ -4,9 +4,11 @@ Main class of the car
 import threading
 import time
 
-from Devices.DeviceMap import DeviceMap
-from Missions.MissionHandler import MissionHandler
-from Missions.MissionPlanner import MissionPlanner
+import Devices.DeviceMap
+import Missions.MissionHandler
+import Missions.MissionPlanner
+import Vision_Processing.VisionData
+
 
 class CarMain:
     """
@@ -14,11 +16,9 @@ class CarMain:
     """
 
     """
-    self init of certain objects
+    self init of global objects
     """
-    device_map = DeviceMap()
-    mission_handler = MissionHandler()
-    mission_planner = MissionPlanner()
+    device_map = Devices.DeviceMap.DeviceMap()
 
     @classmethod
     def init_car(cls):
@@ -28,22 +28,25 @@ class CarMain:
         physical devices etc.
         :return:
         """
+
+        cls.mission_handler = Missions.MissionHandler.MissionHandler()
+        cls.mission_planner = Missions.MissionPlanner.MissionPlanner(
+            device_map=cls.device_map)
+
+        def periodic_loop():
+            """
+            Method that will run periodically
+            """
+            cls.mission_planner.manage_missions()
+            cls.mission_handler.run()
+
         # Starts the main periodic execution loop
         periodic_loop_thread = threading.Thread(target=cls.do_every,
-                                                args=(0.02, cls.periodic_loop))
+                                                args=(0.02, periodic_loop))
         periodic_loop_thread.start()
 
         print("All set, let's go!")
 
-
-    @classmethod
-    def periodic_loop(cls):
-        """
-        Method that will run periodically
-        """
-
-        cls.mission_planner.manage_missions()
-        cls.mission_handler.run()
 
     @classmethod
     def do_every(cls, period, f, *args):
@@ -71,4 +74,3 @@ class CarMain:
 if __name__ == "__main__":
     car = CarMain()
     car.init_car()
-
