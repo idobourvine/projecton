@@ -3,7 +3,7 @@ import time
 import Missions.Car.DriveToPoint
 import Missions.SeriesMission
 import Missions.Turret.ClearStandpoint
-import Missions.Turret.MoveTurretToAngle
+import Missions.Turret.MoveTurretByAngle
 from Utils.Constants import *
 from Utils.UtilFunctions import *
 
@@ -89,15 +89,15 @@ class MissionPlanner:
 
                 print()
                 print("Testing Ilrud -20, Ilrud 20, Tzidud 20, Tzidud -20")
-                ilrud0 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                ilrud0 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                     self.device_map, 0, -20)
-                ilrud1 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                ilrud1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                     self.device_map, 0, 20)
 
-                tzidud0 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                tzidud0 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                     self.device_map, 20, 0)
 
-                tzidud1 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                tzidud1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                     self.device_map, -20, 0)
 
                 mis = Missions.SeriesMission.SeriesMission([
