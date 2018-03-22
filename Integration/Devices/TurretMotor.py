@@ -4,15 +4,16 @@ Serial communication for controlling the turret motors (azimuth or pitch)
 import struct
 import time
 
+import Utils.Constants
 import serial
 
 import Motor
-import Utils.Constants
 
 
 class TurretMotor(Motor.Motor):
     def __init__(self, port, baudrate=2000000):
         Motor.Motor.__init__(self)
+        self.port = port
         self.use_devices = Utils.Constants.Constants.use_devices
         if self.use_devices:
             self.ser = serial.Serial(port, baudrate)
@@ -24,12 +25,15 @@ class TurretMotor(Motor.Motor):
             self.ser.close()
 
     def send(self, angle, shut, isRel):
-        angle1, angle2 = self.pack_to_two_angles(int(angle*5.825), shut, isRel)
+        angle1, angle2 = self.pack_to_two_angles(int(angle * 5.825), shut,
+                                                 isRel)
         if self.use_devices:
+            print(
+            "Sending (" + angle1 + ", " + angle2 + ") to " + str(self.port))
             self.ser.write(struct.pack('>B', int(angle1)))
-            #print(self.ser.read())
+            # print(self.ser.read())
             self.ser.write(struct.pack('>B', int(angle2)))
-            #print(self.ser.read())
+            # print(self.ser.read())
 
     def getAngle(self):
         """"""
@@ -42,13 +46,13 @@ class TurretMotor(Motor.Motor):
         :return:
         '''
         angle += 2048
-        #8192=2^13
+        # 8192=2^13
         if shut:
             angle += 4096
         if not isRel:
-            #16384=2^14
+            # 16384=2^14
             angle += 8192
-        print(int((angle) / 256), int((angle) % 256))
+        # print(int((angle) / 256), int((angle) % 256))
         return (int((angle) / 256), int((angle) % 256))
 
     def on_target(self):
