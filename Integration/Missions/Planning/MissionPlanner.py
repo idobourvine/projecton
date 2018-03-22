@@ -3,6 +3,7 @@ import time
 import Missions.Car.DriveToPoint
 import Missions.SeriesMission
 import Missions.Turret.ClearStandpoint
+import Missions.Turret.MoveTurretToAngle
 from Utils.Constants import *
 from Utils.UtilFunctions import *
 
@@ -17,6 +18,9 @@ class MissionPlanner:
 
         """
         Attribute describing current operating state
+        0:
+        Testing mode
+
         1:
         Starting state - destroy all bloons that are in range of
         starting position
@@ -29,7 +33,10 @@ class MissionPlanner:
         Targeted elimination - so long as there are bloons, travels
         to the closest one and destroys all bloons from position
         """
-        self.mission_state = 1
+        self.mission_state = 0
+
+        # For testing state
+        self.entered_state_0 = False
 
         # For state 2
         self.preset_standpoint = [(1, 2.5), (0, 1), (1, 0)]
@@ -74,7 +81,37 @@ class MissionPlanner:
         curr_position = self.device_map.security_vision_data.get_car_position()
         curr_bloons = self.device_map.security_vision_data.get_bloons()
 
-        if self.mission_state == 1:
+        if self.mission_state == 0:
+            if not self.entered_state_0:
+                # Testing mode
+                print("Running tests")
+                print()
+                print("Testing Tzidud 20, Tzidud 10, Tzidud 5, Tzidud -20, "
+                      "Tzidud -10, Tzidud -5")
+
+                tzidud0 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, 20, 0)
+                tzidud1 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, 10, 0)
+                tzidud2 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, 5, 0)
+
+                tzidud3 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, -20, 0)
+                tzidud4 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, -10, 0)
+                tzidud5 = Missions.Turret.MoveTurretToAngle.MoveTurretToAngle(
+                    self.device_map, -5, 0)
+
+                mis = Missions.SeriesMission.SeriesMission([
+                    tzidud0, tzidud1, tzidud2, tzidud3, tzidud4, tzidud5])
+
+                return mis
+
+            else:
+                return None
+
+        elif self.mission_state == 1:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(
                 curr_bloons, curr_position)
 
