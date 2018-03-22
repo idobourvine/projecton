@@ -15,13 +15,12 @@ class CarVisionData:
         self.didPop = [0]
 
         if Constants.use_devices:
-
             self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
             self.eg1 = threading.Thread(target=Webcamera,
-                                        args=(self.stream, self.bloons,
-                                              self.canShoot,
-                                              self.didPop))  # Thread that runs
+                                    args=(self.stream, self.bloons,
+                                          self.canShoot,
+                                          self.didPop))  # Thread that runs
             self.eg1.start()
 
     def get_hostile_bloons(self):
