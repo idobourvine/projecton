@@ -13,7 +13,7 @@ class CarVisionData:
         self.bloons = []  # Array of bloons detected by vision processing
         self.canShoot = [0]
         self.didPop = [0]
-
+        """
         if Constants.use_devices:
             self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
@@ -22,7 +22,7 @@ class CarVisionData:
                                           self.canShoot,
                                           self.didPop))  # Thread that runs
             self.eg1.start()
-
+        """
     def get_hostile_bloons(self):
         """
         Returns a list of the bloons in the car camera that are hostile
