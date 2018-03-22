@@ -25,8 +25,10 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         self.duration = 3  # 3 seconds to wait
 
     def initialize(self):
-        self.azimuth_motor.send(self.azimuth, False, True)
-        self.pitch_motor.send(self.pitch, False, True)
+        if self.azimuth != 0:
+            self.azimuth_motor.send(self.azimuth, False, True)
+        if self.pitch != 0:
+            self.pitch_motor.send(self.pitch, False, True)
         self.start_time = time.time()
 
     def execute(self):
