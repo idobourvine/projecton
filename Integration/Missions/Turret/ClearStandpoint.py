@@ -5,7 +5,7 @@ import sys
 
 import AimAtBloonInPicture
 import Missions.SeriesMission
-import MoveTurretToAngle
+import MoveTurretByAngle
 from Utils.UtilFunctions import *
 
 sys.path.append('..')
@@ -33,7 +33,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         for bloon in bloons:
             angles = self.convert_bloon_to_angles(bloon)
             self.missions.append(
-                MoveTurretToAngle.MoveTurretToAngle(device_map, angles[0],
+                MoveTurretByAngle.MoveTurretByAngle(device_map, angles[0],
                                                     angles[1]))
             self.missions.append(
                 AimAtBloonInPicture.AimAtBloonInPicture(
