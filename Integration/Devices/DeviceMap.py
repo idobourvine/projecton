@@ -19,11 +19,11 @@ class DeviceMap:
 
         # serial comm with arduino that controls azimuth motor
         # self.azimuth_motor = TurretMotor.TurretMotor('COM5')  # PC Port
-        self.azimuth_motor = TurretMotor.TurretMotor('/dev/ttyUSB0')  # Pi Port
+        self.azimuth_motor = TurretMotor.TurretMotor('/dev/ttyUSB1')  # Pi Port
 
         # serial comm with arduino that controls pitch motor
         # self.pitch_motor = TurretMotor.TurretMotor('COM4')  # PC Port
-        self.pitch_motor = TurretMotor.TurretMotor('/dev/ttyUSB1')  # Pi Port
+        self.pitch_motor = TurretMotor.TurretMotor('/dev/ttyUSB0')  # Pi Port
 
         # self.car_drive = CarDrive.CarDrive('COM6') # Need to check port  # PC Port
         # Serial communication with car arduino
