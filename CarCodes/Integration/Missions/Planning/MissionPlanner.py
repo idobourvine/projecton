@@ -86,6 +86,7 @@ class MissionPlanner:
             if not self.entered_state_0:
                 self.entered_state_0 = True
                 # Testing mode
+                '''
                 print("Running tests")
 
                 print()
@@ -107,7 +108,8 @@ class MissionPlanner:
                     ilrud0, ilrud1, tzidud0, tzidud1])
 
                 return mis
-
+                '''
+                return None
             else:
                 return None
 
