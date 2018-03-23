@@ -88,8 +88,7 @@ class MissionPlanner:
                 print("Running tests")
 
                 print()
-                print("Testing Ilrud -45, Ilrud 10, Tzidud -90, Tzidud 30, "
-                      "Tzidud 30")
+                print("Testing Ilrud -45, Ilrud 10, Tzidud -90, Tzidud 30")
 
                 ilrud0 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                     self.device_map, 0, -45)
@@ -103,13 +102,8 @@ class MissionPlanner:
                 tzidud1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                     self.device_map, 30, 0)
 
-                tzidud2 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 30, 0)
-
-
-
                 mis = Missions.SeriesMission.SeriesMission([
-                    ilrud0, ilrud1, tzidud0])
+                    ilrud0, ilrud1, tzidud0, tzidud1])
 
                 return mis
 
