@@ -17,10 +17,7 @@ class TurretMotor(Motor.Motor):
         self.use_devices = Utils.Constants.Constants.use_devices
         if self.use_devices:
             self.ser = serial.Serial(port, baudrate)
-<<<<<<< HEAD
-=======
             print("opened port " + str(port))
->>>>>>> mission_planning
             time.sleep(5)
 
     def close(self):
