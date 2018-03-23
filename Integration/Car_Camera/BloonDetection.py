@@ -4,7 +4,7 @@ import time
 
 import cv2
 
-import GetBalloon
+import GetBloon
 
 
 def Webcamera(stream, bloons, canShoot, didPop):
@@ -19,14 +19,14 @@ def Webcamera(stream, bloons, canShoot, didPop):
             except Exception as e:
                 print(e)
             
-            del didPop[:]
-            didPop.append(GetBalloon.didPop(Image0, Image1))
-            del bloons[:]
-            bloons.append(GetBalloon.getBall(Image1))
-            del canShoot[:]
-            canShoot.append(GetBalloon.canShoot(Image1))
+            # del didPop[:]
+            # didPop.append(GetBloon.didPop(Image0, Image1))
+            # del bloons[:]
+            # bloons.append(GetBloon.getBall(Image1))
+            # del canShoot[:]
+            # canShoot.append(GetBloon.canShoot(Image1))
             
-            cv2.waitKey(10)
+            cv2.waitKey(20)
 
             Image0 = copy.deepcopy(Image1)
 
@@ -46,7 +46,7 @@ def Panasonic(bloons):
         j = len(bloons)
         for i in range(j):
             del bloons[i]
-        bloons.append(GetBalloon.getBall(Image1))
+        bloons.append(GetBloon.getBall(Image1))
         cv2.waitKey(10)
     if not IsOpen1:
         time.sleep(0.5)
@@ -62,7 +62,7 @@ def Dancig(bloons):
         j = len(bloons)
         for i in range(j):
             del bloons[i]
-        bloons.append(GetBalloon.getBall(Image2))
+        bloons.append(GetBloon.getBall(Image2))
         cv2.waitKey(10)
     if not IsOpen2:
         time.sleep(0.5)

@@ -1,18 +1,18 @@
 """
-Mission that aims at closest balloon to the center of car camera
+Mission that aims at closest bloon to the center of car camera
 """
 import sys
 import time
 
-import DestroyBalloon
-import Mission
+import DestroyBloon
+import Missions.Mission
 
 sys.path.append('..')
 
 
-class AimAtBalloonInPictureMission(Mission.Mission):
+class AimAtBloonInPicture(Missions.Mission.Mission):
     def __init__(self, device_map):
-        Mission.Mission.__init__(self)  # Critical line in every mission
+        Missions.Mission.Mission.__init__(self)  # Critical line in every mission
 
         self.vision_data = device_map.vision_data
 
@@ -20,12 +20,12 @@ class AimAtBalloonInPictureMission(Mission.Mission):
         self.azimuth_motor = device_map.azimuth_motor
         self.pitch_motor = device_map.pitch_motor
 
-        self.shoot = DestroyBalloon.DestroyBalloon(device_map)
+        self.shoot = DestroyBloon.DestroyBloon(device_map)
         # Variables for execute loop
-        self.min_balloon = None
+        self.min_bloon = None
         self.min_dist = 100000
 
-        self.distance_threshold = 1.3  # Maximum "distance" that the balloon
+        self.distance_threshold = 1.3  # Maximum "distance" that the bloon
         #  is allowed to be away from the aiming point (center of camera)
         # The distance is the sum of square of x-angle and y-angle
 
@@ -54,23 +54,23 @@ class AimAtBalloonInPictureMission(Mission.Mission):
         Code that happens periodically
         :return:
         """
-        a = self.vision_data.get_bloons()
-        if a:  # Might be empty if no balloons were detected
+        a = self.vision_data.get_hostile_bloons()
+        if a:  # Might be empty if no bloons were detected
             inner = a[0]
-            if inner:  # Will be empty if no balloons were detected
-                self.min_balloon = None  # Object of the balloon that is
+            if inner:  # Will be empty if no bloons were detected
+                self.min_bloon = None  # Object of the bloon that is
                 # closest to the center of the picture
                 self.min_dist = 100000  # just some big number
 
-                # Loop that finds the min_balloon from the bloons array
-                for balloon in inner:
-                    dist = balloon[0] ** 2 + balloon[1] ** 2
+                # Loop that finds the min_bloon from the bloons array
+                for bloon in inner:
+                    dist = bloon[0] ** 2 + bloon[1] ** 2
                     if dist < self.min_dist:
                         self.min_dist = dist
-                        self.min_balloon = balloon
-                if self.min_balloon:
-                    azimuth_angle_to_send = self.min_balloon[0]
-                    pitch_angle_to_send = self.min_balloon[1]
+                        self.min_bloon = bloon
+                if self.min_bloon:
+                    azimuth_angle_to_send = self.min_bloon[0]
+                    pitch_angle_to_send = self.min_bloon[1]
 
                     # This should be log
                     print("angles to send (azimuth, pitch): ({}, " \
@@ -114,7 +114,7 @@ class AimAtBalloonInPictureMission(Mission.Mission):
 
     def is_finished(self):
         """
-        Finishes when the the balloon is close enough to the aiming point
+        Finishes when the the bloon is close enough to the aiming point
         (center of camera) for a certain number of loops
         :return:
         """

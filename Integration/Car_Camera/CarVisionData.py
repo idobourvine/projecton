@@ -1,9 +1,13 @@
 import threading
 import time
+
+from BloonDetection import Webcamera
 import WebcamStream
 import cv2
 
-class VisionData:
+from Utils.Constants import *
+
+class CarVisionData:
     """
     Wrapper class for the data that comes from vision processing
     """
@@ -24,6 +28,11 @@ class VisionData:
         self.eg1.start()
 
     def get_bloons(self):
+        """
+        Returns a list of the bloons in the car camera that are hostile
+        each bloon is a tuple of azimuth angle and pitch angle
+        :return:
+        """
         return self.bloons[:]
 
     def get_can_shoot(self):
