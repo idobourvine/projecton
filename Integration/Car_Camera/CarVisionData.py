@@ -32,17 +32,13 @@ class CarVisionData:
         # runs
 
     def get_bloons(self):
-        temp = self.flatten(copy.deepcopy(self.bloons))
-        pairs = []
-        for i in range(int(len(temp) / 2)):
-            pairs.append([temp[2*i], temp[2*i+1]])
-        return pairs
+        return []
 
     def get_can_shoot(self):
-        return copy.deepcopy(self.can_shoot)
+        return []
 
     def get_did_pop(self):
-        return copy.deepcopy(self.did_pop)
+        return []
 
     def continue_mission(self):
         """
@@ -70,9 +66,3 @@ class CarVisionData:
             except Exception as e:
                 print("EXCEPTION CAUGHT")
                 print(e)
-                
-    def flatten(self, x):
-        if isinstance(x, collections.Iterable):
-            return [a for i in x for a in self.flatten(i)]
-        else:
-            return [x]

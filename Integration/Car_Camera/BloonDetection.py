@@ -19,7 +19,7 @@ def Webcamera(stream, bloons, canShoot, didPop):
             except Exception as e:
                 print(e)
             del temp[:]
-            temp.append(GetBloon.GetBloon(Image1))
+            temp.append(GetBloon.getBloon(Image1))
             temp = temp[0]
             del bloons[:]
             bloons.append(temp[1])
@@ -27,7 +27,7 @@ def Webcamera(stream, bloons, canShoot, didPop):
                 bloons = bloons[0]
             del canShoot[:]
             canShoot.append(temp[0])
-            # does so if balloon is popped it will say so for 3 seconds,
+            # does so if bloon is popped it will say so for 3 seconds,
             # so we won't miss it
             del didPop[:]
             if start_time > 0 and time.time() - start_time <= 3:
@@ -43,55 +43,3 @@ def Webcamera(stream, bloons, canShoot, didPop):
     if stream.stopped:
         time.sleep(0.5)
         print "Stream died"
-
-
-def Panasonic(bloons):
-    Channel1 = cv2.VideoCapture(1)
-    Channel1.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
-    Channel1.set(cv2.CAP_PROP_FRAME_WIDTH, 400)
-    IsOpen1, Image1 = Channel1.read()
-    while IsOpen1:
-        IsOpen1, Image1 = Channel1.read()
-        j = len(bloons)
-        for i in range(j):
-            del bloons[i]
-        bloons.append(GetBloon.getBall(Image1))
-        cv2.waitKey(10)
-    if not IsOpen1:
-        time.sleep(0.5)
-        print "Error opening Panasonic"
-
-def Dancig(bloons):
-    Channel2 = cv2.VideoCapture(2)
-    Channel2.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
-    Channel2.set(cv2.CAP_PROP_FRAME_WIDTH, 400)
-    IsOpen2, Image2 = Channel2.read()
-    while IsOpen2:
-        IsOpen2, Image2 = Channel2.read()
-        j = len(bloons)
-        for i in range(j):
-            del bloons[i]
-        bloons.append(GetBloon.getBall(Image2))
-        cv2.waitKey(10)
-    if not IsOpen2:
-        time.sleep(0.5)
-        print "Error opening Dancig"
-
-if __name__ == "__main__":
-    try:
-        bloons1 = []
-        canShoot1 = [0]
-        bloons2 = []
-        bloons3 = []
-        eg1 = threading.Thread(target=Webcamera, args=(bloons1,canShoot1,))
-        eg2 = threading.Thread(target=Panasonic, args=(bloons2,))
-        eg3 = threading.Thread(target=Dancig, args=(bloons3,))
-        eg1.start()
-        eg2.start()
-        eg3.start()
-
-    except:
-        print "Error: unable to start thread"
-    while 1:
-        pass
-

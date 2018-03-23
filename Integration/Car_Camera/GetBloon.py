@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 import math
-import collections
 hor = 30.0
 ver = 25.0
 FIXED_PIX = (320.0, 240.0)
@@ -116,7 +115,7 @@ def getColor(img):
     return res1
 
 def didPop(imgBEFORE, imgAFTER):
-    """returns true if red balloon popped, false otherwise"""
+    """returns true if red bloon popped, false otherwise"""
     color1 = getColor(imgBEFORE)
     color2 = getColor(imgAFTER)
     color1 = cv2.cvtColor(color1, cv2.COLOR_BGR2GRAY)
@@ -151,9 +150,9 @@ def canShoot1(circles):
     return 0
 
 
-def getBalloon(img):
+def getBloon(img):
     """returns a list, the first object is a boolean that says if you can
-    shoot or not, and the second one is a list of angles to each red balloon in
+    shoot or not, and the second one is a list of angles to each red bloon in
     the image"""
     bloons = getEnemies(img)[0]
     can_shoot = canShoot1(bloons)
@@ -166,7 +165,7 @@ def getBalloon(img):
 
 
 def getEnemies(img):
-    """returns a list of enemy balloons and their sizes in image"""
+    """returns a list of enemy bloons and their sizes in image"""
     red_bloons = []
     red_sizes = []
     bloons, sizes = getCircle(img)
@@ -178,7 +177,7 @@ def getEnemies(img):
 
 
 def getFriends(img):
-    """returns a list of friendly balloons and their sizes in image"""
+    """returns a list of friendly bloons and their sizes in image"""
     friend_bloons = []
     friend_sizes = []
     bloons, sizes = getCircle(img)
