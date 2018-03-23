@@ -1,6 +1,7 @@
 import threading
 import time
 import WebcamStream
+import cv2
 
 class VisionData:
     """
@@ -40,5 +41,11 @@ class VisionData:
 
     def manage_connection(self, connection, stream, bloons, can_shoot,
                           did_pop):
-        connection.send_msg("hi")
-        time.sleep(1)
+        time.sleep(5)
+        
+        while True:
+            if stream.more():
+                next_img = stream.read()
+                cv2.imshow('Kavitz', next_img)
+                connection.send_image(next_img)
+                cv2.waitKey(50)
