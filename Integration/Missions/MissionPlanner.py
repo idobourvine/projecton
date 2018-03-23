@@ -1,7 +1,6 @@
 # import keyboard
 
 import time
-import Test
 import ClearStandpoint
 
 

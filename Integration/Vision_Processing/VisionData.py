@@ -16,12 +16,11 @@ class VisionData:
 
         self.connection = connection
 
-        self.eg1 = threading.Thread(target=self.manage_connection,
-                                    args=(self.connection, self.stream,
-                                          self.bloons,
-                                          self.can_shoot,
-                                          self.did_pop))  # Thread that runs
+        self.eg1 = threading.Thread(target=self.send_images,
+                                    args=(self.connection, self.stream))  # Thread that runs
         self.eg1.start()
+        
+        self.read_messages(self.connection)
 
     def get_bloons(self):
         return self.bloons[:]
@@ -39,8 +38,7 @@ class VisionData:
         """
         return True
 
-    def manage_connection(self, connection, stream, bloons, can_shoot,
-                          did_pop):
+    def send_images(self, connection, stream):
         time.sleep(5)
         
         while True:
@@ -49,3 +47,13 @@ class VisionData:
                 cv2.imshow('Kavitz', next_img)
                 connection.send_image(next_img)
                 cv2.waitKey(50)
+                
+    def read_messages(self, connection):
+        while True:
+            try:
+                msg = connection.get_msg()
+                if msg:
+                    print(str(msg))
+            except Exception as e:
+                print("EXCEPTION CAUGHT")
+                print(e)
