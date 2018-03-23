@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import math
+import collections
 hor = 30.0
 ver = 25.0
 FIXED_PIX = (320.0, 240.0)
@@ -158,7 +159,7 @@ def getBalloon(img):
     can_shoot = canShoot1(bloons)
     angles = []
     for bloon in bloons:
-        bloon[0] = (bloon[0] - px/2) / px
+        bloon[0] = -(bloon[0] - px/2) / px
         bloon[1] = (py/2 - bloon[1]) / py
         angles.append([bloon[0] * hor, bloon[1] * ver])
     return [can_shoot, angles]
