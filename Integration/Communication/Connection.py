@@ -14,7 +14,6 @@ LEFT = "1"
 CLOSE = "close"
 
 LAPTOP_IP = '192.168.137.1'
-GATEWAY = '192.168.43.1'
 SUBNET_MASK = '255.255.255.0'
 SEND_TIMEOUT = 20.0  # seconds
 LISTEN_TIMEOUT = 1000.0
@@ -51,6 +50,7 @@ class Connection:
                     self.sock = s
                     self.sock.settimeout(self.timeout)
                     self.sock.listen(1)
+                    print "listening"
                     sender, address = self.sock.accept()
                     print("Successfully connected to pi: ", address)
                     self.socket = sender
@@ -93,7 +93,7 @@ class Connection:
     def get_image(self):
         self.socket.settimeout(LISTEN_TIMEOUT)
         while True:
-            msg = self.recv_data()
+            msg = self.get_msg()
             decoded = numpy.fromstring(msg, numpy.uint8)
             img = cv2.imdecode(decoded,
                                cv2.IMREAD_COLOR)
@@ -120,14 +120,18 @@ class Connection:
             len_sent = len_sent + l
 
     def recv_data(self):
+        try:
+            tmp_data = self.socket.recv(IM_SIZE)
 
-        tmp_data = self.socket.recv(IM_SIZE)
+            while len(tmp_data) < SIZE_LEN:
+                tmp_data = tmp_data + self.socket.recv(IM_SIZE)
 
-        while len(tmp_data) < SIZE_LEN:
-            tmp_data = tmp_data + self.socket.recv(IM_SIZE)
+            msg_size = int(tmp_data[0:SIZE_LEN].decode()) + SIZE_LEN
+            while len(tmp_data) < msg_size:
+                tmp_data = tmp_data + self.socket.recv(IM_SIZE)
 
-        msg_size = int(tmp_data[0:SIZE_LEN].decode()) + SIZE_LEN
-        while len(tmp_data) < msg_size:
-            tmp_data = tmp_data + self.socket.recv(IM_SIZE)
-
-        return tmp_data[SIZE_LEN:]
+            return tmp_data[SIZE_LEN:]
+        except UnicodeDecodeError as e:
+            return None
+        except ValueError as e:
+            return None
