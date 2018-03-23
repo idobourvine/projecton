@@ -18,7 +18,8 @@ class CarVisionData:
         self.can_shoot = [0]
         self.did_pop = [0]
 
-        self.stream = WebcamStream.WebcamStream(queueSize=2).start()
+        self.stream = WebcamStream.WebcamStream(connection, 
+                                                queueSize=2).start()
 
         self.connection = connection
 

@@ -13,10 +13,9 @@ class VisionData:
         self.can_shoot = [0]
         self.did_pop = [0]
 
-        self.stream = PiStream.PiStream(queueSize=2).start()
-        print("Started image stream from pi")
-
         self.connection = connection
+        self.stream = PiStream.PiStream(self.connection, queueSize=2).start()
+        print("Started image stream from pi")
 
         self.eg1 = threading.Thread(target=Webcamera,
                                     args=(self.connection, self.stream,

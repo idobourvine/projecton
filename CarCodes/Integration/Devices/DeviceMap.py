@@ -15,7 +15,7 @@ class DeviceMap:
         self.connection = Communication.Connection.Connection(True)
 
         self.car_vision_data = \
-            Car_Camera.CarVisionData.CarVisionData()
+            Car_Camera.CarVisionData.CarVisionData(self.connection)
 
         self.security_vision_data = \
             Security_Cameras.SecurityVisionData.SecurityVisionData()
