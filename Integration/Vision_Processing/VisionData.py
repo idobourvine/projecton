@@ -50,7 +50,7 @@ class VisionData:
                 next_img = stream.read()
                 cv2.imshow('Kavitz', next_img)
                 connection.send_image(next_img)
-                cv2.waitKey(50)
+                cv2.waitKey(99)
                 
     def read_messages(self, connection):
         while True:
