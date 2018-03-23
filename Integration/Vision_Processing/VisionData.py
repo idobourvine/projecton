@@ -19,8 +19,12 @@ class VisionData:
         self.eg1 = threading.Thread(target=self.send_images,
                                     args=(self.connection, self.stream))  # Thread that runs
         self.eg1.start()
-        
-        self.read_messages(self.connection)
+
+
+        self.eg2 = threading.Thread(target=self.read_messages,
+                                    args=(self.connection,))  # Thread that
+        self.eg2.start()
+        # runs
 
     def get_bloons(self):
         return self.bloons[:]
