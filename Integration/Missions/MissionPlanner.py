@@ -42,12 +42,12 @@ class MissionPlanner:
 
                 # self.pressed_hotkey = False
 
-                # self.current_mission.start()
-                self.current_mission = Test.Test(self.device_map)
-                self.current_mission.start()
+                self.current_mission = self.return_next_mission(
+                    self.device_map)
+                if not self.current_mission:
+                    time.sleep(2)
+                else:
+                    self.current_mission.start()
 
     def return_next_mission(self, device_map):
-        mis = ClearStandpoint.ClearStandpoint(device_map, [[-65, 0], [-65, 35],
-                                                           [-85, 5],
-                                                           [-105, 0]])
-        return mis
+        return None
