@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import math
+import collections
 hor = 30.0
 ver = 25.0
 FIXED_PIX = (320.0, 240.0)
@@ -16,6 +17,7 @@ upper_red1 = np.array([255, 220, 255])
 #lower_red1 = np.array([210, 120, 210])
 #upper_red1 = np.array([255, 200, 255])
 MIN_SIZE = 150
+
 
 def getBall(img):
     ing = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -107,8 +109,8 @@ def canShoot(img):
 def getColor(img):
     """returns a binary image of the color specified"""
     ing = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    lower_color = np.array(lower_red)
-    upper_color = np.array(upper_red)
+    lower_color = np.array(red_lower)
+    upper_color = np.array(red_upper)
     mask = cv2.inRange(ing, lower_color, upper_color)
     res1 = cv2.bitwise_and(ing, ing, mask=mask)
     return res1
@@ -136,7 +138,7 @@ BAD3 = [5, 5, 250]
 d3 = 10
 BAD4 = [65, 15, 150]
 d4 = 25
-red_lower = [40, 50, 120]
+red_lower = [40, 50, 100]
 red_upper = [90, 100, 180]
 
 
@@ -157,7 +159,7 @@ def getBalloon(img):
     can_shoot = canShoot1(bloons)
     angles = []
     for bloon in bloons:
-        bloon[0] = (bloon[0] - px/2) / px
+        bloon[0] = -(bloon[0] - px/2) / px
         bloon[1] = (py/2 - bloon[1]) / py
         angles.append([bloon[0] * hor, bloon[1] * ver])
     return [can_shoot, angles]
@@ -169,10 +171,11 @@ def getEnemies(img):
     red_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if isWhite(img, bloons[i]):
+        if isRed(img, bloons[i]):
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
     return [red_bloons, red_sizes]
+
 
 def getFriends(img):
     """returns a list of friendly balloons and their sizes in image"""
@@ -180,7 +183,7 @@ def getFriends(img):
     friend_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if not isWhite(img, bloons[i]):
+        if not isRed(img, bloons[i]):
             friend_bloons.append(bloons[i])
             friend_sizes.append(sizes[i])
     return [friend_bloons, friend_sizes]
@@ -190,7 +193,7 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT, 0.7, 40,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 40,
                                param1=80, param2=15, minRadius=7,
                                maxRadius=0)
     bloons = []

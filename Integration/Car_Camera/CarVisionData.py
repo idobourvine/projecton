@@ -4,6 +4,8 @@ import time
 from BloonDetection import Webcamera
 import WebcamStream
 import cv2
+import copy
+import collections
 
 from Utils.Constants import *
 
@@ -20,26 +22,27 @@ class CarVisionData:
 
         self.connection = connection
 
-        self.eg1 = threading.Thread(target=self.manage_connection,
-                                    args=(self.connection, self.stream,
-                                          self.bloons,
-                                          self.can_shoot,
-                                          self.did_pop))  # Thread that runs
+        self.eg1 = threading.Thread(target=self.send_images,
+                                    args=(self.connection, self.stream))  # Thread that runs
         self.eg1.start()
 
+        self.eg2 = threading.Thread(target=self.read_messages,
+                                    args=(self.connection,))  # Thread that
+        self.eg2.start()
+        # runs
+
     def get_bloons(self):
-        """
-        Returns a list of the bloons in the car camera that are hostile
-        each bloon is a tuple of azimuth angle and pitch angle
-        :return:
-        """
-        return self.bloons[:]
+        temp = self.flatten(copy.deepcopy(self.bloons))
+        pairs = []
+        for i in range(int(len(temp) / 2)):
+            pairs.append([temp[2*i], temp[2*i+1]])
+        return pairs
 
     def get_can_shoot(self):
-        return self.can_shoot[:]
+        return copy.deepcopy(self.can_shoot)
 
     def get_did_pop(self):
-        return self.did_pop[:]
+        return copy.deepcopy(self.did_pop)
 
     def continue_mission(self):
         """
@@ -48,8 +51,7 @@ class CarVisionData:
         """
         return True
 
-    def manage_connection(self, connection, stream, bloons, can_shoot,
-                          did_pop):
+    def send_images(self, connection, stream):
         time.sleep(5)
         
         while True:
@@ -57,4 +59,20 @@ class CarVisionData:
                 next_img = stream.read()
                 cv2.imshow('Kavitz', next_img)
                 connection.send_image(next_img)
-                cv2.waitKey(50)
+                cv2.waitKey(99)
+                
+    def read_messages(self, connection):
+        while True:
+            try:
+                msg = connection.get_msg()
+                if msg:
+                    print(str(msg))
+            except Exception as e:
+                print("EXCEPTION CAUGHT")
+                print(e)
+                
+    def flatten(self, x):
+        if isinstance(x, collections.Iterable):
+            return [a for i in x for a in self.flatten(i)]
+        else:
+            return [x]
