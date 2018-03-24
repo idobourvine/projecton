@@ -10,8 +10,6 @@ if __name__ == "__main__":
 
     vision_data = Vision_Processing.VisionData.VisionData(pi_connection)
 
-    print("Started image processing thread")
-
     while True:
         _bloons = vision_data.get_bloons()
         _can_shoot = vision_data.get_can_shoot()

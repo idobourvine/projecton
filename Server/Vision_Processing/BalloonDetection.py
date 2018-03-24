@@ -14,9 +14,11 @@ def Webcamera(stream, bloons, canShoot, didPop):
     while not stream.stopped:
         if stream.more():
             Image1 = stream.read()
+
             if Image0 is None:
                 Image0 = copy.deepcopy(Image1)
             try:
+                print('showing')
                 cv2.imshow('image', Image1)
             except Exception as e:
                 print(e)
@@ -39,6 +41,7 @@ def Webcamera(stream, bloons, canShoot, didPop):
                 didPop.append(GetBalloon.didPop(Image0, Image1))
                 if len(didPop) > 0 and didPop[0] == 1:
                     start_time = time.time()
+
             cv2.waitKey(10)
             Image0 = copy.deepcopy(Image1)
 
