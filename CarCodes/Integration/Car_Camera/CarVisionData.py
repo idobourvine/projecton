@@ -71,8 +71,10 @@ class CarVisionData:
             try:
                 msg = connection.get_msg()
                 if not msg:
+                    print("Continued")
                     continue
-                print("msg: " + msg)
+
+                print("msg: " + repr(msg))
 
                 messages = msg.split('MESSAGE')
                 for real_msg in messages:
