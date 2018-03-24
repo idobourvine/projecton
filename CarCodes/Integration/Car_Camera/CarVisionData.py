@@ -72,11 +72,11 @@ class CarVisionData:
                 msg = connection.get_msg()
                 if not msg:
                     continue
-                messages = msg.split()
+                messages = msg.split('MESSAGE')
                 for real_msg in messages:
-                    print("real_msg: " + real_msg)
+                    stripped = real_msg.strip()
                     removed_useless_num = self.useless_number_pattern.sub(
-                        '', real_msg)
+                        '', stripped)
                     print("removed_useless_num: " + removed_useless_num)
 
                     split = self.msg_pattern.split(removed_useless_num, 1)

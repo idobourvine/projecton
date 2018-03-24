@@ -15,8 +15,8 @@ if __name__ == "__main__":
         _can_shoot = vision_data.get_can_shoot()
         _did_pop = vision_data.get_did_pop()
 
-        pi_connection.send_msg("BloonsMSG" + str(_bloons))
-        pi_connection.send_msg("CanShootMSG" + str(_can_shoot))
-        pi_connection.send_msg("DidPopMSG" + str(_did_pop))
+        pi_connection.send_msg("MESSAGEBloonsMSG" + str(_bloons))
+        pi_connection.send_msg("MESSAGECanShootMSG" + str(_can_shoot))
+        pi_connection.send_msg("MESSAGEDidPopMSG" + str(_did_pop))
         # print "sending..."
         time.sleep(0.5)
