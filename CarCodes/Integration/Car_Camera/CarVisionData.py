@@ -70,12 +70,11 @@ class CarVisionData:
             try:
                 msg = connection.get_msg()
                 if msg:
-                    # print(str(msg))
                     split = self.msg_pattern.split(msg, 1)
                     if not split:
                         print("Couldn't split")
                         break
-
+                    print("split recieved: " + str(split))
                     msg_type = split[1]
                     raw_msg = split[2]
                     data = ast.literal_eval(raw_msg)

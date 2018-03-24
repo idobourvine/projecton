@@ -57,9 +57,13 @@ class MissionPlanner:
                 self.current_mission.finished_called_since_start():
             if self.device_map.security_vision_data.continue_mission():
                 print("Testing vision data")
-                print(self.device_map.car_vision_data.get_bloons)
-                print(self.device_map.car_vision_data.get_can_shoot)
-                print(self.device_map.car_vision_data.get_did_pop)
+
+                print("tested bloons: " + str(
+                    self.device_map.car_vision_data.get_bloons()))
+                print("tested bloons: " + str(
+                    self.device_map.car_vision_data.get_can_shoot()))
+                print("tested bloons: " + str(
+                    self.device_map.car_vision_data.get_did_pop()))
 
                 self.current_mission = self.return_next_mission(
                     self.device_map)
@@ -70,7 +74,6 @@ class MissionPlanner:
                 else:
                     print("Initiating new mission in mission manager")
                     self.current_mission.start()
-
 
     def return_next_mission(self, device_map):
         """
