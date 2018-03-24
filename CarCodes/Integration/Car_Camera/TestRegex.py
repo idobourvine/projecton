@@ -2,23 +2,34 @@ if __name__ == "__main__":
     import re
     import ast
 
-    bloons = ast.literal_eval("[[0.0, 1.1], [20.2, 33.0]]")
-    print(bloons)
+    msg_pattern = re.compile("(^\w*MSG)")
+    useless_number_pattern = re.compile("(\d+$)")
 
-    msg = "MESSAGEBloons[0]14\tMESSAGECanShoot[0]12\tMESSAGEDidPop[0]12"
-    print(msg)
+    msg = "MESSAGEBloonsMSG[[-9.34, 2.63]]21\tMESSAGECanShootMSG[" \
+          "0]19\tMESSAGEDidPopMSG[0]"
 
-    splut = msg.split('MESSAGE')
+    messages = msg.split('MESSAGE')
 
-    for i in splut:
-        a = i.strip()
-        print(i)
-        print(a)
+    for real_msg in messages:
+        if real_msg == '':
+            continue
 
-    print(splut)
-    msg_pattern = re.compile("(\d+$)")
+        stripped = real_msg.strip()
+        removed_useless_num = useless_number_pattern.sub(
+            '', stripped)
+        print("removed_useless_num: " + removed_useless_num)
 
-    returned = msg_pattern.sub('', msg)
+        split = msg_pattern.split(removed_useless_num, 1)
 
-    print(returned)
+        if not split:
+            print("Couldn't split")
+            continue
+
+        print("split recieved: " + str(split))
+
+        msg_type = split[1]
+        raw_msg = split[2]
+        data = ast.literal_eval(raw_msg)
+
+        print(data)
 

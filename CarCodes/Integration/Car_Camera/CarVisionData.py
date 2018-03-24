@@ -78,6 +78,9 @@ class CarVisionData:
 
                 messages = msg.split('MESSAGE')
                 for real_msg in messages:
+                    if real_msg == '':
+                        continue
+
                     stripped = real_msg.strip()
                     removed_useless_num = self.useless_number_pattern.sub(
                         '', stripped)
