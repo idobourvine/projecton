@@ -71,10 +71,7 @@ class CarVisionData:
             try:
                 msg = connection.get_msg()
                 if not msg:
-                    print("Continued")
                     continue
-
-                print("msg: " + repr(msg))
 
                 messages = msg.split('MESSAGE')
                 for real_msg in messages:
@@ -84,15 +81,11 @@ class CarVisionData:
                     stripped = real_msg.strip()
                     removed_useless_num = self.useless_number_pattern.sub(
                         '', stripped)
-                    print("removed_useless_num: " + removed_useless_num)
 
                     split = self.msg_pattern.split(removed_useless_num, 1)
 
                     if not split:
-                        print("Couldn't split")
                         continue
-
-                    print("split recieved: " + str(split))
 
                     msg_type = split[1]
                     raw_msg = split[2]
@@ -100,18 +93,14 @@ class CarVisionData:
 
                     if msg_type == "BloonsMSG":
                         self.bloons = data
-                        print("updated bloons")
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
-                        print("updated can shoot")
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-                        print("updated did pop")
 
                     print(str(data))
-
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

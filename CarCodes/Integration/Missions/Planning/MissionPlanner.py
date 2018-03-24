@@ -4,6 +4,7 @@ import Missions.Car.DriveToPoint
 import Missions.SeriesMission
 import Missions.Turret.ClearStandpoint
 import Missions.Turret.MoveTurretByAngle
+import Missions.DoNothingMission
 from Utils.Constants import *
 from Utils.UtilFunctions import *
 
@@ -51,20 +52,11 @@ class MissionPlanner:
         # system initialization to take place
         if not self.current_mission:
             if Constants.use_devices:
-                # time.sleep(10)
-                pass
+                time.sleep(10)
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
             if self.device_map.security_vision_data.continue_mission():
-                print("Testing vision data")
-
-                print("tested bloons: " + str(
-                    self.device_map.car_vision_data.get_bloons()))
-                print("tested bloons: " + str(
-                    self.device_map.car_vision_data.get_can_shoot()))
-                print("tested bloons: " + str(
-                    self.device_map.car_vision_data.get_did_pop()))
 
                 self.current_mission = self.return_next_mission(
                     self.device_map)
@@ -90,8 +82,8 @@ class MissionPlanner:
         curr_bloons = self.device_map.security_vision_data.get_bloons()
 
         if self.mission_state == 0:
-            return None
-            '''
+            # return Missions.DoNothingMission.DoNothingMission()
+
             if not self.entered_state_0:
                 self.entered_state_0 = True
                 # Testing mode
@@ -117,11 +109,8 @@ class MissionPlanner:
                     ilrud0, ilrud1, tzidud0, tzidud1])
 
                 return mis
-
-                return None
             else:
                 return None
-        '''
 
         elif self.mission_state == 1:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(
