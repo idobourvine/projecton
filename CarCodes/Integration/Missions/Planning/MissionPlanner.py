@@ -69,8 +69,8 @@ class MissionPlanner:
                     self.device_map)
 
                 if not self.current_mission:
-                    print("No mission returned, going to sleep 3")
-                    time.sleep(3)
+                    print("No mission returned, going to sleep 0.5")
+                    time.sleep(0.5)
                 else:
                     print("Initiating new mission in mission manager")
                     self.current_mission.start()

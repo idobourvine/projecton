@@ -99,14 +99,17 @@ class CarVisionData:
                     data = ast.literal_eval(raw_msg)
 
                     if msg_type == "BloonsMSG":
+                        del bloons[:]
                         bloons = data
                         print("updated bloons")
 
                     elif msg_type == "CanShootMSG":
+                        del can_shoot
                         can_shoot = data
                         print("updated can shoot")
 
                     elif msg_type == "DidPopMSG":
+                        del did_pop
                         did_pop = data
                         print("updated did pop")
 
