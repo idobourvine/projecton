@@ -93,7 +93,8 @@ class MissionPlanner:
                 print()
                 print("Testing aim at bloon in picture")
 
-                mis = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture()
+                mis = Missions.Turret.AimAtBloonInPicture\
+                    .AimAtBloonInPicture(self.device_map)
 
                 return mis
             else:
