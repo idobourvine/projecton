@@ -31,7 +31,7 @@ def Webcamera(stream, bloons, canShoot, didPop):
             bloons.append(temp[1])
             if len(bloons) > 0:
                 bloons = bloons[0]
-            print bloons
+            #print bloons
             del canShoot[:]
             canShoot.append(temp[0])
             # does so if balloon is popped it will say so for 3 seconds,
@@ -43,7 +43,8 @@ def Webcamera(stream, bloons, canShoot, didPop):
                 didPop.append(GetBalloon.didPop(Image0, Image1))
                 if len(didPop) > 0 and didPop[0] == 1:
                     start_time = time.time()
-
+            # print "can shoot - " + str(canShoot)
+            # print "did pop - " + str(didPop)
             cv2.waitKey(10)
             Image0 = copy.deepcopy(Image1)
 

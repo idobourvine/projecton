@@ -65,7 +65,7 @@ class Connection:
             try:
                 self.socket.settimeout(SEND_TIMEOUT)
                 str_encode = cv2.imencode('.jpg', img)[1].tostring()
-                print('sending img message of size ' + str(len(str_encode)))
+                # print('sending img message of size ' + str(len(str_encode)))
                 self.send_data(str_encode)
             except:
                 print("failed to send image <:-(")

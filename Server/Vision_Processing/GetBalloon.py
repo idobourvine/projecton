@@ -16,6 +16,7 @@ upper_red1 = np.array([255, 220, 255])
 #lower_red1 = np.array([210, 120, 210])
 #upper_red1 = np.array([255, 200, 255])
 MIN_SIZE = 150
+FACTOR_OF_ENLARGEMENT = 1.5
 
 
 def getBall(img):
@@ -145,7 +146,7 @@ def canShoot1(circles):
     """return if you can shoot or not"""
     for circle in circles:
         if (FIXED_PIX[0] - circle[0])**2 + (FIXED_PIX[1] - circle[1])**2 < \
-                circle[2]**2:
+                FACTOR_OF_ENLARGEMENT * circle[2]**2:
             return 1
     return 0
 

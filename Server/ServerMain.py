@@ -18,5 +18,5 @@ if __name__ == "__main__":
         pi_connection.send_msg("BloonsMSG" + str(_bloons))
         pi_connection.send_msg("CanShootMSG" + str(_can_shoot))
         pi_connection.send_msg("DidPopMSG" + str(_did_pop))
-        print "sending..."
-        time.sleep(0.1)
+        # print "sending..."
+        time.sleep(0.5)
