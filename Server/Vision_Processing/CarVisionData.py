@@ -6,7 +6,7 @@ import PiStream
 from BalloonDetection import Webcamera
 
 
-class VisionData:
+class CarVisionData:
     """
     Wrapper class for the data that comes from vision processing
     """
