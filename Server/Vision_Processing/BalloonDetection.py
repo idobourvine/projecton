@@ -17,11 +17,13 @@ def Webcamera(stream, bloons, canShoot, didPop):
 
             if Image0 is None:
                 Image0 = copy.deepcopy(Image1)
-            try:
+
+            '''try:
                 print('showing')
                 cv2.imshow('image', Image1)
             except Exception as e:
-                print(e)
+                print(e)'''
+
             del temp[:]
             temp.append(GetBalloon.getBalloon(Image1))
             temp = temp[0]

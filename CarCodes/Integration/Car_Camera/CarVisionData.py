@@ -53,8 +53,8 @@ class CarVisionData:
         while True:
             if stream.more():
                 next_img = stream.read()
-                cv2.imshow('Kavitz', next_img)
                 connection.send_image(next_img)
+                # cv2.imshow('Kavitz', next_img)
                 cv2.waitKey(150)
                 
     def read_messages(self, connection):
