@@ -56,8 +56,14 @@ class MissionPlanner:
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
             if self.device_map.security_vision_data.continue_mission():
+                print("Testing vision data")
+                print(self.device_map.car_vision_data.get_bloons)
+                print(self.device_map.car_vision_data.get_can_shoot)
+                print(self.device_map.car_vision_data.get_did_pop)
+
                 self.current_mission = self.return_next_mission(
                     self.device_map)
+
                 if not self.current_mission:
                     print("No mission returned, going to sleep 3")
                     time.sleep(3)

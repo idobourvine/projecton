@@ -1,18 +1,20 @@
+import ast
+import copy
+import re
 import threading
 import time
 
-from BloonDetection import Webcamera
-import WebcamStream
 import cv2
-import copy
-import collections
-
 from Utils.Constants import *
+
+import WebcamStream
+
 
 class CarVisionData:
     """
     Wrapper class for the data that comes from vision processing
     """
+
     def __init__(self, connection):
         self.bloons = []  # Array of balloons detected by vision processing
         self.can_shoot = [0]
@@ -22,23 +24,29 @@ class CarVisionData:
 
         self.connection = connection
 
-        self.eg1 = threading.Thread(target=self.send_images,
-                                    args=(self.connection, self.stream))  # Thread that runs
-        self.eg1.start()
+        self.send_images_thread = threading.Thread(target=self.send_images,
+                                                   args=(self.connection,
+                                                         self.stream))  # Thread that runs
+        self.send_images_thread.start()
 
-        self.eg2 = threading.Thread(target=self.read_messages,
-                                    args=(self.connection,))  # Thread that
-        self.eg2.start()
-        # runs
+        self.parse_messages_thread = threading.Thread(
+            target=self.read_messages,
+            args=(self.connection,
+                  self.bloons,
+                  self.can_shoot,
+                  self.did_pop))
+        self.parse_messages_thread.start()
+
+        self.msg_pattern = re.compile("(^\w*MSG)")
 
     def get_bloons(self):
-        return []
+        return copy.deepcopy(self.bloons)
 
     def get_can_shoot(self):
-        return []
+        return copy.deepcopy(self.can_shoot)
 
     def get_did_pop(self):
-        return []
+        return copy.deepcopy(self.did_pop)
 
     def continue_mission(self):
         """
@@ -49,20 +57,44 @@ class CarVisionData:
 
     def send_images(self, connection, stream):
         time.sleep(5)
-        
+
         while True:
             if stream.more():
                 next_img = stream.read()
                 connection.send_image(next_img)
                 # cv2.imshow('Kavitz', next_img)
                 cv2.waitKey(150)
-                
-    def read_messages(self, connection):
+
+    def read_messages(self, connection, bloons, can_shoot, did_pop):
         while True:
             try:
                 msg = connection.get_msg()
                 if msg:
-                    print(str(msg))
+                    # print(str(msg))
+                    split = self.msg_pattern.split(msg, 1)
+                    if not split:
+                        print("Couldn't split")
+                        break
+
+                    msg_type = split[1]
+                    raw_msg = split[2]
+                    data = ast.literal_eval(raw_msg)
+
+                    if type == "BloonsMSG":
+                        bloons = data
+                        print("updated bloons")
+
+                    elif type == "CanShootMSG":
+                        can_shoot = data
+                        print("updated can shoot")
+
+                    elif type == "DidPopMSG":
+                        did_pop = data
+                        print("updated did pop")
+
+                    print(str(data))
+
+
             except Exception as e:
                 print("EXCEPTION CAUGHT")
                 print(e)
