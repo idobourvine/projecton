@@ -74,8 +74,10 @@ class CarVisionData:
                     continue
                 messages = msg.split()
                 for real_msg in messages:
+                    print("real_msg: " + real_msg)
                     removed_useless_num = self.useless_number_pattern.sub(
                         '', real_msg)
+                    print("removed_useless_num: " + removed_useless_num)
 
                     split = self.msg_pattern.split(removed_useless_num, 1)
 
