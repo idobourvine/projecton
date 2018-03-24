@@ -72,6 +72,8 @@ class CarVisionData:
                 msg = connection.get_msg()
                 if not msg:
                     continue
+                print("msg: " + msg)
+
                 messages = msg.split('MESSAGE')
                 for real_msg in messages:
                     stripped = real_msg.strip()
