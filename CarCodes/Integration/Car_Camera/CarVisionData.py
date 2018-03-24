@@ -74,24 +74,30 @@ class CarVisionData:
                     continue
                 messages = msg.split()
                 for real_msg in messages:
-                    split = self.msg_pattern.split(real_msg, 1)
+                    removed_useless_num = self.useless_number_pattern.sub(
+                        '', real_msg)
+
+                    split = self.msg_pattern.split(removed_useless_num, 1)
+
                     if not split:
                         print("Couldn't split")
                         continue
+
                     print("split recieved: " + str(split))
+
                     msg_type = split[1]
                     raw_msg = split[2]
                     data = ast.literal_eval(raw_msg)
 
-                    if type == "BloonsMSG":
+                    if msg_type == "BloonsMSG":
                         bloons = data
                         print("updated bloons")
 
-                    elif type == "CanShootMSG":
+                    elif msg_type == "CanShootMSG":
                         can_shoot = data
                         print("updated can shoot")
 
-                    elif type == "DidPopMSG":
+                    elif msg_type == "DidPopMSG":
                         did_pop = data
                         print("updated did pop")
 
