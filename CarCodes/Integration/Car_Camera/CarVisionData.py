@@ -38,7 +38,7 @@ class CarVisionData:
         self.parse_messages_thread.start()
 
         self.msg_pattern = re.compile("(^\w*MSG)")
-        self.useless_number_pattern = re.compile("\d+$")
+        self.useless_number_pattern = re.compile("(\d+$)")
 
     def get_bloons(self):
         return copy.deepcopy(self.bloons)
