@@ -1,10 +1,11 @@
 import time
 
 import Missions.Car.DriveToPoint
+import Missions.DoNothingMission
 import Missions.SeriesMission
+import Missions.Turret.AimAtBloonInPicture
 import Missions.Turret.ClearStandpoint
 import Missions.Turret.MoveTurretByAngle
-import Missions.DoNothingMission
 from Utils.Constants import *
 from Utils.UtilFunctions import *
 
@@ -89,24 +90,10 @@ class MissionPlanner:
                 # Testing mode
 
                 print("Running tests")
-
                 print()
-                print("Testing Ilrud -45, Ilrud 10, Tzidud -90, Tzidud 30")
+                print("Testing aim at bloon in picture")
 
-                ilrud0 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 0, -45)
-
-                ilrud1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 0, 10)
-
-                tzidud0 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -90, 0)
-
-                tzidud1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 30, 0)
-
-                mis = Missions.SeriesMission.SeriesMission([
-                    ilrud0, ilrud1, tzidud0, tzidud1])
+                mis = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture()
 
                 return mis
             else:

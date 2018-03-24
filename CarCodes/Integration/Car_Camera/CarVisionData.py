@@ -63,7 +63,9 @@ class CarVisionData:
             if stream.more():
                 next_img = stream.read()
                 connection.send_image(next_img)
-                # cv2.imshow('Kavitz', next_img)
+
+                cv2.imshow('Kavitz', next_img)
+
                 cv2.waitKey(150)
 
     def read_messages(self, connection, bloons, can_shoot, did_pop):
@@ -93,14 +95,15 @@ class CarVisionData:
 
                     if msg_type == "BloonsMSG":
                         self.bloons = data
+                        print("Data from pi: bloons: " + str(data))
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
+                        print("Data from pi: can shoot: " + str(data))
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-
-                    print(str(data))
+                        print("Data from pi: did pop: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")
