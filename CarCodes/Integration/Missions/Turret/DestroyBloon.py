@@ -9,7 +9,7 @@ import Missions.Mission
 sys.path.append('..')
 
 
-class DestroyBalloon(Missions.Mission.Mission):
+class DestroyBloon(Missions.Mission.Mission):
     def __init__(self, device_map):
         Missions.Mission.Mission.__init__(self)
 

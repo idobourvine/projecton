@@ -4,7 +4,7 @@ Mission that aims at closest bloon to the center of car camera
 import sys
 import time
 
-import DestroyBloon
+import Missions.Turret.DestroyBloon
 import Missions.Mission
 
 sys.path.append('..')
@@ -20,7 +20,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         self.azimuth_motor = device_map.azimuth_motor
         self.pitch_motor = device_map.pitch_motor
 
-        self.shoot = DestroyBloon.DestroyBloon(device_map)
+        self.shoot = Missions.Turret.DestroyBloon.DestroyBloon(device_map)
         # Variables for execute loop
         self.min_bloon = None
         self.min_dist = 100000
