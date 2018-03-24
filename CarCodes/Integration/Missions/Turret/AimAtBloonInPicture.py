@@ -54,7 +54,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         Code that happens periodically
         :return:
         """
-        a = self.vision_data.get_hostile_bloons()
+        a = self.vision_data.get_bloons()
         if a:  # Might be empty if no bloons were detected
             inner = a[0]
             if inner:  # Will be empty if no bloons were detected
