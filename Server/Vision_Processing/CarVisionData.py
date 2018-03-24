@@ -33,6 +33,7 @@ class CarVisionData:
         pairs = []
         for i in range(int(len(temp) / 2)):
             pairs.append([temp[2 * i], temp[2 * i + 1]])
+        # self.bloons = temp
         return pairs
 
     def get_can_shoot(self):

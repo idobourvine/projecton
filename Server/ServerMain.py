@@ -17,14 +17,14 @@ if __name__ == "__main__":
         car_bloons = car_vision_data.get_bloons()
         can_shoot = car_vision_data.get_can_shoot()
         did_pop = car_vision_data.get_did_pop()
-        room_bloons = security_vision_data.get_bloons()
 
+        room_bloons = security_vision_data.get_bloons()
         continue_mission = len(room_bloons) > 0
 
-        pi_connection.send_msg("CarBloonsMSG" + str(car_bloons))
-        pi_connection.send_msg("CanShootMSG" + str(can_shoot))
-        pi_connection.send_msg("DidPopMSG" + str(did_pop))
-        pi_connection.send_msg("RoomBloonsMSG" + str(room_bloons))
-        pi_connection.send_msg("ContinueMissionMSG" + str(continue_mission))
+        pi_connection.send_msg("MESSAGEBCarBloonsMSG" + str(car_bloons))
+        pi_connection.send_msg("MESSAGEBCanShootMSG" + str(can_shoot))
+        pi_connection.send_msg("MESSAGEBDidPopMSG" + str(did_pop))
+        pi_connection.send_msg("MESSAGEBRoomBloonsMSG" + str(room_bloons))
+        pi_connection.send_msg("MESSAGEBContinueMissionMSG" + str(continue_mission))
         # print "sending..."
         time.sleep(0.5)

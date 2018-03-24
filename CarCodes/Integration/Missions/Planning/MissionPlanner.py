@@ -1,7 +1,9 @@
 import time
 
 import Missions.Car.DriveToPoint
+import Missions.DoNothingMission
 import Missions.SeriesMission
+import Missions.Turret.AimAtBloonInPicture
 import Missions.Turret.ClearStandpoint
 import Missions.Turret.MoveTurretByAngle
 from Utils.Constants import *
@@ -56,22 +58,11 @@ class MissionPlanner:
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
             if self.device_map.security_vision_data.continue_mission():
-                print("Testing vision data")
-
-                print("tested bloons: " + str(
-                    self.device_map.car_vision_data.get_bloons()))
-                print("tested bloons: " + str(
-                    self.device_map.car_vision_data.get_can_shoot()))
-                print("tested bloons: " + str(
-                    self.device_map.car_vision_data.get_did_pop()))
 
                 self.current_mission = self.return_next_mission(
                     self.device_map)
 
-                if not self.current_mission:
-                    print("No mission returned, going to sleep 3")
-                    time.sleep(3)
-                else:
+                if self.current_mission:
                     print("Initiating new mission in mission manager")
                     self.current_mission.start()
 
@@ -89,36 +80,23 @@ class MissionPlanner:
         :return: A new mission to perform
         """
         curr_position = self.device_map.security_vision_data.get_car_position()
-        curr_bloons = self.device_map.security_vision_data.get_bloons()
+        curr_bloons = self.device_map.security_vision_data.get_car_bloons()
 
         if self.mission_state == 0:
+            # return Missions.DoNothingMission.DoNothingMission()
+
             if not self.entered_state_0:
                 self.entered_state_0 = True
                 # Testing mode
-                '''
+
                 print("Running tests")
-
                 print()
-                print("Testing Ilrud -45, Ilrud 10, Tzidud -90, Tzidud 30")
+                print("Testing aim at bloon in picture")
 
-                ilrud0 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 0, -45)
-
-                ilrud1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 0, 10)
-
-                tzidud0 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -90, 0)
-
-                tzidud1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 30, 0)
-
-                mis = Missions.SeriesMission.SeriesMission([
-                    ilrud0, ilrud1, tzidud0, tzidud1])
+                mis = Missions.Turret.AimAtBloonInPicture\
+                    .AimAtBloonInPicture(self.device_map)
 
                 return mis
-                '''
-                return None
             else:
                 return None
 

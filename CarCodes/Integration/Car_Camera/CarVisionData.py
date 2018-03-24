@@ -16,9 +16,12 @@ class CarVisionData:
     """
 
     def __init__(self, connection):
-        self.bloons = []  # Array of balloons detected by vision processing
+        self.car_bloons = []  # Array of balloons detected by vision processing
         self.can_shoot = [0]
         self.did_pop = [0]
+
+        self.room_bloons = []
+        self.continue_mission = True
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
@@ -31,17 +34,14 @@ class CarVisionData:
 
         self.parse_messages_thread = threading.Thread(
             target=self.read_messages,
-            args=(self.connection,
-                  self.bloons,
-                  self.can_shoot,
-                  self.did_pop))
+            args=(self.connection,))
         self.parse_messages_thread.start()
 
         self.msg_pattern = re.compile("(^\w*MSG)")
-        self.useless_number_pattern = re.compile("\d+$")
+        self.useless_number_pattern = re.compile("(\d+$)")
 
-    def get_bloons(self):
-        return copy.deepcopy(self.bloons)
+    def get_car_bloons(self):
+        return copy.deepcopy(self.car_bloons)
 
     def get_can_shoot(self):
         return copy.deepcopy(self.can_shoot)
@@ -63,40 +63,55 @@ class CarVisionData:
             if stream.more():
                 next_img = stream.read()
                 connection.send_image(next_img)
-                # cv2.imshow('Kavitz', next_img)
+
+                cv2.imshow('Kavitz', next_img)
+
                 cv2.waitKey(150)
 
-    def read_messages(self, connection, bloons, can_shoot, did_pop):
+    def read_messages(self, connection):
         while True:
             try:
                 msg = connection.get_msg()
                 if not msg:
                     continue
-                messages = msg.split()
+
+                messages = msg.split('MESSAGE')
                 for real_msg in messages:
-                    split = self.msg_pattern.split(real_msg, 1)
-                    if not split:
-                        print("Couldn't split")
+                    if real_msg == '':
                         continue
-                    print("split recieved: " + str(split))
+
+                    stripped = real_msg.strip()
+                    removed_useless_num = self.useless_number_pattern.sub(
+                        '', stripped)
+
+                    split = self.msg_pattern.split(removed_useless_num, 1)
+
+                    if not split:
+                        continue
+
                     msg_type = split[1]
                     raw_msg = split[2]
                     data = ast.literal_eval(raw_msg)
 
-                    if type == "BloonsMSG":
-                        bloons = data
-                        print("updated bloons")
+                    if msg_type == "CarBloonsMSG":
+                        self.car_bloons = data
+                        print("Data from pi: bloons: " + str(data))
 
-                    elif type == "CanShootMSG":
-                        can_shoot = data
-                        print("updated can shoot")
+                    elif msg_type == "CanShootMSG":
+                        self.can_shoot = data
+                        print("Data from pi: can shoot: " + str(data))
 
-                    elif type == "DidPopMSG":
-                        did_pop = data
-                        print("updated did pop")
+                    elif msg_type == "DidPopMSG":
+                        self.did_pop = data
+                        print("Data from pi: did pop: " + str(data))
 
-                    print(str(data))
+                    elif msg_type == "RoomBloonsMSG":
+                        self.room_bloons = data
+                        print("Data from pi: room bloons: " + str(data))
 
+                    elif msg_type == "ContinueMissionMSG":
+                        self.continue_mission = data
+                        print("Data from pi: continue mission: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

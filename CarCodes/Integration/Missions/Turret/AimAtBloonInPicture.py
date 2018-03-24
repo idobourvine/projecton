@@ -4,7 +4,7 @@ Mission that aims at closest bloon to the center of car camera
 import sys
 import time
 
-import DestroyBloon
+import Missions.Turret.DestroyBloon
 import Missions.Mission
 
 sys.path.append('..')
@@ -14,13 +14,13 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
     def __init__(self, device_map):
         Missions.Mission.Mission.__init__(self)  # Critical line in every mission
 
-        self.vision_data = device_map.vision_data
+        self.vision_data = device_map.car_vision_data
 
         # runs
         self.azimuth_motor = device_map.azimuth_motor
         self.pitch_motor = device_map.pitch_motor
 
-        self.shoot = DestroyBloon.DestroyBloon(device_map)
+        self.shoot = Missions.Turret.DestroyBloon.DestroyBloon(device_map)
         # Variables for execute loop
         self.min_bloon = None
         self.min_dist = 100000
@@ -54,61 +54,61 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         Code that happens periodically
         :return:
         """
-        a = self.vision_data.get_hostile_bloons()
+        a = self.vision_data.get_car_bloons()
         if a:  # Might be empty if no bloons were detected
-            inner = a[0]
-            if inner:  # Will be empty if no bloons were detected
-                self.min_bloon = None  # Object of the bloon that is
-                # closest to the center of the picture
-                self.min_dist = 100000  # just some big number
+            self.min_bloon = None  # Object of the bloon that is
+            # closest to the center of the picture
+            self.min_dist = 100000  # just some big number
 
-                # Loop that finds the min_bloon from the bloons array
-                for bloon in inner:
-                    dist = bloon[0] ** 2 + bloon[1] ** 2
-                    if dist < self.min_dist:
-                        self.min_dist = dist
-                        self.min_bloon = bloon
-                if self.min_bloon:
-                    azimuth_angle_to_send = self.min_bloon[0]
-                    pitch_angle_to_send = self.min_bloon[1]
+            # Loop that finds the min_bloon from the bloons array
+            for bloon in a:
+                dist = bloon[0] ** 2 + bloon[1] ** 2
+                if dist < self.min_dist:
+                    self.min_dist = dist
+                    self.min_bloon = bloon
+            if self.min_bloon:
+                azimuth_angle_to_send = self.min_bloon[0]
 
-                    # This should be log
-                    print("angles to send (azimuth, pitch): ({}, " \
-                          "{})".format(azimuth_angle_to_send,
-                                       pitch_angle_to_send))
+                pitch_angle_to_send = -self.min_bloon[1]  # Pitch motor is
+                # in reverse direction
 
-                    # Sends angle to arduino, is the angle is small, gives a
-                    #  smaller angle
-                    """if 1 < abs(azimuth_angle_to_send) < 3:
-                        azimuth_angle_to_send *= 0.25
-                    elif 0.1 < abs(azimuth_angle_to_send) < 1:
-                        azimuth_angle_to_send =
-                        0.2*azimuth_angle_to_send/abs(
-                            azimuth_angle_to_send)
-                    elif abs(azimuth_angle_to_send) < 0.1:
-                        azimuth_angle_to_send = 0
-                    if 1 < abs(pitch_angle_to_send) < 3:
-                        pitch_angle_to_send *= 0.25
-                    elif abs(pitch_angle_to_send) < 1:
-                        pitch_angle_to_send = 0.2*pitch_angle_to_send / abs(
-                            pitch_angle_to_send)
-                            """
-                    if 1 <= abs(azimuth_angle_to_send) <= 3:
-                        azimuth_angle_to_send *= 0.25
-                    elif abs(azimuth_angle_to_send) < 1:
-                        azimuth_angle_to_send = 0.2 * azimuth_angle_to_send \
-                                                / abs(
-                            azimuth_angle_to_send)
-                    if 1 <= abs(pitch_angle_to_send) <= 3:
-                        pitch_angle_to_send *= 0.25
-                    elif abs(pitch_angle_to_send) < 1:
-                        pitch_angle_to_send = 0.2 * pitch_angle_to_send / \
-                                              abs(
-                                                  pitch_angle_to_send)
-                    self.azimuth_motor.send(azimuth_angle_to_send, False,
-                                            True)
-                    self.pitch_motor.send(pitch_angle_to_send, False, True)
-                    time.sleep(2)
+                # This should be log
+                print("angles to send (azimuth, pitch): ({}, " \
+                      "{})".format(azimuth_angle_to_send,
+                                   pitch_angle_to_send))
+
+                # Sends angle to arduino, is the angle is small, gives a
+                #  smaller angle
+                """if 1 < abs(azimuth_angle_to_send) < 3:
+                    azimuth_angle_to_send *= 0.25
+                elif 0.1 < abs(azimuth_angle_to_send) < 1:
+                    azimuth_angle_to_send =
+                    0.2*azimuth_angle_to_send/abs(
+                        azimuth_angle_to_send)
+                elif abs(azimuth_angle_to_send) < 0.1:
+                    azimuth_angle_to_send = 0
+                if 1 < abs(pitch_angle_to_send) < 3:
+                    pitch_angle_to_send *= 0.25
+                elif abs(pitch_angle_to_send) < 1:
+                    pitch_angle_to_send = 0.2*pitch_angle_to_send / abs(
+                        pitch_angle_to_send)
+                        """
+                if 1 <= abs(azimuth_angle_to_send) <= 3:
+                    azimuth_angle_to_send *= 0.25
+                elif abs(azimuth_angle_to_send) < 1:
+                    azimuth_angle_to_send = 0.2 * azimuth_angle_to_send \
+                                            / abs(
+                        azimuth_angle_to_send)
+                if 1 <= abs(pitch_angle_to_send) <= 3:
+                    pitch_angle_to_send *= 0.25
+                elif abs(pitch_angle_to_send) < 1:
+                    pitch_angle_to_send = 0.2 * pitch_angle_to_send / \
+                                          abs(
+                                              pitch_angle_to_send)
+                self.azimuth_motor.send(azimuth_angle_to_send, False,
+                                        True)
+                self.pitch_motor.send(pitch_angle_to_send, False, True)
+                time.sleep(2.5)
         if self.is_finished():
             self.kill()
 
