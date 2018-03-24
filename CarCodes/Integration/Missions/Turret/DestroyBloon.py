@@ -17,7 +17,7 @@ class DestroyBalloon(Missions.Mission.Mission):
         self.new_time = 0
 
         self.laser_pointer = device_map.pitch_motor
-        self.vision_data = device_map.vision_data
+        self.vision_data = device_map.car_vision_data
 
     def initialize(self):
         self.old_time = time.time()

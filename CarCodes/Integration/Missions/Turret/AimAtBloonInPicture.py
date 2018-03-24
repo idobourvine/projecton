@@ -14,7 +14,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
     def __init__(self, device_map):
         Missions.Mission.Mission.__init__(self)  # Critical line in every mission
 
-        self.vision_data = device_map.vision_data
+        self.vision_data = device_map.car_vision_data
 
         # runs
         self.azimuth_motor = device_map.azimuth_motor
