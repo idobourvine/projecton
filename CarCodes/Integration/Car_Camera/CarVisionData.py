@@ -49,6 +49,12 @@ class CarVisionData:
     def get_did_pop(self):
         return copy.deepcopy(self.did_pop)
 
+    def get_room_bloons(self):
+        return copy.deepcopy(self.room_bloons)
+
+    def get_continue_mission(self):
+        return copy.deepcopy(self.continue_mission)
+
     def continue_mission(self):
         """
         Should return whether there are more balloons to pop in the room

@@ -91,12 +91,15 @@ class MissionPlanner:
 
                 print("Running tests")
                 print()
+                '''
                 print("Testing aim at bloon in picture")
 
                 mis = Missions.Turret.AimAtBloonInPicture\
                     .AimAtBloonInPicture(self.device_map)
 
                 return mis
+                '''
+                return None
             else:
                 return None
 
