@@ -51,7 +51,8 @@ class MissionPlanner:
         # system initialization to take place
         if not self.current_mission:
             if Constants.use_devices:
-                time.sleep(10)
+                # time.sleep(10)
+                pass
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
@@ -68,10 +69,7 @@ class MissionPlanner:
                 self.current_mission = self.return_next_mission(
                     self.device_map)
 
-                if not self.current_mission:
-                    print("No mission returned, going to sleep 0.5")
-                    time.sleep(0.5)
-                else:
+                if self.current_mission:
                     print("Initiating new mission in mission manager")
                     self.current_mission.start()
 
@@ -92,10 +90,12 @@ class MissionPlanner:
         curr_bloons = self.device_map.security_vision_data.get_bloons()
 
         if self.mission_state == 0:
+            return None
+            '''
             if not self.entered_state_0:
                 self.entered_state_0 = True
                 # Testing mode
-                '''
+
                 print("Running tests")
 
                 print()
@@ -117,10 +117,11 @@ class MissionPlanner:
                     ilrud0, ilrud1, tzidud0, tzidud1])
 
                 return mis
-                '''
+
                 return None
             else:
                 return None
+        '''
 
         elif self.mission_state == 1:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(
