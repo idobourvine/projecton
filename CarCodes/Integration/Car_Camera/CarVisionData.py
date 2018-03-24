@@ -38,6 +38,7 @@ class CarVisionData:
         self.parse_messages_thread.start()
 
         self.msg_pattern = re.compile("(^\w*MSG)")
+        self.useless_number_pattern = re.compile("\d+$")
 
     def get_bloons(self):
         return copy.deepcopy(self.bloons)
@@ -69,11 +70,14 @@ class CarVisionData:
         while True:
             try:
                 msg = connection.get_msg()
-                if msg:
-                    split = self.msg_pattern.split(msg, 1)
+                if not msg:
+                    continue
+                messages = msg.split()
+                for real_msg in messages:
+                    split = self.msg_pattern.split(real_msg, 1)
                     if not split:
                         print("Couldn't split")
-                        break
+                        continue
                     print("split recieved: " + str(split))
                     msg_type = split[1]
                     raw_msg = split[2]
