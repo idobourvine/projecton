@@ -27,7 +27,7 @@ class CarVisionData:
 
         self.connection = connection
 
-        self.send_images_thread = threading.Thread(target=self.send_images,
+        self.send_images_thread = threading.Thread(target=self.send_messages,
                                                    args=(self.connection,
                                                          self.stream))  # Thread that runs
         self.send_images_thread.start()
@@ -39,6 +39,9 @@ class CarVisionData:
 
         self.msg_pattern = re.compile("(^\w*MSG)")
         self.useless_number_pattern = re.compile("(\d+$)")
+
+        self.process_car_vision = True
+        self.process_security_vision = True
 
     def get_car_bloons(self):
         return copy.deepcopy(self.car_bloons)
@@ -62,8 +65,21 @@ class CarVisionData:
         """
         return True
 
-    def send_images(self, connection, stream):
+    def set_process_car_vision(self, bool):
+        self.process_car_vision = bool
+
+    def set_process_security_vision(self, bool):
+        self.process_security_vision = bool
+
+    def send_messages(self, connection, stream):
         time.sleep(5)
+
+        # Sending relevant processes types
+        connection.send_msg(
+            "MESSAGEProcessCarVisionMSG" + str(self.process_car_vision))
+        connection.send_msg(
+            "MESSAGEProcessSecurityVisionMSG" + str(
+                self.process_security_vision))
 
         while True:
             if stream.more():
@@ -101,23 +117,23 @@ class CarVisionData:
 
                     if msg_type == "CarBloonsMSG":
                         self.car_bloons = data
-                        print("Data from pi: bloons: " + str(data))
+                        print("Data from server: bloons: " + str(data))
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
-                        print("Data from pi: can shoot: " + str(data))
+                        print("Data from server: can shoot: " + str(data))
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-                        print("Data from pi: did pop: " + str(data))
+                        print("Data from server: did pop: " + str(data))
 
                     elif msg_type == "RoomBloonsMSG":
                         self.room_bloons = data
-                        print("Data from pi: room bloons: " + str(data))
+                        print("Data from server: room bloons: " + str(data))
 
                     elif msg_type == "ContinueMissionMSG":
                         self.continue_mission = data
-                        print("Data from pi: continue mission: " + str(data))
+                        print("Data from server: continue mission: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

@@ -175,9 +175,11 @@ def getBalloon(img):
     can_shoot = canShoot1(bloons)
     angles = []
     for bloon in bloons:
+        # cv2.circle(img, (bloon[0], bloon[1]), bloon[2], (0, 255, 0), 4)
         bloon[0] = (bloon[0] - px/2) / px
         bloon[1] = (py/2 - bloon[1]) / py
         angles.append([bloon[0] * hor, bloon[1] * ver])
+    # cv2.imshow("image", img)
     return [can_shoot, angles]
 
 
@@ -189,12 +191,14 @@ def getEnemiesSec(img):
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRed(img, bloons[i]):
-            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
-                                                                         255, 0), 4)
-            cv2.imshow("image", img)
+            # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
+            #
+            # 255, 0), 4)
+            # cv2.imshow("image", img)
             cv2.waitKey(100)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
+    # cv2.imshow("image", img)
     return [red_bloons, red_sizes]
 
 
@@ -206,8 +210,13 @@ def getEnemies(img):
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRedSec(img, bloons[i]):
+            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
+                                                                        255, 0), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
+    cv2.imshow("image", img)
+    cv2.waitKey(2000)
+    cv2.destroyAllWindows()
     return [red_bloons, red_sizes]
 
 

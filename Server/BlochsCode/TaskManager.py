@@ -63,9 +63,10 @@ def getCarLocation():
 
 def getTargets():
     """return 3D points in space of the targets"""
-
     cams = CAMS
     for cam in cams:
+        cam.resetTargets()
+        cam.resetSizes()
         image = cam.getImage()
         bloons, sizes = Vision_Processing.GetBalloon.getEnemies(image)
         points = []

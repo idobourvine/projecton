@@ -12,12 +12,18 @@ class SecurityVisionData():
         self.process_thread.start()
 
         self.started = False
+        self.working = True
+
+    def set_working(self, to_set):
+        self.working = to_set
 
     def process(self):
         startCams()
         self.started = True
         while True:
-            self.bloons = getTargets()
+            if self.working:
+                print("Processing security vision data")
+                self.bloons = getTargets()
             time.sleep(0.1)
 
     def get_started(self):

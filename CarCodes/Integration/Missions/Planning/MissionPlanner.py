@@ -53,7 +53,21 @@ class MissionPlanner:
         # system initialization to take place
         if not self.current_mission:
             if Constants.use_devices:
-                time.sleep(10)
+
+                new_car_bool = \
+                    not self.device_map.car_vision_data.process_car_vision
+                new_security_bool = not \
+                    self.device_map.car_vision_data.process_security_vision
+
+                print("new bools: " + str((new_car_bool, new_security_bool)))
+
+                self.device_map.car_vision_data.set_process_car_vision(
+                    new_car_bool)
+                self.device_map.car_vision_data.set_process_car_vision(
+                    new_security_bool)
+
+                print("Going to sleep")
+                time.sleep(5)
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():

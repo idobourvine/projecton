@@ -73,6 +73,12 @@ class Cam:
         """adding a size of target to the sizes list"""
         self.sizes.append(point)
 
+    def resetTargets(self):
+        self.targets = []
+
+    def resetSizes(self):
+        self.sizes = []
+
     def closestTarget(self, line):
         """a function that finds the closest target to a 2D line in the
         image plane. returns both the target and it's distance from the line"""
