@@ -1,7 +1,6 @@
 import collections
 import copy
 import threading
-import WebcamStream
 import PiStream
 import BalloonDetection
 
@@ -16,7 +15,8 @@ class CarVisionData:
         self.did_pop = [0]
 
         self.connection = connection
-        self.stream = WebcamStream.WebcamStream(queueSize=2).start()
+        self.stream = PiStream.PiStream(connection=self.connection,
+                                        queueSize=2).start()
         print("Started image stream from pi")
 
         self.eg1 = threading.Thread(target=BalloonDetection.Webcamera,

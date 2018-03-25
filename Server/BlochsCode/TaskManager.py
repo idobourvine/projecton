@@ -4,7 +4,7 @@ import copy
 # import GetBalloonOld
 import Line
 import Cam
-import GetBalloon
+import Vision_Processing.GetBalloon
 import math
 from sympy.solvers import solve
 from sympy import Symbol
@@ -67,7 +67,7 @@ def getTargets():
     cams = CAMS
     for cam in cams:
         image = cam.getImage()
-        bloons, sizes = GetBalloon.getEnemies(image)
+        bloons, sizes = Vision_Processing.GetBalloon.getEnemies(image)
         points = []
         for bloon in bloons:
             points.append(np.array([bloon[0], bloon[1]]))
@@ -85,7 +85,7 @@ def getInnocents():
     cams = CAMS
     for cam in cams:
         image = cam.getImage()
-        bloons, sizes = GetBalloon.getFriends(image)
+        bloons, sizes = Vision_Processing.GetBalloon.getFriends(image)
         points = []
         for bloon in bloons:
             points.append(np.array([bloon[0], bloon[1]]))
@@ -106,14 +106,14 @@ def getImage(cam):
 def didPop(img1, img2):
     """return true if balloon popped, false otherwise"""
 
-    return GetBalloon.didPop(img1, img2, True)
+    return Vision_Processing.GetBalloon.didPop(img1, img2, True)
 
 
 def getAngles():
     img = cv2.imread("pi.jpg")
-    return GetBalloon.getAngles(img, True)
+    return Vision_Processing.GetBalloon.getAngles(img, True)
 
 
 def getAnglesFriend():
     img = cv2.imread("pi.jpg")
-    return GetBalloon.getAnglesFriend(img, True)
+    return Vision_Processing.GetBalloon.getAnglesFriend(img, True)

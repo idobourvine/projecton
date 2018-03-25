@@ -40,8 +40,8 @@ class Cam:
         next_im = self.stream.read()
 
         # For showing
-        cv2.imshow(str(self.Id), next_im)
-        cv2.waitKey(100)
+        # cv2.imshow(str(self.Id), next_im)
+        # cv2.waitKey(100)
 
         return next_im
 
