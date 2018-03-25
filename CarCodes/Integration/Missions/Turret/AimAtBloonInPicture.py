@@ -103,7 +103,8 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                 elif abs(pitch_angle_to_send) < 1:
                     pitch_angle_to_send = 0.2*pitch_angle_to_send / abs(
                         pitch_angle_to_send)
-                        """
+                       """
+                '''
                 if 1 <= abs(azimuth_angle_to_send) <= 3:
                     azimuth_angle_to_send *= 0.25
                 elif abs(azimuth_angle_to_send) < 1:
@@ -116,6 +117,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                     pitch_angle_to_send = 0.2 * pitch_angle_to_send / \
                                           abs(
                                               pitch_angle_to_send)
+                '''
                 self.azimuth_motor.send(azimuth_angle_to_send, False,
                                         True)
                 self.pitch_motor.send(pitch_angle_to_send, False, True)
