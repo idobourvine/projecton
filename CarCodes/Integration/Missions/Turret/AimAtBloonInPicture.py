@@ -7,6 +7,8 @@ import time
 import Missions.Turret.DestroyBloon
 import Missions.Mission
 
+import collections
+
 sys.path.append('..')
 
 
@@ -61,6 +63,15 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
             self.min_dist = 100000  # just some big number
 
             # Loop that finds the min_bloon from the bloons array
+
+            if not isinstance(a, collections.Iterable):
+                return
+
+            # Flatten code in vision_data on the server ruins the format if 
+            # there is only one balloon
+            if not isinstance(a[0], collections.Iterable):
+                a = [a]
+
             for bloon in a:
                 dist = bloon[0] ** 2 + bloon[1] ** 2
                 if dist < self.min_dist:
