@@ -182,24 +182,26 @@ def getBalloon(img):
 
 
 def getEnemiesSec(img):
-    """returns a list of enemy balloons and their sizes in image"""
+    """returns a list of enemy balloons and their sizes in image works for
+    the car camera!!"""
     red_bloons = []
     red_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if isRedSec(img, bloons[i]):
+        if isRed(img, bloons[i]):
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
     return [red_bloons, red_sizes]
 
 
 def getEnemies(img):
-    """returns a list of enemy balloons and their sizes in image"""
+    """returns a list of enemy balloons and their sizes in image works for
+    the security cameras!!!"""
     red_bloons = []
     red_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if isRed(img, bloons[i]):
+        if isRedSec(img, bloons[i]):
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
     return [red_bloons, red_sizes]
