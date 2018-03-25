@@ -96,17 +96,15 @@ class MissionPlanner:
                 print("Testing aim at preset angles, then aim at bloon in "
                       "picture")
 
-                mis1 = Missions.Turret.MoveTurretByAngle(self.device_map,
-                                                         30, 20)
+                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, 30, 20)
 
-                mis2 = Missions.Turret.AimAtBloonInPicture\
+                mis2 = Missions.Turret.AimAtBloonInPicture \
                     .AimAtBloonInPicture(self.device_map)
 
                 mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
 
                 return mis
-
-                return None
             else:
                 return None
 
