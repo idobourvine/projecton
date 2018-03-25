@@ -1,10 +1,9 @@
 import collections
 import copy
 import threading
-
+import WebcamStream
 import PiStream
-from BalloonDetection import Webcamera
-
+import BalloonDetection
 
 class CarVisionData:
     """
@@ -17,10 +16,10 @@ class CarVisionData:
         self.did_pop = [0]
 
         self.connection = connection
-        self.stream = PiStream.PiStream(self.connection, queueSize=2).start()
+        self.stream = WebcamStream.WebcamStream(queueSize=2).start()
         print("Started image stream from pi")
 
-        self.eg1 = threading.Thread(target=Webcamera,
+        self.eg1 = threading.Thread(target=BalloonDetection.Webcamera,
                                     args=(self.stream,
                                           self.bloons,
                                           self.can_shoot,
@@ -29,12 +28,7 @@ class CarVisionData:
         print("Started image processing thread")
 
     def get_bloons(self):
-        temp = self.flatten(copy.deepcopy(self.bloons))
-        pairs = []
-        for i in range(int(len(temp) / 2)):
-            pairs.append([temp[2 * i], temp[2 * i + 1]])
-        # self.bloons = temp
-        return pairs
+        return BalloonDetection.BALLOONS
 
     def get_can_shoot(self):
         return copy.deepcopy(self.can_shoot)

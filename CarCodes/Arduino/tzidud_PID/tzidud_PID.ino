@@ -1,5 +1,6 @@
-#define outputA 6
-#define outputDir 5
+#define outputdirA 5
+#define outputdirB 6
+#define enA 9
 #define buttonPin 8
 #define baseencoder0Pos 0
 //#define baseencoder0Pos 3000 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
@@ -7,9 +8,9 @@
 #define encoder0PinB 3 
 #define RELATIVE 0
 #define ABSOLUTE 1
-#define Kp 8
+#define Kp 10
 #define Kd 0 //100
-#define Ki 0 //0.01
+#define Ki 0.01
 #define integrator_max 1000
 #define integrator_min -1000
 #define min_zero 0
@@ -37,13 +38,14 @@ int goal = angle;
 int buttonState = 0;
 int min_vel = 48;
 bool last_dir = clockwise;
-int backlash = 20; ////7 !@#$%^&*(_______________________________________________________________________
+int backlash = 0;
 bool dironpush = clockwise;
 bool right = false;
 bool left = false;
 int absmax = 360*ratio;
 int absmin = -1;
 bool startup = true;
+bool started = true;
 
 int last_laser_on = 0;
 int laser_on = 0;
@@ -76,8 +78,9 @@ void setup()
   pinMode (encoder0PinA,INPUT); 
   pinMode (encoder0PinB,INPUT);
   
-  pinMode(outputDir,OUTPUT);
-  pinMode(outputA, OUTPUT);
+  pinMode(outputdirA,OUTPUT);
+  pinMode(outputdirB,OUTPUT);
+  pinMode(enA, OUTPUT);
   
   pinMode(buttonPin,INPUT);
   Serial.begin (2000000);
@@ -107,8 +110,15 @@ void loop()
 
 int stopp()
 {
-        digitalWrite(outputA, LOW);   // turn the motor off
+        digitalWrite(outputdirA, LOW);   // turn the motor off
+        digitalWrite(outputdirB, LOW);   // turn the motor off
+        analogWrite(enA, LOW);   // turn the motor off
         stop = true;
+        if(started == true)
+        {
+        Serial.print("HERE");
+        }
+        started = false;
         return 0;
 } 
 
@@ -119,7 +129,16 @@ int get_angle()
         stop = false;
         startangle = encoder0Pos;
         int angle = Serial.parseInt();
-        Serial.print(angle);
+        //Serial.print(angle);
+        if(angle == 0)
+        {
+        stopp();
+        }
+        if(angle > 360)
+        {
+          angle %= 360;
+        }
+        angle *= ratio;
         rORa = RELATIVE;
      */
     if (Serial.available() > 1) {
@@ -132,15 +151,15 @@ int get_angle()
         laser_on = ((raw_angle/4096))%2;
         //bit #14 is 0 for relative move and 1 for absoolute move
         rORa = (raw_angle/8192)%2;
-        //*/
+          
+      started = true;
 
-        if(angle > 360)
-        {
-          angle %= 360;
-        }
-        angle *= ratio;
          if(rORa == RELATIVE)
         {
+        if(angle == 0)
+        {
+        stopp();
+        }
          //Serial.print("RELATIVE");
         clockwise = false;
         goal = encoder0Pos + angle;
@@ -150,6 +169,7 @@ int get_angle()
         }
         if(last_dir != clockwise)
         {
+        //Serial.print("backlash");
           angle += backlash;
         }
         
@@ -209,7 +229,6 @@ int choose_vel(bool PID)
     if(count%100  == 5)
     {
       dt = (millis_now - last_millis);
-      //34e567890-09876543213567898765432357898765432123578o98654321
       diff =  1000*(delta - last_delta)/dt;
       Int += delta*dt;
       last_delta = delta;
@@ -238,10 +257,10 @@ int choose_vel(bool PID)
     }
     if(abs(diff) < 1 && (abs(encoder0Pos - goal) < 3))
     {
-      Serial.print("DIFFF ");
-      Serial.println(diff);
-      Serial.print("errrrror ");
-      Serial.println(encoder0Pos - goal);
+      //Serial.print("DIFFF ");
+      //Serial.println(diff);
+      //Serial.print("errrrror ");
+      //Serial.println(encoder0Pos - goal);
       stopp();
     }
     
@@ -278,14 +297,16 @@ int move_vel(bool clockwise, int vel)
 {
    if(clockwise)
     {
-    analogWrite(outputA, vel); // Send PWM signal to L298N Enable pin
-    digitalWrite(outputDir, LOW);   // turn the motor dir
+    analogWrite(enA, vel);
+    digitalWrite(outputdirA, HIGH); 
+    digitalWrite(outputdirB, LOW); 
     }
     // move unclockwise
     if(!clockwise)
     {
-    analogWrite(outputA, vel);
-    digitalWrite(outputDir, HIGH);   // turn the motor dir
+    analogWrite(enA, vel); // Send PWM signal to L298N Enable pin
+    digitalWrite(outputdirA, LOW); 
+    digitalWrite(outputdirB, HIGH); 
     }
 }
 

@@ -11,12 +11,27 @@ upper_red = np.array([50, 220, 255])
 lower_red1 = np.array([170, 120, 170])
 upper_red1 = np.array([255, 220, 255])
 
+lower_lights = np.array([100, 100, 100])
+upper_lights = np.array([255, 255, 255])
+
 #lower_red = np.array([0, 120, 210])
 #upper_red = np.array([50, 200, 255])
 #lower_red1 = np.array([210, 120, 210])
 #upper_red1 = np.array([255, 200, 255])
 MIN_SIZE = 150
 FACTOR_OF_ENLARGEMENT = 1.5
+MIN_WHITES = 5000
+
+
+def turnOnLights(img):
+    """returns true if the lights are on in the image, false otherwise"""
+    mask = cv2.inRange(img, lower_lights, upper_lights)
+    res1 = cv2.bitwise_and(img, img, mask=mask)
+    res1 = cv2.cvtColor(res1, cv2.COLOR_BGR2GRAY)
+    if cv2.countNonZero(res1) > MIN_WHITES:
+        return True
+    else:
+        return False
 
 
 def getBall(img):
@@ -193,8 +208,8 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 40,
-                               param1=80, param2=15, minRadius=7,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 100,
+                               param1=80, param2=7, minRadius=7,
                                maxRadius=0)
     bloons = []
     sizes = []

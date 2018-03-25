@@ -1,13 +1,13 @@
 import copy
 import threading
 import time
-
 import cv2
 
 import GetBalloon
-
+BALLOONS = []
 
 def Webcamera(stream, bloons, canShoot, didPop):
+    global BALLOONS
     Image0 = None
     start_time = -1
     temp = []
@@ -27,11 +27,9 @@ def Webcamera(stream, bloons, canShoot, didPop):
             del temp[:]
             temp.append(GetBalloon.getBalloon(Image1))
             temp = temp[0]
-            del bloons[:]
-            bloons.append(temp[1])
-            if len(bloons) > 0:
-                bloons = bloons[0]
-            # print bloons
+            BALLOONS = temp[1]
+            if len(BALLOONS) > 0:
+                BALLOONS = BALLOONS[0]
             del canShoot[:]
             canShoot.append(temp[0])
             # does so if balloon is popped it will say so for 3 seconds,
@@ -43,8 +41,6 @@ def Webcamera(stream, bloons, canShoot, didPop):
                 didPop.append(GetBalloon.didPop(Image0, Image1))
                 if len(didPop) > 0 and didPop[0] == 1:
                     start_time = time.time()
-            # print "can shoot - " + str(canShoot)
-            # print "did pop - " + str(didPop)
             cv2.waitKey(10)
             Image0 = copy.deepcopy(Image1)
 
