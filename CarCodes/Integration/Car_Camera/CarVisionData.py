@@ -40,8 +40,11 @@ class CarVisionData:
         self.msg_pattern = re.compile("(^\w*MSG)")
         self.useless_number_pattern = re.compile("(\d+$)")
 
-        self.process_car_vision = True
-        self.process_security_vision = True
+        self.process_car_vision = True  # Process car camera or not
+        self.process_security_vision = True  # Process security cameras or not
+
+        self.car_working = True  # True if car is working, false if it was
+        # stopped
 
     def get_car_bloons(self):
         return copy.deepcopy(self.car_bloons)
@@ -139,6 +142,10 @@ class CarVisionData:
                     elif msg_type == "ContinueMissionMSG":
                         self.continue_mission = data
                         # print("Data from server: continue mission: " + str(data))
+
+                    elif msg_type == "CarWorkingMSG":
+                        self.car_working = data
+                        #print("Data from server: car working: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

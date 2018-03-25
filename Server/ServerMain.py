@@ -6,6 +6,9 @@ import BlochsCode.SecurityVisionData
 import re
 import ast
 
+import sys
+import keyboard
+
 if __name__ == "__main__":
     print("Server running")
 
@@ -20,6 +23,19 @@ if __name__ == "__main__":
     car_vision_data = Vision_Processing.CarVisionData.CarVisionData(pi_connection)
 
     security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
+
+    def update_pressed_hotkey(self):
+        """
+        Function that is called by keyboard to update the flag if the hotkey
+        was pressed
+        """
+        pressed_hotkey = True
+
+    pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
+    keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
+    # Starts tracking if hotkey was pressed
+
+    car_working = True
 
     while True:
 
@@ -77,11 +93,17 @@ if __name__ == "__main__":
 
         continue_mission = len(room_bloons) > 0
 
+        if pressed_hotkey:
+            pressed_hotkey = False
+            car_working = not car_working
+
+
         pi_connection.send_msg("MESSAGECarBloonsMSG" + str(car_bloons))
         pi_connection.send_msg("MESSAGECanShootMSG" + str(can_shoot))
         pi_connection.send_msg("MESSAGEDidPopMSG" + str(did_pop))
         pi_connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
         pi_connection.send_msg("MESSAGEContinueMissionMSG" + str(continue_mission))
+        pi_connection.send_msg("MESSAGECarWorkingMSG" + str(car_working))
         # print "sending..."
 
         time.sleep(0.5)
