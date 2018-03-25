@@ -97,7 +97,7 @@ class MissionPlanner:
                       "picture")
 
                 mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -30, 30)
+                    self.device_map, -20, 20)
 
                 mis2 = Missions.Turret.AimAtBloonInPicture \
                     .AimAtBloonInPicture(self.device_map)
