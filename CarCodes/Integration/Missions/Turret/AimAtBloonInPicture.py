@@ -67,7 +67,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
             if not isinstance(a, collections.Iterable):
                 return
 
-            # Flatten code in vision_data on the server ruins the format if 
+            # Flatten code in vision_data on the server ruins the format if
             # there is only one balloon
             if not isinstance(a[0], collections.Iterable):
                 a = [a]
