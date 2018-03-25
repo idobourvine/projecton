@@ -207,7 +207,7 @@ def getCircle(img):
             if not isWhite(img, lst):
                 bloons.append(lst)
                 sizes.append(math.pi * r * r)
-                # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+                #cv2.circle(output, (x, y), r, (0, 255, 0), 4)
     return [bloons, sizes]
 
 

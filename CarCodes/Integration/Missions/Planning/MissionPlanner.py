@@ -80,7 +80,7 @@ class MissionPlanner:
         :return: A new mission to perform
         """
         curr_position = self.device_map.security_vision_data.get_car_position()
-        curr_bloons = self.device_map.security_vision_data.get_car_bloons()
+        curr_bloons = self.device_map.car_vision_data.get_car_bloons()
 
         if self.mission_state == 0:
             # return Missions.DoNothingMission.DoNothingMission()

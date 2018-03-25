@@ -119,6 +119,8 @@ def connectTargets1(cams1):
     """picks the best-worst combination of lines between 2 cameras"""
     cams = cams1
     lines = filterLines(cams[0], cams[1])
+    if len(lines[0]) == 0 or len(lines[1]) == 0:
+        return []
     linesDists = []
     min1 = 0
     max1 = 1
@@ -249,7 +251,7 @@ def triangulate():
                         target[2] - point[2]) ** 2 < 25:
                 isIn = True
         if not isIn:
-            targets.append(point)
+            targets.append(point.tolist())
     return targets
 
 

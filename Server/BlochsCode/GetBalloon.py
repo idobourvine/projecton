@@ -16,6 +16,8 @@ upper_red1 = np.array([255, 220, 255])
 #lower_red1 = np.array([210, 120, 210])
 #upper_red1 = np.array([255, 200, 255])
 MIN_SIZE = 150
+FACTOR_OF_ENLARGEMENT = 1.5
+
 
 def getBall(img):
     ing = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -136,15 +138,15 @@ BAD3 = [5, 5, 250]
 d3 = 10
 BAD4 = [65, 15, 150]
 d4 = 25
-red_lower = [40, 50, 150]
-red_upper = [160, 150, 255]
+red_lower = [40, 50, 100]
+red_upper = [90, 100, 180]
 
 
 def canShoot1(circles):
     """return if you can shoot or not"""
     for circle in circles:
         if (FIXED_PIX[0] - circle[0])**2 + (FIXED_PIX[1] - circle[1])**2 < \
-                circle[2]**2:
+                FACTOR_OF_ENLARGEMENT * circle[2]**2:
             return 1
     return 0
 
@@ -157,7 +159,7 @@ def getBalloon(img):
     can_shoot = canShoot1(bloons)
     angles = []
     for bloon in bloons:
-        bloon[0] = -(bloon[0] - px/2) / px
+        bloon[0] = (bloon[0] - px/2) / px
         bloon[1] = (py/2 - bloon[1]) / py
         angles.append([bloon[0] * hor, bloon[1] * ver])
     return [can_shoot, angles]
@@ -165,7 +167,6 @@ def getBalloon(img):
 
 def getEnemies(img):
     """returns a list of enemy balloons and their sizes in image"""
-    output = img.copy()
     red_bloons = []
     red_sizes = []
     bloons, sizes = getCircle(img)
@@ -173,9 +174,7 @@ def getEnemies(img):
         if isRed(img, bloons[i]):
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
-            cv2.circle(output, (bloons[i][0], bloons[i][1]), bloons[i][2], (0, 255, 0), 4)
-    #return [red_bloons, red_sizes]
-    return output
+    return [red_bloons, red_sizes]
 
 
 def getFriends(img):
@@ -265,5 +264,4 @@ def isWhite(img, circle):
             isClose(average_color, d):
         return True
     else:
-        # print average_color
         return False

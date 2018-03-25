@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import copy
-import GetBalloonOld
+# import GetBalloonOld
 import Line
 import Cam
 import GetBalloon
@@ -39,7 +39,7 @@ def getCarLocation():
     """returns 2D location of the car (looking from the ceiling)"""
     cams = CAMS
     img1, img2 = cams[0].getImage(), cams[1].getImage()
-    point1op, point2op = GetBalloonOld.getCar(img1), GetBalloonOld.getCar(
+    potint1op, point2op = GetBalloonOld.getCar(img1), GetBalloonOld.getCar(
         img2)
     for j in range(len(point1op)):
         point1op[j] = np.array(np.array([point1op[j][0], point1op[j][1]]))
