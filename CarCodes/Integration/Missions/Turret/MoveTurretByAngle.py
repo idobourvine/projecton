@@ -18,7 +18,7 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         self.pitch_motor = device_map.pitch_motor
 
         self.azimuth = azimuth
-        self.pitch = pitch
+        self.pitch = -pitch  # Pitch motor is reversed
 
         self.start_time = 0
 
