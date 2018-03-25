@@ -37,7 +37,13 @@ class Cam:
 
     def getImage(self):
         """returns the last image saved from this camera"""
-        return self.stream.read()
+        next_im = self.stream.read()
+
+        # For showing
+        cv2.imshow(str(self.Id), next_im)
+        cv2.waitKey(100)
+
+        return next_im
 
     def getTwoKnownPoints(self):
         """return the (x,y) location on the image of 2 known points, left,
