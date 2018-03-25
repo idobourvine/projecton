@@ -24,6 +24,9 @@ if __name__ == "__main__":
     while True:
 
         '''Recieving messages'''
+
+        # Currently not working as it is interfering with received images
+        '''
         try:
             msg = pi_connection.get_msg()
             if not msg:
@@ -62,7 +65,7 @@ if __name__ == "__main__":
         except Exception as e:
             print("EXCEPTION CAUGHT")
             print(str(e))
-
+        '''
 
         '''Sending messages'''
 

@@ -75,12 +75,17 @@ class CarVisionData:
         time.sleep(5)
 
         while True:
+
+            # Currently sending does not work
+
             # Sending relevant processes types
+            '''
             connection.send_msg(
                 "MESSAGEProcessCarVisionMSG" + str(self.process_car_vision))
             connection.send_msg(
                 "MESSAGEProcessSecurityVisionMSG" + str(
                     self.process_security_vision))
+            '''
 
             if stream.more():
                 next_img = stream.read()
