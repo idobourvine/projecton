@@ -80,8 +80,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
             if self.min_bloon:
                 azimuth_angle_to_send = self.min_bloon[0]
 
-                pitch_angle_to_send = -self.min_bloon[1]  # Pitch motor is
-                # in reverse direction
+                pitch_angle_to_send = self.min_bloon[1]
 
                 # This should be log
                 print("angles to send (azimuth, pitch): ({}, " \
