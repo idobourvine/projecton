@@ -1,5 +1,4 @@
 import time
-
 import Communication.Connection
 import Vision_Processing.CarVisionData
 import BlochsCode.SecurityVisionData

@@ -155,7 +155,8 @@ BAD4 = [65, 15, 150]
 d4 = 25
 red_lower = [40, 50, 100]
 red_upper = [90, 100, 180]
-
+red_lower_sec = [40, 50, 100]
+red_upper_sec = [110, 100, 255]
 
 def canShoot1(circles):
     """return if you can shoot or not"""
@@ -170,7 +171,7 @@ def getBalloon(img):
     """returns a list, the first object is a boolean that says if you can
     shoot or not, and the second one is a list of angles to each red balloon in
     the image"""
-    bloons = getEnemies(img)[0]
+    bloons = getEnemiesSec(img)[0]
     can_shoot = canShoot1(bloons)
     angles = []
     for bloon in bloons:
@@ -180,8 +181,9 @@ def getBalloon(img):
     return [can_shoot, angles]
 
 
-def getEnemies(img):
-    """returns a list of enemy balloons and their sizes in image"""
+def getEnemiesSec(img):
+    """returns a list of enemy balloons and their sizes in image works for
+    the car camera!!"""
     red_bloons = []
     red_sizes = []
     bloons, sizes = getCircle(img)
@@ -191,6 +193,19 @@ def getEnemies(img):
                                                                          255, 0), 4)
             cv2.imshow("image", img)
             cv2.waitKey(100)
+            red_bloons.append(bloons[i])
+            red_sizes.append(sizes[i])
+    return [red_bloons, red_sizes]
+
+
+def getEnemies(img):
+    """returns a list of enemy balloons and their sizes in image works for
+    the security cameras!!!"""
+    red_bloons = []
+    red_sizes = []
+    bloons, sizes = getCircle(img)
+    for i in range(len(bloons)):
+        if isRedSec(img, bloons[i]):
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
     return [red_bloons, red_sizes]
@@ -267,6 +282,21 @@ def isRed(img, circle):
     if red_lower[0] <= average_color[0] <= red_upper[0] and red_lower[1] <= \
             average_color[1] <= red_upper[1] and red_lower[2] <= \
             average_color[2] <= red_upper[2]:
+        return True
+    else:
+        return False
+
+
+def isRedSec(img, circle):
+    """checks if a circle average color is red-ish"""
+    circle = [int(X) for X in circle]
+    xc, yc, r = circle
+    cropImg = img[yc-r:yc+r, xc-r:xc+r]
+    average_color = cv2.mean(cropImg)
+    if red_lower_sec[0] <= average_color[0] <= red_upper_sec[0] and \
+                            red_lower_sec[1] <= \
+            average_color[1] <= red_upper_sec[1] and red_lower_sec[2] <= \
+            average_color[2] <= red_upper_sec[2]:
         return True
     else:
         return False
