@@ -74,14 +74,14 @@ class CarVisionData:
     def send_messages(self, connection, stream):
         time.sleep(5)
 
-        # Sending relevant processes types
-        connection.send_msg(
-            "MESSAGEProcessCarVisionMSG" + str(self.process_car_vision))
-        connection.send_msg(
-            "MESSAGEProcessSecurityVisionMSG" + str(
-                self.process_security_vision))
-
         while True:
+            # Sending relevant processes types
+            connection.send_msg(
+                "MESSAGEProcessCarVisionMSG" + str(self.process_car_vision))
+            connection.send_msg(
+                "MESSAGEProcessSecurityVisionMSG" + str(
+                    self.process_security_vision))
+
             if stream.more():
                 next_img = stream.read()
                 connection.send_image(next_img)
@@ -117,23 +117,23 @@ class CarVisionData:
 
                     if msg_type == "CarBloonsMSG":
                         self.car_bloons = data
-                        print("Data from server: bloons: " + str(data))
+                        # print("Data from server: bloons: " + str(data))
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
-                        print("Data from server: can shoot: " + str(data))
+                        # print("Data from server: can shoot: " + str(data))
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-                        print("Data from server: did pop: " + str(data))
+                        # print("Data from server: did pop: " + str(data))
 
                     elif msg_type == "RoomBloonsMSG":
                         self.room_bloons = data
-                        print("Data from server: room bloons: " + str(data))
+                        # print("Data from server: room bloons: " + str(data))
 
                     elif msg_type == "ContinueMissionMSG":
                         self.continue_mission = data
-                        print("Data from server: continue mission: " + str(data))
+                        # print("Data from server: continue mission: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

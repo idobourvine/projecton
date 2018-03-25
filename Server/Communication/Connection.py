@@ -81,7 +81,7 @@ class Connection:
             try:
                 self.socket.settimeout(SEND_TIMEOUT)
                 encoded_msg = msg.encode()
-                print("Sending encoded msg: " + str(encoded_msg))
+                # print("Sending encoded msg: " + str(encoded_msg))
                 self.send_data(encoded_msg)
             except:
                 print("failed to send msg <:-(")

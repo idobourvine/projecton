@@ -29,6 +29,8 @@ if __name__ == "__main__":
             if not msg:
                 continue
 
+            print("Recieved msg: " + msg)
+
             messages = msg.split('MESSAGE')
             for real_msg in messages:
                 if real_msg == '':
@@ -69,8 +71,6 @@ if __name__ == "__main__":
         did_pop = car_vision_data.get_did_pop()
 
         room_bloons = security_vision_data.get_bloons()
-        print("Room Bloons:")
-        print(room_bloons)
 
         continue_mission = len(room_bloons) > 0
 
