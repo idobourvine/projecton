@@ -99,8 +99,6 @@ class CarVisionData:
                     raw_msg = split[2]
                     data = ast.literal_eval(raw_msg)
 
-                    print("type, raw: " + str((msg_type, raw_msg)))
-
                     if msg_type == "CarBloonsMSG":
                         self.car_bloons = data
                         print("Data from pi: bloons: " + str(data))
