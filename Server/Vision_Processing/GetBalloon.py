@@ -151,20 +151,20 @@ def didPop(imgBEFORE, imgAFTER):
         return 0
 
 
-d = 30
+d = 25
 BAD1 = [5, 5, 5]
 d1 = 10
 BAD2 = [200, 200, 200]
 d2 = 56
-BAD3 = [5, 5, 250]
+BAD3 = [5, 5, 5]
 d3 = 10
-BAD4 = [65, 15, 150]
+BAD4 = [5, 5, 5]
 d4 = 25
 red_lower = [0, 20, 140]  # security cameras
 red_upper = [185, 160, 255]
 red_lower_sec = [0, 0, 70]  # car camera
 red_upper_sec = [110, 100, 180]
-
+MIN_PIXEL_DIST = 130
 
 def canShoot1(circles):
     """return if you can shoot or not"""
@@ -223,13 +223,10 @@ def getEnemies(img):
             #            (0, 0, 255), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
-        # else:
-        #     cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
-        #                (0, 255, 0), 4)
-    # cv2.imwrite("image_security" + str(time.time()) + ".jpg", img)
-    # cv2.imshow("image_security")
-    # cv2.waitKey(2000)
-    # cv2.destroyAllWindows()
+        else:
+            # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
+            #            (0, 255, 0), 4)
+    # return img
     return [red_bloons, red_sizes]
 
 
@@ -249,7 +246,7 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 100,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 22,
                                param1=80, param2=5, minRadius=7,
                                maxRadius=0)
     bloons = []
@@ -264,7 +261,25 @@ def getCircle(img):
                 bloons.append(lst)
                 sizes.append(math.pi * r * r)
                 # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
-    return [bloons, sizes]
+    bad_indexes = []
+    new_bloons = []
+    new_sizes = []
+    for i in range(len(bloons)):
+        for j in range(len(bloons)):
+            if i not in bad_indexes and j not in bad_indexes:
+                if (bloons[i][0] - bloons[j][0])**2 + (bloons[i][1] - bloons[i][
+                    2])**2 <= MIN_PIXEL_DIST**2:
+                    mid_x = (bloons[i][0] + bloons[j][0]) / 2
+                    mid_y = (bloons[i][1] + bloons[j][1]) / 2
+                    new_r = bloons[i][2] + bloons[j][2]
+                    bloons[i] = (mid_x, mid_y, new_r)
+                    sizes[i] = new_r*new_r*math.pi
+                    bad_indexes.append(j)
+    for i in range(len(bloons)):
+        if i not in bad_indexes:
+            new_bloons.append(bloons[i])
+            new_sizes.append(sizes[i])
+    return [new_bloons, new_sizes]
 
 
 def inBetween(ToCheck, BadArray, d):
