@@ -1,2 +1,2 @@
 class Constants:
-    use_devices = False
+    use_devices = True
