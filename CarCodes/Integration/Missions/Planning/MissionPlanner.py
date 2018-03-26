@@ -100,27 +100,28 @@ class MissionPlanner:
                 print()
 
                 print("Going to absolute angles")
-                print("azimuth -40, pitch 0")
-                print("azimuth -90, pitch 20")
-                print("azimuth -30, pitch 40")
+                print("azimuth 40, pitch 0")
+
+                print("azimuth 90, pitch 20")
+                print("azimuth 30, pitch 40")
                 print("azimuth 20, pitch 10")
-                print("azimuth 50, pitch 0")
+                print("azimuth -10, pitch 0")
 
 
                 mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -40, False, 0, False)
+                    self.device_map, 40, False, 0, False)
 
                 mis2 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -90, False, 20, False)
+                    self.device_map, 90, False, 20, False)
 
                 mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -30, False, 40, False)
+                    self.device_map, 30, False, 40, False)
 
                 mis4 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                     self.device_map, 20, False, 10, False)
 
                 mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 50, False, 0, False)
+                    self.device_map, -10, False, 0, False)
 
 
                 # mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
