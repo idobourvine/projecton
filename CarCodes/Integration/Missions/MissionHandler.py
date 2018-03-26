@@ -21,6 +21,7 @@ class MissionHandler(object):
         Periodically called to run all of the missions
         :return: None
         """
+
         for mission in cls.active_missions:
             # If this is the first execution of this mission - it needs to
             # be initialized

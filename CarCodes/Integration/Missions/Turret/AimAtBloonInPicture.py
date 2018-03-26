@@ -7,6 +7,8 @@ import time
 import Missions.Turret.DestroyBloon
 import Missions.Mission
 
+import collections
+
 sys.path.append('..')
 
 
@@ -54,13 +56,22 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         Code that happens periodically
         :return:
         """
-        a = self.vision_data.get_bloons()
+        a = self.vision_data.get_car_bloons()
         if a:  # Might be empty if no bloons were detected
             self.min_bloon = None  # Object of the bloon that is
             # closest to the center of the picture
             self.min_dist = 100000  # just some big number
 
             # Loop that finds the min_bloon from the bloons array
+
+            if not isinstance(a, collections.Iterable):
+                return
+
+            # Flatten code in vision_data on the server ruins the format if
+            # there is only one balloon
+            if not isinstance(a[0], collections.Iterable):
+                a = [a]
+
             for bloon in a:
                 dist = bloon[0] ** 2 + bloon[1] ** 2
                 if dist < self.min_dist:
@@ -69,8 +80,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
             if self.min_bloon:
                 azimuth_angle_to_send = self.min_bloon[0]
 
-                pitch_angle_to_send = -self.min_bloon[1]  # Pitch motor is
-                # in reverse direction
+                pitch_angle_to_send = self.min_bloon[1]
 
                 # This should be log
                 print("angles to send (azimuth, pitch): ({}, " \
@@ -92,7 +102,8 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                 elif abs(pitch_angle_to_send) < 1:
                     pitch_angle_to_send = 0.2*pitch_angle_to_send / abs(
                         pitch_angle_to_send)
-                        """
+                       """
+                '''
                 if 1 <= abs(azimuth_angle_to_send) <= 3:
                     azimuth_angle_to_send *= 0.25
                 elif abs(azimuth_angle_to_send) < 1:
@@ -105,6 +116,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                     pitch_angle_to_send = 0.2 * pitch_angle_to_send / \
                                           abs(
                                               pitch_angle_to_send)
+                '''
                 self.azimuth_motor.send(azimuth_angle_to_send, False,
                                         True)
                 self.pitch_motor.send(pitch_angle_to_send, False, True)

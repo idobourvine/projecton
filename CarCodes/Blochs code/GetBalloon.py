@@ -11,28 +11,11 @@ upper_red = np.array([50, 220, 255])
 lower_red1 = np.array([170, 120, 170])
 upper_red1 = np.array([255, 220, 255])
 
-lower_lights = np.array([100, 100, 100])
-upper_lights = np.array([255, 255, 255])
-
 #lower_red = np.array([0, 120, 210])
 #upper_red = np.array([50, 200, 255])
 #lower_red1 = np.array([210, 120, 210])
 #upper_red1 = np.array([255, 200, 255])
 MIN_SIZE = 150
-FACTOR_OF_ENLARGEMENT = 1.5
-MIN_WHITES = 5000
-
-
-def turnOnLights(img):
-    """returns true if the lights are on in the image, false otherwise"""
-    mask = cv2.inRange(img, lower_lights, upper_lights)
-    res1 = cv2.bitwise_and(img, img, mask=mask)
-    res1 = cv2.cvtColor(res1, cv2.COLOR_BGR2GRAY)
-    if cv2.countNonZero(res1) > MIN_WHITES:
-        return True
-    else:
-        return False
-
 
 def getBall(img):
     ing = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -153,16 +136,15 @@ BAD3 = [5, 5, 250]
 d3 = 10
 BAD4 = [65, 15, 150]
 d4 = 25
-red_lower = [40, 50, 100]
-red_upper = [90, 100, 180]
-red_lower_sec = [40, 50, 100]
-red_upper_sec = [110, 100, 255]
+red_lower = [40, 50, 150]
+red_upper = [160, 150, 255]
+
 
 def canShoot1(circles):
     """return if you can shoot or not"""
     for circle in circles:
         if (FIXED_PIX[0] - circle[0])**2 + (FIXED_PIX[1] - circle[1])**2 < \
-                FACTOR_OF_ENLARGEMENT * circle[2]**2:
+                circle[2]**2:
             return 1
     return 0
 
@@ -171,53 +153,29 @@ def getBalloon(img):
     """returns a list, the first object is a boolean that says if you can
     shoot or not, and the second one is a list of angles to each red balloon in
     the image"""
-    bloons = getEnemiesSec(img)[0]
+    bloons = getEnemies(img)[0]
     can_shoot = canShoot1(bloons)
     angles = []
     for bloon in bloons:
-        # cv2.circle(img, (bloon[0], bloon[1]), bloon[2], (0, 255, 0), 4)
-        bloon[0] = (bloon[0] - px/2) / px
+        bloon[0] = -(bloon[0] - px/2) / px
         bloon[1] = (py/2 - bloon[1]) / py
         angles.append([bloon[0] * hor, bloon[1] * ver])
-    # cv2.imshow("image", img)
     return [can_shoot, angles]
 
 
-def getEnemiesSec(img):
-    """returns a list of enemy balloons and their sizes in image works for
-    the car camera!!"""
+def getEnemies(img):
+    """returns a list of enemy balloons and their sizes in image"""
+    output = img.copy()
     red_bloons = []
     red_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRed(img, bloons[i]):
-            # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
-            #
-            # 255, 0), 4)
-            # cv2.imshow("image", img)
-            cv2.waitKey(100)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
-    # cv2.imshow("image", img)
-    return [red_bloons, red_sizes]
-
-
-def getEnemies(img):
-    """returns a list of enemy balloons and their sizes in image works for
-    the security cameras!!!"""
-    red_bloons = []
-    red_sizes = []
-    bloons, sizes = getCircle(img)
-    for i in range(len(bloons)):
-        if isRedSec(img, bloons[i]):
-            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
-                                                                        255, 0), 4)
-            red_bloons.append(bloons[i])
-            red_sizes.append(sizes[i])
-    cv2.imshow("image", img)
-    cv2.waitKey(2000)
-    cv2.destroyAllWindows()
-    return [red_bloons, red_sizes]
+            cv2.circle(output, (bloons[i][0], bloons[i][1]), bloons[i][2], (0, 255, 0), 4)
+    #return [red_bloons, red_sizes]
+    return output
 
 
 def getFriends(img):
@@ -236,8 +194,8 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 100,
-                               param1=80, param2=7, minRadius=7,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 40,
+                               param1=80, param2=15, minRadius=7,
                                maxRadius=0)
     bloons = []
     sizes = []
@@ -296,21 +254,6 @@ def isRed(img, circle):
         return False
 
 
-def isRedSec(img, circle):
-    """checks if a circle average color is red-ish"""
-    circle = [int(X) for X in circle]
-    xc, yc, r = circle
-    cropImg = img[yc-r:yc+r, xc-r:xc+r]
-    average_color = cv2.mean(cropImg)
-    if red_lower_sec[0] <= average_color[0] <= red_upper_sec[0] and \
-                            red_lower_sec[1] <= \
-            average_color[1] <= red_upper_sec[1] and red_lower_sec[2] <= \
-            average_color[2] <= red_upper_sec[2]:
-        return True
-    else:
-        return False
-
-
 def isWhite(img, circle):
     """checks if a circles average color is white-ish"""
     circle = [int(X) for X in circle]
@@ -322,4 +265,5 @@ def isWhite(img, circle):
             isClose(average_color, d):
         return True
     else:
+        # print average_color
         return False

@@ -16,38 +16,50 @@ class CarVisionData:
     """
 
     def __init__(self, connection):
-        self.bloons = []  # Array of balloons detected by vision processing
+        self.car_bloons = []  # Array of balloons detected by vision processing
         self.can_shoot = [0]
         self.did_pop = [0]
+
+        self.room_bloons = []
+        self.continue_mission = True
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
         self.connection = connection
 
-        self.send_images_thread = threading.Thread(target=self.send_images,
+        self.send_images_thread = threading.Thread(target=self.send_messages,
                                                    args=(self.connection,
                                                          self.stream))  # Thread that runs
         self.send_images_thread.start()
 
         self.parse_messages_thread = threading.Thread(
             target=self.read_messages,
-            args=(self.connection,
-                  self.bloons,
-                  self.can_shoot,
-                  self.did_pop))
+            args=(self.connection,))
         self.parse_messages_thread.start()
 
         self.msg_pattern = re.compile("(^\w*MSG)")
         self.useless_number_pattern = re.compile("(\d+$)")
 
-    def get_bloons(self):
-        return copy.deepcopy(self.bloons)
+        self.process_car_vision = True  # Process car camera or not
+        self.process_security_vision = True  # Process security cameras or not
+
+        self.car_working = True  # True if car is working, false if it was
+        # stopped
+
+    def get_car_bloons(self):
+        return copy.deepcopy(self.car_bloons)
 
     def get_can_shoot(self):
         return copy.deepcopy(self.can_shoot)
 
     def get_did_pop(self):
         return copy.deepcopy(self.did_pop)
+
+    def get_room_bloons(self):
+        return copy.deepcopy(self.room_bloons)
+
+    def get_continue_mission(self):
+        return copy.deepcopy(self.continue_mission)
 
     def continue_mission(self):
         """
@@ -56,10 +68,28 @@ class CarVisionData:
         """
         return True
 
-    def send_images(self, connection, stream):
+    def set_process_car_vision(self, bool):
+        self.process_car_vision = bool
+
+    def set_process_security_vision(self, bool):
+        self.process_security_vision = bool
+
+    def send_messages(self, connection, stream):
         time.sleep(5)
 
         while True:
+
+            # Currently sending does not work
+
+            # Sending relevant processes types
+            '''
+            connection.send_msg(
+                "MESSAGEProcessCarVisionMSG" + str(self.process_car_vision))
+            connection.send_msg(
+                "MESSAGEProcessSecurityVisionMSG" + str(
+                    self.process_security_vision))
+            '''
+
             if stream.more():
                 next_img = stream.read()
                 connection.send_image(next_img)
@@ -68,7 +98,7 @@ class CarVisionData:
 
                 cv2.waitKey(150)
 
-    def read_messages(self, connection, bloons, can_shoot, did_pop):
+    def read_messages(self, connection):
         while True:
             try:
                 msg = connection.get_msg()
@@ -93,18 +123,30 @@ class CarVisionData:
                     raw_msg = split[2]
                     data = ast.literal_eval(raw_msg)
 
-                    if msg_type == "BloonsMSG":
-                        self.bloons = data
-                        print("Data from pi: bloons: " + str(data))
+                    if msg_type == "CarBloonsMSG":
+                        self.car_bloons = data
+                        # print("Data from server: bloons: " + str(data))
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
-                        print("Data from pi: can shoot: " + str(data))
+                        # print("Data from server: can shoot: " + str(data))
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-                        print("Data from pi: did pop: " + str(data))
+                        # print("Data from server: did pop: " + str(data))
+
+                    elif msg_type == "RoomBloonsMSG":
+                        self.room_bloons = data
+                        # print("Data from server: room bloons: " + str(data))
+
+                    elif msg_type == "ContinueMissionMSG":
+                        self.continue_mission = data
+                        # print("Data from server: continue mission: " + str(data))
+
+                    elif msg_type == "CarWorkingMSG":
+                        self.car_working = data
+                        #print("Data from server: car working: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")
-                print(e)
+                print(str(e))

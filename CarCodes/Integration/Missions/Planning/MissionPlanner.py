@@ -53,7 +53,8 @@ class MissionPlanner:
         # system initialization to take place
         if not self.current_mission:
             if Constants.use_devices:
-                time.sleep(10)
+                print("Going to sleep")
+                time.sleep(5)
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
@@ -80,7 +81,7 @@ class MissionPlanner:
         :return: A new mission to perform
         """
         curr_position = self.device_map.security_vision_data.get_car_position()
-        curr_bloons = self.device_map.security_vision_data.get_bloons()
+        curr_bloons = self.device_map.car_vision_data.get_car_bloons()
 
         if self.mission_state == 0:
             # return Missions.DoNothingMission.DoNothingMission()
@@ -91,10 +92,31 @@ class MissionPlanner:
 
                 print("Running tests")
                 print()
-                print("Testing aim at bloon in picture")
 
-                mis = Missions.Turret.AimAtBloonInPicture\
+                print("Testing aim at preset angles, then aim at bloon in "
+                      "picture")
+
+                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -60, 13)
+
+                mis2 = Missions.Turret.AimAtBloonInPicture \
                     .AimAtBloonInPicture(self.device_map)
+
+                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -13, 6)
+
+                mis4 = Missions.Turret.AimAtBloonInPicture \
+                    .AimAtBloonInPicture(self.device_map)
+
+                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -15, 6)
+
+                mis6 = Missions.Turret.AimAtBloonInPicture \
+                    .AimAtBloonInPicture(self.device_map)
+
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
+                                                            mis3, mis4,
+                                                            mis5, mis6])
 
                 return mis
             else:
