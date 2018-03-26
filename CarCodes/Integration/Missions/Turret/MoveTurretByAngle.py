@@ -10,7 +10,7 @@ import Missions.Mission
 
 
 class MoveTurretByAngle(Missions.Mission.Mission):
-    def __init__(self, device_map, azimuth, pitch):
+    def __init__(self, device_map, azimuth, azimuth_rel, pitch, pitch_rel):
 
         Missions.Mission.Mission.__init__(self)
 
@@ -20,15 +20,18 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         self.azimuth = azimuth
         self.pitch = pitch
 
+        self.azimuth_rel = azimuth_rel
+        self.pitch_rel = pitch_rel
+
         self.start_time = 0
 
         self.duration = 3  # 3 seconds to wait
 
     def initialize(self):
         if self.azimuth != 0:
-            self.azimuth_motor.send(self.azimuth, False, True)
+            self.azimuth_motor.send(self.azimuth, False, self.azimuth_rel)
         if self.pitch != 0:
-            self.pitch_motor.send(self.pitch, False, True)
+            self.pitch_motor.send(self.pitch, False, self.pitch_rel)
         self.start_time = time.time()
 
     def execute(self):
