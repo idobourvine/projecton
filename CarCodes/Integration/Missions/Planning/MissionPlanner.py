@@ -51,6 +51,10 @@ class MissionPlanner:
         """
         # Before starting the first mission, waits some time for
         # system initialization to take place
+        if not self.device_map.car_vision_data.car_working:
+            print("Car disabled")
+            return
+
         if not self.current_mission:
             if Constants.use_devices:
                 print("Going to sleep")

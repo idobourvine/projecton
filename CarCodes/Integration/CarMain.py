@@ -37,7 +37,12 @@ class CarMain:
             Method that will run periodically
             """
             cls.mission_planner.manage_missions()
-            # cls.mission_handler.run()
+
+            if not cls.device_map.car_vision_data.get_car_working():
+                print("Car is safety stopped, killing all missions")
+                Missions.MissionHandler.MissionHandler.close_all()
+                time.sleep(5)
+
             Missions.MissionHandler.MissionHandler.run()
 
         # Starts the main periodic execution loop

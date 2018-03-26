@@ -24,20 +24,18 @@ if __name__ == "__main__":
 
     security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
 
-
+    pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
+    car_working = True
     def update_pressed_hotkey(self):
         """
         Function that is called by keyboard to update the flag if the hotkey
         was pressed
         """
+        global pressed_hotkey
         pressed_hotkey = True
 
-
-    pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
     keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
     # Starts tracking if hotkey was pressed
-
-    car_working = True
 
     while True:
 

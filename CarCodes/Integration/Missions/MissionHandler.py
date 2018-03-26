@@ -51,3 +51,5 @@ class MissionHandler(object):
         for mission in cls.active_missions:
             mission.finish()
             mission.stop_running()
+
+        del cls.active_missions[:]

@@ -43,6 +43,5 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         return (time.time() - self.start_time) > self.duration
 
     def finish(self):
-        # self.azimuth_motor.send(0, False, True)
-        # self.pitch_motor.send(0, False, True)
-        pass
+        self.azimuth_motor.send(0, False, True)
+        self.pitch_motor.send(0, False, True)
