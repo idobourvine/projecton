@@ -11,6 +11,11 @@ upper_red = np.array([50, 220, 255])
 lower_red1 = np.array([170, 120, 170])
 upper_red1 = np.array([255, 220, 255])
 
+lower_car = np.array([20, 50, 0])
+upper_car = np.array([150, 255, 150])
+lower_line = np.array([[20, 20, 0]])
+upper_line = np.array([[50, 60, 20]])
+
 lower_lights = np.array([100, 100, 100])
 upper_lights = np.array([255, 255, 255])
 
@@ -130,6 +135,15 @@ def getColor(img):
     res1 = cv2.bitwise_and(ing, ing, mask=mask)
     return res1
 
+def getColor1(img, colorMin, colorMax):
+    """returns a binary image of the color specified"""
+    ing = img
+    lower_color = np.array(colorMin)
+    upper_color = np.array(colorMax)
+    mask = cv2.inRange(ing, lower_color, upper_color)
+    res1 = cv2.bitwise_and(ing, ing, mask=mask)
+    return res1
+
 def didPop(imgBEFORE, imgAFTER):
     """returns true if red balloon popped, false otherwise"""
     color1 = getColor(imgBEFORE)
@@ -157,6 +171,7 @@ red_lower = [0, 20, 140]  # security cameras
 red_upper = [185, 160, 255]
 red_lower_sec = [0, 0, 700]  # car camera
 red_upper_sec = [110, 100, 180]
+
 
 def canShoot1(circles):
     """return if you can shoot or not"""
@@ -323,3 +338,103 @@ def isWhite(img, circle):
         return True
     else:
         return False
+
+def isGreen(img, circle):
+    """checks if a circle average color is red-ish"""
+    circle = [int(X) for X in circle]
+    xc, yc, r = circle
+    cropImg = img[yc - r:yc + r, xc - r:xc + r]
+    # cv2.imshow("1", cropImg)
+    # cv2.waitKey()
+    contour = drawCircle(cropImg, r)
+    average_color = [0.0, 0.0, 0.0]
+    for i in range(len(cropImg)):
+        for j in range(len(cropImg[0])):
+            if [i, j] in contour:
+                average_color = [average_color[0] + cropImg[i][j][0], average_color[1] + cropImg[i][j][1],
+                                 average_color[2] + cropImg[i][j][2]]
+    average_color = [average_color[0] / len(contour), average_color[1] / len(contour), average_color[2] / len(contour)]
+    if lower_car[0] <= average_color[0] <= upper_car[0] and lower_car[1] <= \
+            average_color[1] <= upper_car[1] and lower_car[2] <= \
+            average_color[2] <= upper_car[2]:
+        return True
+    else:
+        return False
+
+def getCircleCar(img):
+    """returns a list of circles and their sizes in image"""
+    output = img.copy()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.3, 40,
+                               param1=80, param2=10, minRadius=0,
+                               maxRadius=10)
+    bloons = []
+    sizes = []
+    if circles is not None:
+        circles = circles[0]  # syntax
+        for lst in circles:
+            x = lst[0]
+            y = lst[1]
+            r = lst[2]
+            if not isWhite(img, lst):
+                bloons.append(lst)
+                sizes.append(math.pi * r * r)
+                #cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+    #return output
+    return bloons, sizes
+
+def getCar(img):
+    """returns an array of green balloons from the regular web-cams"""
+    options, sizes = getCircleCar(img)
+    filtered = []
+    for option in options:
+        if isGreen(img, option):
+            filtered.append(option)
+    return filtered
+
+def getOrientation(img):
+    options = getLine(img, lower_line, upper_line)
+    if not options:
+        return None
+    counter, x, y = 0.0, 0.0, 0.0
+    for option in options:
+        counter += 1
+        x += option[2][0]
+        y += option[3][0]
+    x, y = x / counter, y / counter
+    if inLine(np.array([x, y])):
+        return 0
+    return (320.0-x)/640.0*30.0
+
+def inLine(point):
+    if (point[0] > 330 or point[0] < 310):
+        return False
+    return True
+
+def getLine(img, colorMin1, colorMax1):
+    """checks the car's relation to the orientation line"""
+    res1 = getColor1(img, colorMin1, colorMax1)
+    kernel1 = np.ones((12, 12), np.uint8)
+    kernel3 = np.ones((6, 6), np.uint8)
+    close1 = cv2.morphologyEx(res1, cv2.MORPH_CLOSE, kernel1)
+    open1 = cv2.morphologyEx(close1, cv2.MORPH_OPEN, kernel3)
+    gray = cv2.cvtColor(open1, cv2.COLOR_HSV2BGR)
+    gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
+    im1, contours, hier = cv2.findContours(gray, cv2.RETR_EXTERNAL,
+                                           cv2.CHAIN_APPROX_NONE)
+    if not len(contours):
+        close1 = cv2.morphologyEx(res1, cv2.MORPH_CLOSE, kernel1)
+        gray = cv2.cvtColor(close1, cv2.COLOR_HSV2BGR)
+        gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
+        im1, contours, hier = cv2.findContours(gray, cv2.RETR_TREE,
+                                               cv2.CHAIN_APPROX_NONE)
+    if not len(contours):
+        return None
+    bloons = []
+    for j in range(len(contours)):
+        if (len(contours[j])>100):
+            line = cv2.fitLine(contours[j], 1, 0, 0.01, 0.01)
+            dir = np.array([line[0][0], line[1][0]])
+            if abs(dir.dot(np.array([0, 1])))>0.95:
+                bloons.append(line)
+    return bloons
