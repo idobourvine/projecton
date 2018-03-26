@@ -22,7 +22,6 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         self.azimuth_motor = device_map.azimuth_motor
         self.pitch_motor = device_map.pitch_motor
 
-        self.shoot = Missions.Turret.DestroyBloon.DestroyBloon(device_map)
         # Variables for execute loop
         self.min_bloon = None
         self.min_dist = 100000
@@ -147,4 +146,3 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         # Unlocks the motors
         self.azimuth_motor.unlock()
         self.pitch_motor.unlock()
-        self.shoot.start()
