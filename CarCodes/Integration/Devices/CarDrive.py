@@ -1,46 +1,19 @@
+import struct
 import time
-
-import Utils.Constants
 import serial
+import Utils.Constants
 
+class CarDrive():
 
-class CarDrive:
     def __init__(self, port, baudrate=2000000):
         self.use_devices = Utils.Constants.Constants.use_devices
         if self.use_devices:
             self.ser = serial.Serial(port, baudrate)
-        time.sleep(5)
+            time.sleep(5)
 
     def close(self):
         if self.use_devices:
             self.ser.close()
-
-    """
-    def send(self, angle, shut, isRel):
-        angle1, angle2 = self.pack_to_two_angles(int(angle*5.825), shut, isRel)
-        if self.use_devices:
-            self.ser.write(struct.pack('>B', int(angle1)))
-            #print(self.ser.read())
-            self.ser.write(struct.pack('>B', int(angle2)))
-            #print(self.ser.read())
-
-    def pack_to_two_angles(self, angle, shut, isRel):
-        '''
-        :param angle: the number of step
-        :param shut: the 13 bit is 1 if we need to fire ,else 0
-        :param isRel: the 14 bit is 1 if the angle is rel ,else 0
-        :return:
-        '''
-        angle += 2048
-        #8192=2^13
-        if shut:
-            angle += 4096
-        if not isRel:
-            #16384=2^14
-            angle += 8192
-        print(int((angle) / 256), int((angle) % 256))
-        return (int((angle) / 256), int((angle) % 256))
-    """
 
     def move_distance(self, length):
         """
@@ -49,40 +22,19 @@ class CarDrive:
         :param length: distance to drive (in meters)
         :return: None
         """
-        print ("Moving " + str(length) + " meters")
-        pass
-
-        # Sends to arduino to move length
+        if length < 0:
+            self.send(0, abs(length), 1)
+        else:
+            self.send(0, length, 0)
 
     def rotate(self, angle):
         """
-        Rotates in place a given angle
-        :param angle: The angle to rotate (positive for counter-clockwise,
-        negative for clockwise)
+        Sends the arduino a command to drive a certain distance in a
+        straight line
+        :param length: distance to drive (in meters)
         :return: None
         """
-        print ("Rotating " + str(angle) + " degrees")
-        pass
-
-        # Sends to arduino to rotate
-
-    def get_gyro_angle(self):
-        """
-        :return: Current reading from gyro
-        """
-
-        return 0
-
-        # returns the read from the serial
-
-    def get_encoder_dist(self):
-        """
-        :return: Current reading from encoder
-        """
-
-        return 0
-
-        # returns the read from the serial
+        self.send(angle,0,0)
 
     def finished_moving(self):
         """
@@ -90,7 +42,44 @@ class CarDrive:
         finished
         :return: False if still running, true otherwise
         """
+        if(serial.available() > 0):
+            a = serial.read()
+            return True
+        return False
 
-        return True
+    def send_data(self,numToSend):
+        '''
+        :param numToSend: send to arduino
+        :return: void
+        '''
+        temp = numToSend
+        b1 = int(temp / (2 ** 17))
+        temp = temp % (2 ** 17)
+        b2 = int(temp / (2 ** 10))
+        temp = temp % (2 ** 10)
+        b3 = int(temp / (2 ** 3))
+        temp = temp % (2 ** 3)
+        b4 = temp
+        #send the data devided to half-bytes
+        #print b1
+        self.ser.write((chr(b1)))
+        #print b2
+        self.ser.write((chr(b2)))
+        #print b3
+        self.ser.write((chr(b3)))
+        #print b4
+        self.ser.write((chr(b4)))
 
-        # returns the read from the serial
+        # print(b1,b2,b3)
+
+    def send(self, angle, distance, isReverse):
+        """
+        :param angle: the angle to send
+        :param distance: the distance in cm include dir
+        :return: void
+        """
+        temp = int(angle) * 5 * 4096 + distance % 2048
+        if (isReverse):
+            temp = temp + 2048
+        self.send_data(temp)
+        print temp
