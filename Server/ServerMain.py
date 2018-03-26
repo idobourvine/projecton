@@ -1,13 +1,11 @@
+import re
 import time
+
+import keyboard
+
+import BlochsCode.SecurityVisionData
 import Communication.Connection
 import Vision_Processing.CarVisionData
-import BlochsCode.SecurityVisionData
-
-import re
-import ast
-
-import sys
-import keyboard
 
 if __name__ == "__main__":
     print("Server running")
@@ -21,9 +19,11 @@ if __name__ == "__main__":
 
     pi_connection = Communication.Connection.Connection(False)
 
-    car_vision_data = Vision_Processing.CarVisionData.CarVisionData(pi_connection)
+    car_vision_data = Vision_Processing.CarVisionData.CarVisionData(
+        pi_connection)
 
     security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
+
 
     def update_pressed_hotkey(self):
         """
@@ -31,6 +31,7 @@ if __name__ == "__main__":
         was pressed
         """
         pressed_hotkey = True
+
 
     pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
     keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
@@ -93,21 +94,23 @@ if __name__ == "__main__":
 
         can_shoot = car_vision_data.get_can_shoot()
         did_pop = car_vision_data.get_did_pop()
+
         room_bloons = security_vision_data.get_bloons()
         print "Room bloons:"
         print room_bloons
+
         continue_mission = len(room_bloons) > 0
 
         if pressed_hotkey:
             pressed_hotkey = False
             car_working = not car_working
 
-
         pi_connection.send_msg("MESSAGECarBloonsMSG" + str(car_bloons))
         pi_connection.send_msg("MESSAGECanShootMSG" + str(can_shoot))
         pi_connection.send_msg("MESSAGEDidPopMSG" + str(did_pop))
         pi_connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
-        pi_connection.send_msg("MESSAGEContinueMissionMSG" + str(continue_mission))
+        pi_connection.send_msg(
+            "MESSAGEContinueMissionMSG" + str(continue_mission))
         pi_connection.send_msg("MESSAGECarWorkingMSG" + str(car_working))
         # print "sending..."
 

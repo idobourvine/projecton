@@ -68,14 +68,20 @@ def getTargets():
         cam.resetTargets()
         cam.resetSizes()
         image = cam.getImage()
+        # print("Time before getting enemies: " + str(time.time()))
         bloons, sizes = Vision_Processing.GetBalloon.getEnemies(image)
+        # print("Time after getting enemies: " + str(time.time()))
+
         points = []
         for bloon in bloons:
             points.append(np.array([bloon[0], bloon[1]]))
         for i in range(len(bloons)):
             cam.addTarget(points[i])
             cam.addSize(sizes[i])
+
     targets = triangulate()
+    # print("Time after triangulation: " + str(time.time()))
+
     # targets = cartesianToSpheric(targets, place, orientation)
     return targets
 
