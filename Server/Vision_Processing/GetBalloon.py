@@ -196,7 +196,7 @@ def getEnemiesSec(img):
     the car camera!!"""
     red_bloons = []
     red_sizes = []
-    bloons, sizes = getCircle(img)
+    bloons, sizes = getCircleSec(img)
     for i in range(len(bloons)):
         if isRedSec(img, bloons[i]):
             # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
@@ -210,6 +210,26 @@ def getEnemiesSec(img):
     # cv2.imshow("image_car")
     return [red_bloons, red_sizes]
 
+def getCircleSec(img):
+    """returns a list of circles and their sizes in image"""
+    output = img.copy()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 50,
+                               param1=80, param2=7, minRadius=7,
+                               maxRadius=0)
+    bloons = []
+    sizes = []
+    if circles is not None:
+        circles = circles[0]  # syntax
+        for lst in circles:
+            x = lst[0]
+            y = lst[1]
+            r = lst[2]
+            if not isWhite(img, lst):
+                bloons.append(lst)
+                sizes.append(math.pi * r * r)
+                # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+    return [bloons, sizes]
 
 def getEnemies(img):
     """returns a list of enemy balloons and their sizes in image works for
