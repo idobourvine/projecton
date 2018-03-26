@@ -88,7 +88,7 @@ class MissionPlanner:
         curr_bloons = self.device_map.car_vision_data.get_car_bloons()
         room_bloons = self.device_map.car_vision_data.get_room_bloons()
 
-        curr_ori = -90
+        curr_ori = 270
 
         if self.mission_state == 0:
             # return Missions.DoNothingMission.DoNothingMission()
