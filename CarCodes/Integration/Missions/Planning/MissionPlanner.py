@@ -100,6 +100,10 @@ class MissionPlanner:
                 print("Running Tests")
                 print()
 
+                # In the test bloons are further away than the system
+                rel_bloons = [bloon for bloon in curr_bloons if bloon[0] >
+                              curr_position[0]]
+
                 mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
                     self.device_map, room_bloons, curr_position, curr_ori)
 
