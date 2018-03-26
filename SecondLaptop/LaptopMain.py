@@ -4,8 +4,7 @@ import time
 import keyboard
 
 import BlochsCode.SecurityVisionData
-import Communication.ServerConnection
-import Vision_Processing.CarVisionData
+import Communication.Connection
 
 if __name__ == "__main__":
     print("Server running")
@@ -14,20 +13,11 @@ if __name__ == "__main__":
     useless_number_pattern = re.compile("(\d+$)")
 
     # Booleans that decide if we process the images
-    process_car_vision = True
     process_security_vision = True
 
-    pi_connection = Communication.ServerConnection.ServerConnection(False)
-
-    car_vision_data = Vision_Processing.CarVisionData.CarVisionData(
-        pi_connection)
+    connection = Communication.Connection.Connection(True)
 
     security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
-
-
-
-
-
 
     def update_pressed_hotkey(self):
         """
@@ -91,31 +81,16 @@ if __name__ == "__main__":
 
         '''Sending messages'''
 
-        car_bloons = car_vision_data.get_bloons()
-
-        # print("Car Bloons: ")
-        # print(car_bloons)
-
-        can_shoot = car_vision_data.get_can_shoot()
-        did_pop = car_vision_data.get_did_pop()
-
         room_bloons = security_vision_data.get_bloons()
         print "Room bloons:"
         print room_bloons
-
-        continue_mission = len(room_bloons) > 0
 
         if pressed_hotkey:
             pressed_hotkey = False
             safety_stopped = not safety_stopped
 
-        pi_connection.send_msg("MESSAGECarBloonsMSG" + str(car_bloons))
-        pi_connection.send_msg("MESSAGECanShootMSG" + str(can_shoot))
-        pi_connection.send_msg("MESSAGEDidPopMSG" + str(did_pop))
-        pi_connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
-        pi_connection.send_msg(
-            "MESSAGEContinueMissionMSG" + str(continue_mission))
-        pi_connection.send_msg("MESSAGECarWorkingMSG" + str(safety_stopped))
+        connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
+        connection.send_msg("MESSAGESafetyStoppedMSG" + str(safety_stopped))
         # print "sending..."
 
         time.sleep(0.5)
