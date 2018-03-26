@@ -153,10 +153,10 @@ BAD3 = [5, 5, 250]
 d3 = 10
 BAD4 = [65, 15, 150]
 d4 = 25
-red_lower = [40, 50, 100]
-red_upper = [90, 100, 180]
-red_lower_sec = [40, 50, 100]
-red_upper_sec = [110, 100, 255]
+red_lower = [0, 20, 140]  # security cameras
+red_upper = [185, 160, 255]
+red_lower_sec = [0, 0, 700]  # car camera
+red_upper_sec = [110, 100, 180]
 
 def canShoot1(circles):
     """return if you can shoot or not"""
@@ -226,7 +226,7 @@ def getFriends(img):
     friend_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if not isRed(img, bloons[i]):
+        if not isRedSec(img, bloons[i]):
             friend_bloons.append(bloons[i])
             friend_sizes.append(sizes[i])
     return [friend_bloons, friend_sizes]
