@@ -4,8 +4,13 @@ def clamp_to_0_360(deg):
     """
     Returns the equivalent angle in the range [0, 360]
     """
-
     return (deg % 360)
+
+def clamp_to_180(deg):
+    """
+    Returns the equivalent angle in the range [-180, 180]
+    """
+    return (deg % 360) - 180
 
 
 def to_degs(angle):

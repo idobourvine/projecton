@@ -45,7 +45,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
             # Azimuth motor is moving reversed relative to normal angles in
             # a mathematical plane
 
-            diff_pitch = clamp_to_0_360(angles[1] - last_angles[1])
+            diff_pitch = clamp_to_180(angles[1] - last_angles[1])
 
             print("Going to move angles: " + str((diff_azimuth, diff_pitch)))
 
