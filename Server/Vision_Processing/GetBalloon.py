@@ -246,8 +246,8 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 100,
-                               param1=80, param2=7, minRadius=7,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 100,
+                               param1=80, param2=5, minRadius=7,
                                maxRadius=0)
     bloons = []
     sizes = []
