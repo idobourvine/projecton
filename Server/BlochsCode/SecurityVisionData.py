@@ -30,6 +30,6 @@ class SecurityVisionData():
         return self.started
 
     def get_bloons(self):
-        if self.bloons:
+        if len(self.bloons) > 0:
             return copy.deepcopy(self.bloons)
         return []

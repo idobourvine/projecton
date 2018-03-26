@@ -80,9 +80,11 @@ class MissionPlanner:
         :param device_map: The device map
         :return: A new mission to perform
         """
+        #letting the cameras reset
+        time.sleep(7)
         curr_position = self.device_map.security_vision_data.get_car_position()
         curr_bloons = self.device_map.car_vision_data.get_car_bloons()
-        room_bloons = self.device_map.security_vision_data.get_hostile_bloons
+        room_bloons = self.device_map.car_vision_data.get_room_bloons()
         curr_ori = -90
 
         if self.mission_state == 0:

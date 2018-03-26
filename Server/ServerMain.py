@@ -88,13 +88,14 @@ if __name__ == "__main__":
 
         car_bloons = car_vision_data.get_bloons()
 
-        print("Car Bloons: ")
-        print(car_bloons)
+        # print("Car Bloons: ")
+        # print(car_bloons)
 
         can_shoot = car_vision_data.get_can_shoot()
         did_pop = car_vision_data.get_did_pop()
         room_bloons = security_vision_data.get_bloons()
-
+        print "Room bloons:"
+        print room_bloons
         continue_mission = len(room_bloons) > 0
 
         if pressed_hotkey:

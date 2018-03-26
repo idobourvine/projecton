@@ -17,7 +17,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         Initialization
         :param device_map: the device map
         :param position: the position the car will be at: tuple (x, y, angle)
-        :param bloons: list of bloon tuples (id, x, y, z, alignment)
+        :param bloons: list of bloon tuples (x, y, z, alignment)
         """
         Missions.SeriesMission.SeriesMission.__init__(self, list())
 
@@ -27,6 +27,24 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         self.position = position
 
         self.init_missions_list(device_map, self.bloons)
+
+    def initialize(self):
+        self.toContinue = True
+        self.index = 0
+
+    def execute(self):
+        if self.toContinue:
+            self.missions[self.index].start()
+            self.toContinue = False
+        if self.missions[self.index].is_finished():
+            self.index += 1
+            self.toContinue = True
+
+    def is_finished(self):
+        return self.missions[-1].is_finished()
+
+    def finish(self):
+        print "done"
 
     def init_missions_list(self, device_map, bloons):
         self.missions = list()
@@ -49,12 +67,12 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
 
         # This function assumes that the bloon is a tuple of the following
         #  form: (id, x, y, z, alignment)
-
+        # The balloons are (x,y,z) only!!!!
         # Computes bloon location relative to the given position,
         # in coordinates aligned with the room
-        rel_x = bloon[1] - self.position[0]
-        rel_y = bloon[2] - self.position[1]
-        rel_z = bloon[3]
+        rel_x = bloon[0] - self.position[0]
+        rel_y = bloon[1] - self.position[1]
+        rel_z = bloon[2]
 
         # Distance on ground between bloon and car
         ground_dist = pythagoras((rel_x, rel_y))

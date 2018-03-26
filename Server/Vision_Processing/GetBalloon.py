@@ -155,7 +155,7 @@ BAD4 = [65, 15, 150]
 d4 = 25
 red_lower = [0, 20, 140]  # security cameras
 red_upper = [185, 160, 255]
-red_lower_sec = [0, 0, 700]  # car camera
+red_lower_sec = [0, 0, 70]  # car camera
 red_upper_sec = [110, 100, 180]
 
 def canShoot1(circles):
@@ -190,7 +190,7 @@ def getEnemiesSec(img):
     red_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if isRed(img, bloons[i]):
+        if isRedSec(img, bloons[i]):
             # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
             #
             # 255, 0), 4)
@@ -209,14 +209,14 @@ def getEnemies(img):
     red_sizes = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if isRedSec(img, bloons[i]):
+        if isRed(img, bloons[i]):
             cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
-                                                                        255, 0), 4)
+            255, 0), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
-    cv2.imshow("image", img)
-    cv2.waitKey(2000)
-    cv2.destroyAllWindows()
+    # cv2.imshow("image", img)
+    # cv2.waitKey(2000)
+    # cv2.destroyAllWindows()
     return [red_bloons, red_sizes]
 
 
