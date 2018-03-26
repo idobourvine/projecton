@@ -104,10 +104,10 @@ class MissionPlanner:
                 rel_bloons = [bloon for bloon in curr_bloons if bloon[0] >
                               curr_position[0]]
 
-                # mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
-                #     self.device_map, rel_bloons, curr_position, curr_ori)
+                mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
+                    self.device_map, rel_bloons, curr_position, curr_ori)
 
-                # return mis
+                return mis
 
                 # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                 #     self.device_map, -60, 13)
@@ -130,7 +130,7 @@ class MissionPlanner:
                 # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
                 #                                             mis3, mis4, mis5])
 
-                return None
+                # return None
             else:
                 return None
 
