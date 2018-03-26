@@ -5,6 +5,8 @@ import Missions.SeriesMission
 import Missions.Turret.AimAtBloonInPicture
 import Missions.Turret.ClearStandpoint
 import Missions.Turret.MoveTurretByAngle
+import Missions.Car.MoveDistance
+import Missions.Car.Rotate
 import math
 from Utils.Constants import *
 from Utils.UtilFunctions import *
@@ -100,37 +102,13 @@ class MissionPlanner:
                 print("Running Tests")
                 print()
 
-                # In the test bloons are further away than the system
-                rel_bloons = [bloon for bloon in curr_bloons if bloon[0] >
-                              curr_position[0]]
+                print("Moving 1 meter, rotating 90 degrees")
 
-                # mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
-                #     self.device_map, rel_bloons, curr_position, curr_ori)
+                mis1 = Missions.Car.MoveDistance.MoveDistance(self.device_map, 1)
+                mis2 = Missions.Car.MoveDistance.Rotate(self.device_map, 90)
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
 
-                # return mis
-
-                # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -60, 13)
-                #
-                # mis2 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-                #
-                # mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -13, 6)
-                #
-                # mis4 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-                #
-                # mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -15, 6)
-                #
-                # mis6 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-
-                # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
-                #                                             mis3, mis4, mis5])
-
-                return None
+                return mis
             else:
                 return None
 
