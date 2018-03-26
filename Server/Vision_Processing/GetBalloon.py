@@ -215,9 +215,9 @@ def getEnemies(img):
             255, 0), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
-    # cv2.imshow("image", img)
-    # cv2.waitKey(2000)
-    # cv2.destroyAllWindows()
+    cv2.imshow("image", img)
+    cv2.waitKey(2000)
+    cv2.destroyAllWindows()
     return [red_bloons, red_sizes]
 
 

@@ -41,11 +41,11 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         for bloon in bloons:
             angles = self.convert_bloon_to_angles(bloon)
 
-            diff_azimuth = - clamp_to_0_360(angles[0] - last_angles[0])
+            diff_azimuth = -1 * clamp_to_0_360(angles[0] - last_angles[0])
             # Azimuth motor is moving reversed relative to normal angles in
             # a mathematical plane
 
-            diff_pitch = clamp_to_180(angles[1] - last_angles[1])
+            diff_pitch = (angles[1] - last_angles[1])
 
             print("Going to move angles: " + str((diff_azimuth, diff_pitch)))
 
