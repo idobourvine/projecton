@@ -12,7 +12,7 @@ sys.path.append('..')
 
 
 class ClearStandpoint(Missions.SeriesMission.SeriesMission):
-    def __init__(self, device_map, bloons, position):
+    def __init__(self, device_map, bloons, position, orientation):
         """
         Initialization
         :param device_map: the device map
@@ -24,38 +24,32 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         self.security_vision_data = device_map.security_vision_data
 
         self.bloons = bloons
-        self.position = position
+        self.position = position  # Starting position (x, y, z)
+        self.orientation = orientation  # Starting orientation (theta)
 
         self.init_missions_list(device_map, self.bloons)
 
-    def initialize(self):
-        self.toContinue = True
-        self.index = 0
-
-    def execute(self):
-        if self.toContinue:
-            self.missions[self.index].start()
-            self.toContinue = False
-        if self.missions[self.index].is_finished():
-            self.index += 1
-            self.toContinue = True
-
-    def is_finished(self):
-        return self.missions[-1].is_finished()
-
-    def finish(self):
-        print "done"
-
     def init_missions_list(self, device_map, bloons):
         self.missions = list()
+
+        # TODO: figure out starting angles better
+        last_angles = (self.orientation, 0)
+
         for bloon in bloons:
             angles = self.convert_bloon_to_angles(bloon)
+
+            diff_azimuth = angles[0] - last_angles[0]
+            diff_pitch = angles[1] - last_angles[1]
+
             self.missions.append(
-                MoveTurretByAngle.MoveTurretByAngle(device_map, angles[0],
-                                                    angles[1]))
+                MoveTurretByAngle.MoveTurretByAngle(device_map,
+                                                    diff_azimuth, True,
+                                                    diff_pitch, True))
             self.missions.append(
                 AimAtBloonInPicture.AimAtBloonInPicture(
                     device_map))
+
+            last_angles = angles
 
     def convert_bloon_to_angles(self, bloon):
         """
@@ -72,7 +66,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         # in coordinates aligned with the room
         rel_x = bloon[0] - self.position[0]
         rel_y = bloon[1] - self.position[1]
-        rel_z = bloon[2]
+        rel_z = bloon[2] - self.position[2]
 
         # Distance on ground between bloon and car
         ground_dist = pythagoras((rel_x, rel_y))
@@ -83,7 +77,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         # Azimuth angle (in room coordinates) is arctan(y/x)
         room_azimuth_angle = to_degs(math.atan2(rel_y, rel_x))
 
-        azimuth_angle = clamp_to_180(room_azimuth_angle - self.position[2])
+        azimuth_angle = clamp_to_0_360(room_azimuth_angle)
 
         return azimuth_angle, pitch_angle
 

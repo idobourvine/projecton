@@ -84,9 +84,10 @@ class MissionPlanner:
         # letting the cameras reset
         time.sleep(7)
 
-        curr_position = self.device_map.security_vision_data.get_car_position()
+        curr_position = self.device_map.car_vision_data.get_car_position()
         curr_bloons = self.device_map.car_vision_data.get_car_bloons()
         room_bloons = self.device_map.car_vision_data.get_room_bloons()
+
         curr_ori = -90
 
         if self.mission_state == 0:
@@ -99,34 +100,8 @@ class MissionPlanner:
                 print("Running Tests")
                 print()
 
-                print("Going to absolute angles")
-                print("azimuth 40, pitch 0")
-
-                print("azimuth 90, pitch 20")
-                print("azimuth 30, pitch 40")
-                print("azimuth 20, pitch 10")
-                print("azimuth -10, pitch 0")
-
-
-                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 40, False, 0, False)
-
-                mis2 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 90, False, 20, False)
-
-                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 30, False, 40, False)
-
-                mis4 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, 20, False, 10, False)
-
-                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -10, False, 0, False)
-
-
-                # mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
-                #     self.device_map, room_bloons, (curr_position[0],
-                #                                    curr_position[1], curr_ori))
+                mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
+                    self.device_map, room_bloons, curr_position, curr_ori)
 
                 # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                 #     self.device_map, -60, 13)
@@ -146,8 +121,10 @@ class MissionPlanner:
                 # mis6 = Missions.Turret.AimAtBloonInPicture \
                 #     .AimAtBloonInPicture(self.device_map)
 
-                mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
-                                                            mis3, mis4, mis5])
+                # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
+                #                                             mis3, mis4, mis5])
+
+                mis = mis1
 
                 return mis
             else:

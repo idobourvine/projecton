@@ -58,6 +58,9 @@ class CarVisionData:
     def get_room_bloons(self):
         return copy.deepcopy(self.room_bloons)
 
+    def get_car_position(self):
+        return (400, 200, 30)
+
     def get_continue_mission(self):
         return copy.deepcopy(self.continue_mission)
 
