@@ -1,5 +1,6 @@
 import time
 import Communication.Connection
+import Vision_Processing.PiStream
 import Vision_Processing.CarVisionData
 import BlochsCode.SecurityVisionData
 
@@ -20,10 +21,12 @@ if __name__ == "__main__":
     process_security_vision = False
 
     pi_connection = Communication.Connection.Connection(False)
+    pi_stream = Vision_Processing.PiStream.PiStream(connection=pi_connection,
+                                    queueSize=2).start()
 
-    car_vision_data = Vision_Processing.CarVisionData.CarVisionData(pi_connection)
+    car_vision_data = Vision_Processing.CarVisionData.CarVisionData(pi_stream)
 
-    security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
+    security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData(pi_stream)
 
     def update_pressed_hotkey(self):
         """
@@ -93,6 +96,7 @@ if __name__ == "__main__":
 
         room_bloons = security_vision_data.get_bloons()
         car_location = security_vision_data.get_car_location()
+        green_line_angle = security_vision_data.get_green_line_angle()
 
         continue_mission = len(room_bloons) > 0
 
@@ -104,10 +108,15 @@ if __name__ == "__main__":
         pi_connection.send_msg("MESSAGECarBloonsMSG" + str(car_bloons))
         pi_connection.send_msg("MESSAGECanShootMSG" + str(can_shoot))
         pi_connection.send_msg("MESSAGEDidPopMSG" + str(did_pop))
+
         pi_connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
         pi_connection.send_msg("MESSAGEContinueMissionMSG" + str(continue_mission))
-        pi_connection.send_msg("MESSAGECarWorkingMSG" + str(car_working))
+
         pi_connection.send_msg("MESSAGECarLocationMSG" + str(car_location))
+        pi_connection.send_msg("MESSAGEGreenLineAngleMSG" + str(
+            green_line_angle))
+
+        pi_connection.send_msg("MESSAGECarWorkingMSG" + str(car_working))
 
         # print "sending..."
 

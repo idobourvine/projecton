@@ -22,6 +22,7 @@ class CarVisionData:
 
         self.room_bloons = []
         self.car_location = []
+        self.green_line_angle = 999
 
         self.continue_mission = True
 
@@ -155,6 +156,11 @@ class CarVisionData:
                     elif msg_type == "CarLocationMSG":
                         self.car_location = data
                         # print("Data from server: car location: " + str(data))
+
+                    elif msg_type == "GreenLineAngleMSG":
+                        self.green_line_angle = data
+                        # print("Data from server: green line angle: " + str(
+                        # data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

@@ -9,14 +9,12 @@ class CarVisionData:
     Wrapper class for the data that comes from vision processing
     """
 
-    def __init__(self, connection):
+    def __init__(self, stream):
         self.bloons = []  # Array of balloons detected by vision processing
         self.can_shoot = [0]
         self.did_pop = [0]
 
-        self.connection = connection
-        self.stream = PiStream.PiStream(connection=self.connection,
-                                        queueSize=2).start()
+        self.stream = stream
         print("Started image stream from pi")
 
         self.eg1 = threading.Thread(target=BalloonDetection.Webcamera,

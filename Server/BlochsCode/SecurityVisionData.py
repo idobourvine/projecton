@@ -5,10 +5,14 @@ import copy
 
 
 class SecurityVisionData():
-    def __init__(self):
+    def __init__(self, stream):
         self.bloons = []
 
         self.car_location = []
+
+        self.green_line_angle = 999  # Default starting value
+
+        self.stream = stream
 
         self.process_thread = Thread(target=self.process,
                                      args=())
@@ -28,6 +32,7 @@ class SecurityVisionData():
                 print("Processing security vision data")
                 self.bloons = getTargets()
                 self.car_location = getCarLocation()
+                self.green_line_angle = getGreenLineAngle(self.stream.read())
             time.sleep(0.1)
 
     def get_started(self):
@@ -40,3 +45,6 @@ class SecurityVisionData():
 
     def get_car_location(self):
         return copy.deepcopy(self.car_location)
+
+    def get_green_line_angle(self):
+        return copy.deepcopy(self.green_line_angle)

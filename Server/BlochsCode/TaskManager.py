@@ -35,7 +35,7 @@ def getTargetsPlaces(points):
     return targets
 
 
-def getOrientation(img):
+def getGreenLineAngle(img):
     return Vision_Processing.GetBalloon.getOrientation(img)
 
 def getCarLocation():
