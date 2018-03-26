@@ -40,7 +40,7 @@ class SecurityVisionData:
         :return: tuple of (x, y, theta)
         """
 
-        return (0, 0, 0)
+        return (360, 180, 30)
 
     def get_did_pop(self):
         """

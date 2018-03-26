@@ -266,7 +266,6 @@ def cartesianToSpheric(targetsCartesian, place, orientation):
     targetsSpheric = []
     [theta0, phi0] = orientation
     for target in targetsCartesian:
-        print target
         direction = target - place
         x, y, z = direction[0], direction[1], direction[2]
         theta = math.atan2(y,x)
