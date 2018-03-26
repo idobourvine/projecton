@@ -97,12 +97,26 @@ class MissionPlanner:
                       "picture")
 
                 mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -20, 10)
+                    self.device_map, -50, 10)
 
                 mis2 = Missions.Turret.AimAtBloonInPicture \
                     .AimAtBloonInPicture(self.device_map)
 
-                mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
+                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -10, 10)
+
+                mis4 = Missions.Turret.AimAtBloonInPicture \
+                    .AimAtBloonInPicture(self.device_map)
+
+                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -15, 10)
+
+                mis6 = Missions.Turret.AimAtBloonInPicture \
+                    .AimAtBloonInPicture(self.device_map)
+
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
+                                                            mis3, mis4,
+                                                            mis5, mis6])
 
                 return mis
             else:
