@@ -13,8 +13,8 @@ upper_red1 = np.array([255, 220, 255])
 
 lower_car = np.array([20, 50, 0])
 upper_car = np.array([150, 255, 150])
-lower_line = np.array([[20, 20, 0]])
-upper_line = np.array([[50, 60, 20]])
+lower_line = np.array([[55, 55, 30]])
+upper_line = np.array([[95, 95, 75]])
 
 lower_lights = np.array([100, 100, 100])
 upper_lights = np.array([255, 255, 255])
