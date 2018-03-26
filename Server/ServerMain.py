@@ -6,6 +6,7 @@ import keyboard
 import BlochsCode.SecurityVisionData
 import Communication.ServerConnection
 import Vision_Processing.CarVisionData
+import Queue
 
 if __name__ == "__main__":
     print("Server running")
@@ -16,15 +17,17 @@ if __name__ == "__main__":
     # Booleans that decide if we process the images
     process_car_vision = False
     process_security_vision = False
+    get_comp2_processed_data = True
 
-    pi_connection = Communication.ServerConnection.ServerConnection(False)
+    pi_connection = Communication.ServerConnection.ServerConnection(
+        Communication.ServerConnection.LISTENER)
 
     car_vision_data = Vision_Processing.CarVisionData.CarVisionData(
         pi_connection)
 
     security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
 
-    def update_pressed_hotkey(self):
+    def update_pressed_hotkey():
         """
         Function that is called by keyboard to update the flag if the hotkey
         was pressed
@@ -38,10 +41,14 @@ if __name__ == "__main__":
 
     safety_stopped = False
 
+    comp2_msgs = Queue()
+
+    def get_comp2_data(msgs):
+
+        conn = Communication.ServerConnection.ServerConnection(Communication.ServerConnection.LISTENER)
+
     while True:
-
         '''Recieving messages'''
-
         # Currently not working as it is interfering with received images
         '''
         try:
@@ -109,6 +116,11 @@ if __name__ == "__main__":
             pi_connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
             pi_connection.send_msg(
                 "MESSAGEContinueMissionMSG" + str(continue_mission))
+
+        if get_comp2_processed_data:
+            periodic_loop_thread = threading.Thread(
+                target = get_comp2_data, args=())
+            periodic_loop_thread.start()
 
         if pressed_hotkey:
             print("Changing safety stop to " + str(not safety_stopped))

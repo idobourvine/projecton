@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # Booleans that decide if we process the images
     process_security_vision = False
 
-    connection = Communication.Connection.Connection(True)
+    connection = Communication.Connection.Connection(False)
 
     # security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
 
