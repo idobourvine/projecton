@@ -12,7 +12,9 @@ class SecurityVisionData():
         self.process_thread.start()
 
         self.started = False
-        self.working = True
+
+        # self.working = True
+        self.working = False
 
     def set_working(self, to_set):
         self.working = to_set

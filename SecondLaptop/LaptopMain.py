@@ -3,7 +3,7 @@ import time
 
 import keyboard
 
-import BlochsCode.SecurityVisionData
+# import BlochsCode.SecurityVisionData
 import Communication.Connection
 
 if __name__ == "__main__":
@@ -13,11 +13,11 @@ if __name__ == "__main__":
     useless_number_pattern = re.compile("(\d+$)")
 
     # Booleans that decide if we process the images
-    process_security_vision = True
+    process_security_vision = False
 
     connection = Communication.Connection.Connection(True)
 
-    security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
+    # security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
 
     def update_pressed_hotkey(self):
         """
@@ -81,15 +81,19 @@ if __name__ == "__main__":
 
         '''Sending messages'''
 
-        room_bloons = security_vision_data.get_bloons()
-        print "Room bloons:"
-        print room_bloons
+        if process_security_vision:
+            room_bloons = security_vision_data.get_bloons()
+            print "Room bloons:"
+            print room_bloons
+
+            connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
 
         if pressed_hotkey:
+            print("Changing safety stop to " + str(not safety_stopped))
             pressed_hotkey = False
             safety_stopped = not safety_stopped
 
-        connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
+
         connection.send_msg("MESSAGESafetyStoppedMSG" + str(safety_stopped))
         # print "sending..."
 
