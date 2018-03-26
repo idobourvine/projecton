@@ -88,12 +88,11 @@ if __name__ == "__main__":
 
         car_bloons = car_vision_data.get_bloons()
 
-        print("Car Bloons: ")
-        print(car_bloons)
-
         can_shoot = car_vision_data.get_can_shoot()
         did_pop = car_vision_data.get_did_pop()
+
         room_bloons = security_vision_data.get_bloons()
+        car_location = security_vision_data.get_car_location()
 
         continue_mission = len(room_bloons) > 0
 
@@ -108,6 +107,8 @@ if __name__ == "__main__":
         pi_connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
         pi_connection.send_msg("MESSAGEContinueMissionMSG" + str(continue_mission))
         pi_connection.send_msg("MESSAGECarWorkingMSG" + str(car_working))
+        pi_connection.send_msg("MESSAGECarLocationMSG" + str(car_location))
+
         # print "sending..."
 
         time.sleep(0.5)

@@ -36,16 +36,15 @@ def getTargetsPlaces(points):
 
 
 def getOrientation(img):
-    return GetBalloon.getOrientation(img)
+    return Vision_Processing.GetBalloon.getOrientation(img)
 
 def getCarLocation():
     """returns 2D location of the car (looking from the ceiling)"""
     cams = CAMS
-    # img1, img2 = cams[0].getImage(), cams[1].getImage()
-    img1, img2 = cv2.imread("1.jpg"), cv2.imread("2.jpg")
+    img1, img2 = cams[0].getImage(), cams[1].getImage()
     # cv2.imshow("1", img1)
     # cv2.waitKey()
-    point1op, point2op = GetBalloon.getCar(img1), GetBalloon.getCar(img2)
+    point1op, point2op = Vision_Processing.GetBalloon.getCar(img1), Vision_Processing.GetBalloon.getCar(img2)
     for j in range(len(point1op)):
         point1op[j] = np.array(np.array([point1op[j][0], point1op[j][1]]))
     for j in range(len(point2op)):
