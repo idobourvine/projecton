@@ -4,10 +4,10 @@ import time
 import keyboard
 
 # import BlochsCode.SecurityVisionData
-import Communication.Connection
+import Communication.LaptopConnection
 
 if __name__ == "__main__":
-    print("Server running")
+    print("Laptop running")
 
     msg_pattern = re.compile("(^\w*MSG)")
     useless_number_pattern = re.compile("(\d+$)")
@@ -15,19 +15,20 @@ if __name__ == "__main__":
     # Booleans that decide if we process the images
     process_security_vision = False
 
-    connection = Communication.Connection.Connection(True)
+    connection = Communication.LaptopConnection.LaptopConnection()
 
     # security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
 
-    def update_pressed_hotkey(self):
+    pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
+
+    def update_pressed_hotkey():
         """
         Function that is called by keyboard to update the flag if the hotkey
         was pressed
         """
+        global pressed_hotkey
         pressed_hotkey = True
 
-
-    pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
     keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
     # Starts tracking if hotkey was pressed
 
@@ -92,6 +93,7 @@ if __name__ == "__main__":
             print("Changing safety stop to " + str(not safety_stopped))
             pressed_hotkey = False
             safety_stopped = not safety_stopped
+
 
 
         connection.send_msg("MESSAGESafetyStoppedMSG" + str(safety_stopped))
