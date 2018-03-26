@@ -6,6 +6,7 @@ import sys
 import AimAtBloonInPicture
 import Missions.SeriesMission
 import MoveTurretByAngle
+import DestroyBloon
 from Utils.UtilFunctions import *
 
 sys.path.append('..')
@@ -45,6 +46,8 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
 
             diff_pitch = clamp_to_0_360(angles[1] - last_angles[1])
 
+            print("Going to move angles: " + str((diff_azimuth, diff_pitch)))
+
             self.missions.append(
                 MoveTurretByAngle.MoveTurretByAngle(device_map,
                                                     diff_azimuth, True,
@@ -52,6 +55,8 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
             self.missions.append(
                 AimAtBloonInPicture.AimAtBloonInPicture(
                     device_map))
+
+            self.missions.append(DestroyBloon.DestroyBloon(device_map))
 
             last_angles = angles
 
