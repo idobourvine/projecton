@@ -92,7 +92,7 @@ class MissionPlanner:
 
                 print("Running tests")
                 print()
-
+                '''
                 print("Testing aim at preset angles, then aim at bloon in "
                       "picture")
 
@@ -119,6 +119,8 @@ class MissionPlanner:
                                                             mis5, mis6])
 
                 return mis
+                '''
+                return None
             else:
                 return None
 
