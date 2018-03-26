@@ -32,9 +32,7 @@ class TurretMotor(Motor.Motor):
             "Sending (" + str(angle1) + ", " + str(angle2) + ") to " + str(
                 self.port))
             self.ser.write(struct.pack('>B', int(angle1)))
-            # print(self.ser.read())
             self.ser.write(struct.pack('>B', int(angle2)))
-            # print(self.ser.read())
 
     def getAngle(self):
         """"""

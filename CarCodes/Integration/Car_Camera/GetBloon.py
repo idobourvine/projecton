@@ -171,6 +171,8 @@ def getEnemies(img):
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRed(img, bloons[i]):
+            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
+                       (0, 0, 255), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
     return [red_bloons, red_sizes]
