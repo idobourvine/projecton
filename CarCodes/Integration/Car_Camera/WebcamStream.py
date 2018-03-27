@@ -34,6 +34,7 @@ class WebcamStream:
 
             if Constants.use_devices:
                 (grabbed, frame) = self.stream.read()
+                print("Read frame")
             else:
                 frame = cv2.imread("1.jpg")
 

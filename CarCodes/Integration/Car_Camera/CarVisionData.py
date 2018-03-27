@@ -100,6 +100,7 @@ class CarVisionData:
                     next_img = cv2.imread("1.jpg")
                 connection.send_image(next_img)
 
+                print("Showing image")
                 cv2.imshow('Kavitz', next_img)
 
                 cv2.waitKey(150)

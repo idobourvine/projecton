@@ -95,8 +95,9 @@ class MissionPlanner:
         curr_ori = 270
 
         if self.mission_state == 0:
-            # return Missions.DoNothingMission.DoNothingMission()
+            return Missions.DoNothingMission.DoNothingMission()
 
+            '''
             if not self.entered_state_0:
                 self.entered_state_0 = True
                 # Testing mode
@@ -131,6 +132,7 @@ class MissionPlanner:
                 return mis
             else:
                 return None
+                '''
 
         elif self.mission_state == 1:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(

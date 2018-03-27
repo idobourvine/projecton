@@ -36,9 +36,9 @@ class CarMain:
             """
             Method that will run periodically
             """
-            # cls.mission_planner.manage_missions()
-            # # cls.mission_handler.run()
-            # Missions.MissionHandler.MissionHandler.run()
+            cls.mission_planner.manage_missions()
+            # cls.mission_handler.run()
+            Missions.MissionHandler.MissionHandler.run()
 
         # Starts the main periodic execution loop
         periodic_loop_thread = threading.Thread(target=cls.do_every,
