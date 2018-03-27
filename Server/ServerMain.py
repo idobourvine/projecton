@@ -6,7 +6,8 @@ import keyboard
 import BlochsCode.SecurityVisionData
 import Communication.ServerConnection
 import Vision_Processing.CarVisionData
-import Queue
+from Queue import Queue
+import threading
 
 if __name__ == "__main__":
     print("Server running")
@@ -22,78 +23,30 @@ if __name__ == "__main__":
     pi_connection = Communication.ServerConnection.ServerConnection(
         Communication.ServerConnection.LISTENER)
 
-    car_vision_data = Vision_Processing.CarVisionData.CarVisionData(
-        pi_connection)
-
-    security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
-
-    def update_pressed_hotkey():
-        """
-        Function that is called by keyboard to update the flag if the hotkey
-        was pressed
-        """
-        pressed_hotkey = True
-
-
-    pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
-    keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
-    # Starts tracking if hotkey was pressed
-
-    safety_stopped = False
-
-    comp2_msgs = Queue()
-
-    def get_comp2_data(msgs):
-
-        conn = Communication.ServerConnection.ServerConnection(Communication.ServerConnection.LISTENER)
-
-    while True:
-        '''Recieving messages'''
-        # Currently not working as it is interfering with received images
-        '''
-        try:
-            msg = pi_connection.get_msg()
+    data_from_comp2 = Queue()
+    def get_comp2_data():
+        conn = Communication.ServerConnection.ServerConnection(
+            Communication.ServerConnection.LISTENER)
+        while True:
+            msg = conn.get_msg()
             if not msg:
                 continue
-
             print("Recieved msg: " + msg)
+            data_from_comp2.put(msg)
 
-            messages = msg.split('MESSAGE')
-            for real_msg in messages:
-                if real_msg == '':
-                    continue
+    if get_comp2_processed_data:
+        periodic_loop_thread_comp2 = threading.Thread(
+            target=get_comp2_data, args=())
+        periodic_loop_thread_comp2.start()
+        print "comp2 server up"
 
-                stripped = real_msg.strip()
-                removed_useless_num = useless_number_pattern.sub(
-                    '', stripped)
+    data_from_car = Queue()
 
-                split = msg_pattern.split(removed_useless_num, 1)
+    def get_vision_data():
+        while True:
+            car_vision_data = Vision_Processing.CarVisionData.CarVisionData(
+                pi_connection)
 
-                if not split:
-                    continue
-
-                msg_type = split[1]
-                raw_msg = split[2]
-                data = ast.literal_eval(raw_msg)
-
-                if msg_type == "ProcessCarVisionMSG":
-                    process_car_vision = data
-                    print("Data from pi: process car vision: " + str(data))
-
-                elif msg_type == "ProcessSecurityVisionMSG":
-                    process_security_vision = data
-                    print("Data from pi: process security vision: " + str(
-                        data))
-                    security_vision_data.set_working(data)
-
-        except Exception as e:
-            print("EXCEPTION CAUGHT")
-            print(str(e))
-        '''
-
-        '''Sending messages'''
-
-        if process_car_vision:
             car_bloons = car_vision_data.get_bloons()
 
             # print("Car Bloons: ")
@@ -102,26 +55,50 @@ if __name__ == "__main__":
             can_shoot = car_vision_data.get_can_shoot()
             did_pop = car_vision_data.get_did_pop()
 
-            pi_connection.send_msg("MESSAGECarBloonsMSG" + str(car_bloons))
-            pi_connection.send_msg("MESSAGECanShootMSG" + str(can_shoot))
-            pi_connection.send_msg("MESSAGEDidPopMSG" + str(did_pop))
+            data_from_car.put("MESSAGECarBloonsMSG" + str(car_bloons))
+            data_from_car.put("MESSAGECanShootMSG" + str(can_shoot))
+            data_from_car.put("MESSAGEDidPopMSG" + str(did_pop))
 
-        if process_security_vision:
+    if process_car_vision:
+        periodic_loop_thread_car_vision = threading.Thread(
+            target=get_vision_data, args=())
+        periodic_loop_thread_comp2.start()
+        print "car vision server is up"
+
+    data_from_vision = Queue()
+    def process_security_vision_data():
+        security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
+        while True:
             room_bloons = security_vision_data.get_bloons()
-            print "Room bloons:"
-            print room_bloons
 
             continue_mission = len(room_bloons) > 0
 
-            pi_connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
-            pi_connection.send_msg(
+            data_from_vision.put("MESSAGERoomBloonsMSG" + str(room_bloons))
+            data_from_vision.put(
                 "MESSAGEContinueMissionMSG" + str(continue_mission))
 
-        if get_comp2_processed_data:
-            periodic_loop_thread = threading.Thread(
-                target = get_comp2_data, args=())
-            periodic_loop_thread.start()
+    if process_security_vision:
+        periodic_loop_thread_comp2 = threading.Thread(
+            target=process_security_vision_data, args=())
+        periodic_loop_thread_comp2.start()
+        print "security vision thread up"
 
+    def update_pressed_hotkey():
+        """
+        Function that is called by keyboard to update the flag if the hotkey
+        was pressed
+        """
+        pressed_hotkey = True
+
+    pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
+    keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
+    # Starts tracking if hotkey was pressed
+
+    safety_stopped = False
+
+
+    while True:
+        #sending messages
         if pressed_hotkey:
             print("Changing safety stop to " + str(not safety_stopped))
 
@@ -130,5 +107,10 @@ if __name__ == "__main__":
 
         pi_connection.send_msg("MESSAGECarWorkingMSG" + str(safety_stopped))
         # print "sending..."
+
+        if not data_from_vision.empty():
+            while not data_from_vision.empty():
+                msg = data_from_vision.get()
+                pi_connection.send_msg(msg)
 
         time.sleep(0.5)
