@@ -141,7 +141,7 @@ class MissionPlanner:
                 # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
                 #                                             mis3, mis4, mis5])
 
-                mis = [mis1, mis3, mis5]
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis3, mis5])
                 return mis
             else:
                 return None
