@@ -1,5 +1,5 @@
 class Constants:
-    use_devices = True
+    use_devices = False
 
     car_or_turret = False  # False for turret, True for car
 

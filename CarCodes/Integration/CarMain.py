@@ -4,9 +4,9 @@ Main class of the car
 import threading
 import time
 
-import Devices.DeviceMap
-import Missions.Planning.MissionPlanner
-import Missions.MissionHandler
+import Integration.Devices.DeviceMap
+import Integration.Missions.Planning.MissionPlanner
+import Integration.Missions.MissionHandler
 
 
 class CarMain:
@@ -17,7 +17,7 @@ class CarMain:
     """
     self init of global objects
     """
-    device_map = Devices.DeviceMap.DeviceMap()
+    device_map = Integration.Devices.DeviceMap.DeviceMap()
 
     @classmethod
     def init_car(cls):
@@ -28,17 +28,17 @@ class CarMain:
         :return:
         """
 
-        cls.mission_planner = Missions.Planning.MissionPlanner.MissionPlanner(
+        cls.mission_planner = Integration.Missions.Planning.MissionPlanner.MissionPlanner(
             device_map=cls.device_map)
-        # cls.mission_handler = Missions.MissionHandler.MissionHandler()
+        # cls.mission_handler = Integration.Missions.MissionHandler.MissionHandler()
 
         def periodic_loop():
             """
             Method that will run periodically
             """
-            cls.mission_planner.manage_missions()
-            # cls.mission_handler.run()
-            Missions.MissionHandler.MissionHandler.run()
+            # cls.mission_planner.manage_missions()
+            # # cls.mission_handler.run()
+            # Integration.Missions.MissionHandler.MissionHandler.run()
 
         # Starts the main periodic execution loop
         periodic_loop_thread = threading.Thread(target=cls.do_every,

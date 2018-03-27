@@ -1,6 +1,6 @@
 import Queue
 from threading import Thread
-
+from Utils.Constants import *
 import cv2
 
 
@@ -8,7 +8,9 @@ class WebcamStream:
     def __init__(self, queueSize=128):
         # initialize the file video stream along with the boolean
         # used to indicate if the thread should be stopped or not
-        self.stream = cv2.VideoCapture(0)
+        if Constants.use_devices:
+            self.stream = cv2.VideoCapture(0)
+
         self.stopped = False
 
         # initialize the queue used to store frames read from
@@ -30,7 +32,10 @@ class WebcamStream:
             if self.stopped:
                 return
 
-            (grabbed, frame) = self.stream.read()
+            if Constants.use_devices:
+                (grabbed, frame) = self.stream.read()
+            else:
+                frame = cv2.imread("1.jpg")
 
             if self.Q.full():
                 # read the next frame from the file

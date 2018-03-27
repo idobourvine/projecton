@@ -20,7 +20,10 @@ LISTEN_TIMEOUT = 1000.0
 IM_SIZE = 8192000
 SENDER = True
 LISTENER = False
+COMP2_PORT = 5050
+PI_PORT = 5060
 PORT = 5000
+
 """
 This class provides sender and receiver TCP services,
 sender is nonblocking while receiver obviously is.
@@ -36,7 +39,7 @@ class ServerConnection:
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     s.settimeout(self.timeout)
                     s.connect((LAPTOP_IP, port))
-                    print("Connected to GUI!")
+                    print("BADDD decision!")
                     self.socket = s
                 else:
                     ## fix ip ##
@@ -50,9 +53,15 @@ class ServerConnection:
                     self.sock = s
                     self.sock.settimeout(self.timeout)
                     self.sock.listen(1)
-                    print "listening"
+                    if(port == PI_PORT):
+                        print "listening to pi"
+                    else:
+                        print "listening to comp2"
                     sender, address = self.sock.accept()
-                    print("Successfully connected to pi: ", address)
+                    if(port == PI_PORT):
+                        print("Successfully connected to pi: ", address)
+                    else:
+                        print("successfully connected to comp2: ", address)
                     self.socket = sender
                 break
             except:
