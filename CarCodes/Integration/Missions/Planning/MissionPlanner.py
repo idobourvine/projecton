@@ -121,19 +121,19 @@ class MissionPlanner:
                 #return mis
 
                 mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -60, 13)
+                    self.device_map, -60, True, 13, True)
                 #
                 # mis2 = Missions.Turret.AimAtBloonInPicture \
                 #     .AimAtBloonInPicture(self.device_map)
                 #
                 mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -13, 6)
+                    self.device_map, -13, True, 6, True)
 
                 # mis4 = Missions.Turret.AimAtBloonInPicture \
                 #     .AimAtBloonInPicture(self.device_map)
                 #
                 mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -15, 6)
+                    self.device_map, -15, True, 6, True)
                 #
                 # mis6 = Missions.Turret.AimAtBloonInPicture \
                 #     .AimAtBloonInPicture(self.device_map)
