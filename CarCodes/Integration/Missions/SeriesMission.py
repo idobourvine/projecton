@@ -1,5 +1,5 @@
 import Mission
-
+import time
 
 class SeriesMission(Mission.Mission):
     def __init__(self, missions):
@@ -26,6 +26,7 @@ class SeriesMission(Mission.Mission):
                     self.started[self.index] = True
                 else:  # Case mission finished
                     self.index += 1  # Inidicates moving on to the next mission
+                    time.sleep(2)
 
     def is_finished(self):
         """
