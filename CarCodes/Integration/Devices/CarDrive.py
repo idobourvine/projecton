@@ -44,7 +44,6 @@ class CarDrive():
         """
         if(self.ser.inWaiting() > 0):
             a = self.ser.read()
-            print str(a) == "1"
             return str(a) == "1"
         return False
 

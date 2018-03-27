@@ -19,7 +19,7 @@ class SeriesMission(Mission.Mission):
         if self.index < len(self.missions):  # If there are still missions
             # to run
             if self.device_map.car_drive.finished_moving():
-                print True
+                print "bad kavi"
             mission = self.missions[self.index]  # Current mission
             if not mission.am_i_running():  # If current mission is not
                 # running, either it hasnt yet been started, or its finished
