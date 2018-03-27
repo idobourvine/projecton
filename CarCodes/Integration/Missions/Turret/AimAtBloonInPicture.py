@@ -72,6 +72,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                 return
         #########
 
+        time.sleep(1)
         a = self.vision_data.get_car_bloons()
         if a:  # Might be empty if no bloons were detected
             self.min_bloon = None  # Object of the bloon that is
