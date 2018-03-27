@@ -102,25 +102,17 @@ class MissionPlanner:
                 print("Running Tests")
                 print()
 
-                # if len(room_bloons) == 0:
-                #     return None
-                # if not isinstance(room_bloons[0], collections.Iterable):
-                #     room_bloons = [room_bloons]
+                if len(room_bloons) == 0:
+                    return None
+                if not isinstance(room_bloons[0], collections.Iterable):
+                    room_bloons = [room_bloons]
 
                 # If the test bloons are further away than the system
-                # rel_bloons = [bloon for bloon in room_bloons if bloon[0] >
-                #               curr_position[0]]
+                rel_bloons = [bloon for bloon in room_bloons if bloon[0] >
+                              curr_position[0]]
 
-                # mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
-                #     self.device_map, rel_bloons, curr_position, curr_ori)
-                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -90, False, 10, False)
-                mis2 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -30, False, 0, False)
-                # mis = Missions.Turret.AimAtBloonInPicture\
-                #     .AimAtBloonInPicture(self.device_map)
-                mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
-                return mis
+                mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
+                    self.device_map, rel_bloons, curr_position, curr_ori)
 
                 # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                 #     self.device_map, -60, True, 13, True)
