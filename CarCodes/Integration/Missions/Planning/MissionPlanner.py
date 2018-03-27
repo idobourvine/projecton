@@ -103,8 +103,8 @@ class MissionPlanner:
                 print()
 
 
-                if len(room_bloons) == 0:
-                    return None
+                # if len(room_bloons) == 0:
+                #     return None
                 if not isinstance(room_bloons[0], collections.Iterable):
                     room_bloons = [room_bloons]
 
@@ -118,22 +118,22 @@ class MissionPlanner:
                 mis = Missions.Turret.AimAtBloonInPicture\
                     .AimAtBloonInPicture(self.device_map)
 
-                return mis
+                #return mis
 
-                # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -60, 13)
+                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -60, 13)
                 #
                 # mis2 = Missions.Turret.AimAtBloonInPicture \
                 #     .AimAtBloonInPicture(self.device_map)
                 #
-                # mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -13, 6)
-                #
+                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -13, 6)
+
                 # mis4 = Missions.Turret.AimAtBloonInPicture \
                 #     .AimAtBloonInPicture(self.device_map)
                 #
-                # mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -15, 6)
+                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -15, 6)
                 #
                 # mis6 = Missions.Turret.AimAtBloonInPicture \
                 #     .AimAtBloonInPicture(self.device_map)
@@ -141,7 +141,8 @@ class MissionPlanner:
                 # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
                 #                                             mis3, mis4, mis5])
 
-                # return None
+                mis = [mis1, mis3, mis5]
+                return mis
             else:
                 return None
 
