@@ -57,7 +57,6 @@ if __name__ == "__main__":
             data_from_car.put("MESSAGECarBloonsMSG" + str(car_bloons))
             data_from_car.put("MESSAGECanShootMSG" + str(can_shoot))
             data_from_car.put("MESSAGEDidPopMSG" + str(did_pop))
-            time.sleep(0.5)
 
     if process_car_vision:
         periodic_loop_thread_car_vision = threading.Thread(
