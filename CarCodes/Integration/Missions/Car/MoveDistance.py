@@ -22,10 +22,7 @@ class MoveDistance(Missions.Mission.Mission):
         """"""
 
     def is_finished(self):
-        res = self.car_drive.finished_moving()
-        if res:
-            print res
-        return res
+        return self.car_drive.finished_moving()
 
     def finish(self):
 
