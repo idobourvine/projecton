@@ -14,8 +14,7 @@ class DeviceMap:
         self.connection = Communication.Connection.Connection(True)
 
         self.car_vision_data = \
-            Car_
-        Camera.CarVisionData.CarVisionData(self.connection)
+            Car_Camera.CarVisionData.CarVisionData(self.connection)
 
         if Constants.car_or_turret:
             self.car_drive = CarDrive.CarDrive('/dev/ttyUSB0')  # Pi port

@@ -56,10 +56,14 @@ class MissionPlanner:
         """
         # Before starting the first mission, waits some time for
         # system initialization to take place
-        if not self.device_map.car_vision_data.car_working:
-            print("Car disabled")
-            return
-
+        
+        ######
+        #if self.device_map.car_vision_data.get_safety_stopped():
+        #    print("Car disabled")
+        #    return
+        ######
+        
+        
         if not self.current_mission:
             if Constants.use_devices:
                 print("Going to sleep")
@@ -67,7 +71,7 @@ class MissionPlanner:
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
-            if self.device_map.security_vision_data.continue_mission():
+            if self.device_map.car_vision_data.get_continue_mission():
 
                 self.current_mission = self.return_next_mission(
                     self.device_map)
@@ -206,15 +210,8 @@ class MissionPlanner:
         elif self.mission_state == 3:
             # State is 3 and next mission was asked - meaning there are
             # still bloons in the room
-            hostile_bloons = \
-                self.device_map.security_vision_data.get_hostile_bloons()
-
-            # If there are no more bloons and we got here - there's a problem
-            if len(hostile_bloons) == 0:
+            
                 return None
-
-            # Chooses next bloon arbitrarily
-            next_bloon = hostile_bloons[0]
 
     def get_bloons_relevant_for_standpoint(self, bloons, standpoint):
         """
