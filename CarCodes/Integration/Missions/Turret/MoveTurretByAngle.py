@@ -30,7 +30,7 @@ class MoveTurretByAngle(Missions.Mission.Mission):
     def initialize(self):
         # flush the buffer so we won't say finished for no reason
         while self.azimuth_motor.ser.inWaiting > 0:
-            self.azimuth.ser.read()
+            self.azimuth_motor.ser.read()
         while self.pitch_motor.ser.inWaiting() > 0:
             self.pitch_motor.ser.read()
         print("moving angles: " + str((self.azimuth, self.azimuth_rel,
