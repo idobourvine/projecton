@@ -9,6 +9,8 @@ import math
 from Utils.Constants import *
 from Utils.UtilFunctions import *
 
+import collections
+
 
 class MissionPlanner:
     MAX_SHOOTING_RANGE = 4  # In meters
@@ -100,37 +102,41 @@ class MissionPlanner:
                 print("Running Tests")
                 print()
 
-                # In the test bloons are further away than the system
-                rel_bloons = [bloon for bloon in curr_bloons if bloon[0] >
-                              curr_position[0]]
+                # if len(room_bloons) == 0:
+                #     return None
+                # if not isinstance(room_bloons[0], collections.Iterable):
+                #     room_bloons = [room_bloons]
 
-                # mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
+                # If the test bloons are further away than the system
+                # rel_bloons = [bloon for bloon in room_bloons if bloon[0] >
+                #               curr_position[0]]
+
+                # mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
                 #     self.device_map, rel_bloons, curr_position, curr_ori)
-
                 # return mis
-
-                # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -60, 13)
+                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -60, True, 13, False)
+                # #
+                # # mis2 = Missions.Turret.AimAtBloonInPicture \
+                # #     .AimAtBloonInPicture(self.device_map)
+                # #
+                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                    self.device_map, -13, True, 0, False)
                 #
-                # mis2 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-                #
-                # mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -13, 6)
-                #
-                # mis4 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-                #
+                # # mis4 = Missions.Turret.AimAtBloonInPicture \
+                # #     .AimAtBloonInPicture(self.device_map)
+                # #
                 # mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -15, 6)
+                #     self.device_map, -15, True, 6, True)
+                # #
+                # # mis6 = Missions.Turret.AimAtBloonInPicture \
+                # #     .AimAtBloonInPicture(self.device_map)
                 #
-                # mis6 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-
-                # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
-                #                                             mis3, mis4, mis5])
-
-                return None
+                # # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
+                # #                                             mis3, mis4, mis5])
+                #
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis3])
+                return mis
             else:
                 return None
 
