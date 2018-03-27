@@ -17,7 +17,7 @@ CAR_Z = 40.0
 def startCams():
     for cam in CAMS:
         cam.stream.start()
-    time.sleep(14)
+    time.sleep(6)
 
 
 def stopCams():
