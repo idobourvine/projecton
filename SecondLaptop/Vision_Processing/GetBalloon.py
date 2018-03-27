@@ -219,17 +219,17 @@ def getEnemies(img):
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRed(img, bloons[i]):
-            # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
-            #            (0, 0, 255), 4)
+            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
+                       (0, 0, 255), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
-        # else:
-        #     cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
-        #                (0, 255, 0), 4)
+        else:
+            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
+                       (0, 255, 0), 4)
     # cv2.imwrite("image_security" + str(time.time()) + ".jpg", img)
-    # cv2.imshow("image_security")
-    # cv2.waitKey(2000)
-    # cv2.destroyAllWindows()
+    cv2.imshow("image_security", img)
+    cv2.waitKey(2000)
+    cv2.destroyAllWindows()
     return [red_bloons, red_sizes]
 
 
