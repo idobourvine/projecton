@@ -6,6 +6,7 @@ import time
 
 import Missions.Turret.DestroyBloon
 import Missions.Mission
+import MoveTurretByAngle
 
 import collections
 
@@ -15,6 +16,8 @@ sys.path.append('..')
 class AimAtBloonInPicture(Missions.Mission.Mission):
     def __init__(self, device_map):
         Missions.Mission.Mission.__init__(self)  # Critical line in every mission
+
+        self.device_map = device_map
 
         self.vision_data = device_map.car_vision_data
 
@@ -33,6 +36,8 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         self.max_counter = 4  # Number of loops the camera needs to be on
         # target to consider to be finished
         self.counter = 0  # Loop counter that is updated in is_finished method
+
+        self.movement_mis = None
 
     def initialize(self):
         """
@@ -55,6 +60,16 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         Code that happens periodically
         :return:
         """
+
+
+        #########
+        # if self.movement_mis:
+        #     if self.movement_mis.is_running and self.movement_mis.finished_called:
+        #         self.movement_mis = None
+        #     else:
+        #         return
+        #########
+
         a = self.vision_data.get_car_bloons()
         if a:  # Might be empty if no bloons were detected
             self.min_bloon = None  # Object of the bloon that is
@@ -116,10 +131,18 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                                           abs(
                                               pitch_angle_to_send)
                 '''
-                self.azimuth_motor.send(azimuth_angle_to_send, False,
-                                        True)
+
+                self.azimuth_motor.send(azimuth_angle_to_send, False, True)
                 self.pitch_motor.send(pitch_angle_to_send, False, True)
-                time.sleep(2.5)
+                self.time(2.5)
+
+                #########
+                # if not self.movement_mis:
+                #     self.movement_mis = MoveTurretByAngle.MoveTurretByAngle(self.device_map, azimuth_angle_to_send,
+                #                                                             True,pitch_angle_to_send, True)
+                #     self.movement_mis.start()
+                #########
+
         if self.is_finished():
             self.kill()
 
