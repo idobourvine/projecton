@@ -20,7 +20,7 @@ def Webcamera(stream, bloons, canShoot, didPop):
 
             try:
                 # print('showing')
-                cv2.imshow('image', Image1)
+                cv2.imshow('image_car', Image1)
                 cv2.waitKey(50)
             except Exception as e:
                 print(e)
