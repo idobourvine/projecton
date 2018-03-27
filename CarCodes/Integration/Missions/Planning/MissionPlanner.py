@@ -105,11 +105,21 @@ class MissionPlanner:
                 print("Moving 1 meter, rotating 90 degrees")
 
                 mis1 = Missions.Car.MoveDistance.MoveDistance(
-                    self.device_map, 30)
+                    self.device_map, 10)
                 mis2 = Missions.Car.Rotate.Rotate(self.device_map, 90)
                 mis3 = Missions.Car.MoveDistance.MoveDistance(
-                    self.device_map, 30)
-                mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
+                    self.device_map, 10)
+                mis4 = Missions.Car.Rotate.Rotate(self.device_map, 90)
+                mis5 = Missions.Car.MoveDistance.MoveDistance(
+                    self.device_map, 10)
+                mis6 = Missions.Car.Rotate.Rotate(self.device_map, 90)
+                mis7 = Missions.Car.MoveDistance.MoveDistance(
+                    self.device_map, 10)
+                mis8 = Missions.Car.Rotate.Rotate(self.device_map, 90)
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
+                                                            mis3, mis4,
+                                                            mis5, mis6,
+                                                            mis7, mis8])
 
                 return mis
             else:
