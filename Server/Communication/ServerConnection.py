@@ -27,7 +27,7 @@ sender is nonblocking while receiver obviously is.
 """
 
 
-class Connection:
+class ServerConnection:
     def __init__(self, type, port=PORT):
         while True:
             try:
