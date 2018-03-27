@@ -65,6 +65,6 @@ class TurretMotor(Motor.Motor):
     def finished_moving(self):
         if (self.ser.inWaiting() > 0):
             a = self.ser.read()
-            print str(a) == "1"
+            print True
             return True
         return False
