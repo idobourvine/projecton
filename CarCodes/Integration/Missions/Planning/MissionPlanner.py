@@ -95,9 +95,8 @@ class MissionPlanner:
         curr_ori = 270
 
         if self.mission_state == 0:
-            return Missions.DoNothingMission.DoNothingMission()
 
-            '''
+            # return Missions.DoNothingMission.DoNothingMission()
             if not self.entered_state_0:
                 self.entered_state_0 = True
                 # Testing mode
@@ -108,20 +107,20 @@ class MissionPlanner:
                 if Constants.car_or_turret:
                     print("Moving 1 meter, rotating 90 degrees")
 
-                    # mis1 = Missions.Car.MoveDistance.MoveDistance(
-                    #     self.device_map, 10)
+                    mis1 = Missions.Car.MoveDistance.MoveDistance(
+                        self.device_map, 20)
                     mis2 = Missions.Car.Rotate.Rotate(self.device_map, 10)
-                    # mis3 = Missions.Car.MoveDistance.MoveDistance(
-                    #     self.device_map, 10)
+                    mis3 = Missions.Car.MoveDistance.MoveDistance(
+                        self.device_map, 20)
                     mis4 = Missions.Car.Rotate.Rotate(self.device_map, -10)
-                    # mis5 = Missions.Car.MoveDistance.MoveDistance(
-                    #     self.device_map, 10)
+                    mis5 = Missions.Car.MoveDistance.MoveDistance(
+                        self.device_map, 20)
                     mis6 = Missions.Car.Rotate.Rotate(self.device_map, 20)
-                    # mis7 = Missions.Car.MoveDistance.MoveDistance(
-                    #     self.device_map, 10)
+                    mis7 = Missions.Car.MoveDistance.MoveDistance(
+                        self.device_map, 20)
                     mis8 = Missions.Car.Rotate.Rotate(self.device_map, -20)
-                    mis = Missions.SeriesMission.SeriesMission([mis2, mis4,
-                                                                mis6, mis8])
+                    mis = Missions.SeriesMission.SeriesMission([mis1, mis2, mis3, mis4, mis5,
+                                                                mis6, mis7, mis8])
 
                 else:
                     mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
@@ -132,7 +131,7 @@ class MissionPlanner:
                 return mis
             else:
                 return None
-                '''
+
 
         elif self.mission_state == 1:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(
