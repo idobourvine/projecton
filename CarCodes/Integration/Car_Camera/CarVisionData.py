@@ -20,8 +20,9 @@ class CarVisionData:
         self.can_shoot = [0]
         self.did_pop = [0]
 
-        self.room_bloons = []
-        self.continue_mission = True
+        self.room_bloons_1 = []
+
+        self.room_bloons_2 = []
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
@@ -143,17 +144,19 @@ class CarVisionData:
                         self.did_pop = data
                         # print("Data from server: did pop: " + str(data))
 
-                    elif msg_type == "RoomBloonsMSG":
-                        self.room_bloons = data
-                        # print("Data from server: room bloons: " + str(data))
+                    elif msg_type == "RoomBloons1MSG":
+                        self.room_bloons_1 = data
+                        print("Data from server: room bloons 1: " + str(
+                        data))
 
-                    elif msg_type == "ContinueMissionMSG":
-                        self.continue_mission = data
-                        # print("Data from server: continue mission: " + str(data))
+                    elif msg_type == "RoomBloons2MSG":
+                        self.room_bloons_2 = data
+                        print("Data from server: room bloons 2: " + str(
+                        data))
 
                     elif msg_type == "CarWorkingMSG":
                         self.car_working = data
-                        #print("Data from server: car working: " + str(data))
+                        print("Data from server: car working: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

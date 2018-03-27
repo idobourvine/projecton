@@ -37,50 +37,6 @@ if __name__ == "__main__":
 
     while True:
 
-        '''Recieving messages'''
-
-        # Currently not working as it is interfering with received images
-        '''
-        try:
-            msg = pi_connection.get_msg()
-            if not msg:
-                continue
-
-            print("Recieved msg: " + msg)
-
-            messages = msg.split('MESSAGE')
-            for real_msg in messages:
-                if real_msg == '':
-                    continue
-
-                stripped = real_msg.strip()
-                removed_useless_num = useless_number_pattern.sub(
-                    '', stripped)
-
-                split = msg_pattern.split(removed_useless_num, 1)
-
-                if not split:
-                    continue
-
-                msg_type = split[1]
-                raw_msg = split[2]
-                data = ast.literal_eval(raw_msg)
-
-                if msg_type == "ProcessCarVisionMSG":
-                    process_car_vision = data
-                    print("Data from pi: process car vision: " + str(data))
-
-                elif msg_type == "ProcessSecurityVisionMSG":
-                    process_security_vision = data
-                    print("Data from pi: process security vision: " + str(
-                        data))
-                    security_vision_data.set_working(data)
-
-        except Exception as e:
-            print("EXCEPTION CAUGHT")
-            print(str(e))
-        '''
-
         '''Sending messages'''
 
         if process_security_vision:
@@ -88,7 +44,7 @@ if __name__ == "__main__":
             print "Room bloons:"
             print room_bloons
 
-            connection.send_msg("MESSAGERoomBloonsMSG" + str(room_bloons))
+            connection.send_msg("MESSAGERoomBloons2MSG" + str(room_bloons))
 
         if pressed_hotkey:
             print("Changing safety stop to " + str(not safety_stopped))
@@ -97,7 +53,7 @@ if __name__ == "__main__":
 
 
 
-        connection.send_msg("MESSAGESafetyStoppedMSG" + str(safety_stopped))
+        connection.send_msg("MESSAGESafetyStopped2MSG" + str(safety_stopped))
         # print "sending..."
 
         time.sleep(0.2)
