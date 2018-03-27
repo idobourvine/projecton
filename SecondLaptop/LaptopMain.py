@@ -13,7 +13,9 @@ if __name__ == "__main__":
     useless_number_pattern = re.compile("(\d+$)")
 
     # Booleans that decide if we process the images
-    process_security_vision = False
+    process_security_vision = True
+
+
     connection = Communication.LaptopConnection.LaptopConnection()
     if process_security_vision:
         security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()

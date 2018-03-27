@@ -16,8 +16,8 @@ if __name__ == "__main__":
     useless_number_pattern = re.compile("(\d+$)")
 
     # Booleans that decide if we process the images
-    process_car_vision = False
-    process_security_vision = False
+    process_car_vision = True
+    process_security_vision = True
     get_comp2_processed_data = True
 
     pi_connection = Communication.ServerConnection.ServerConnection(
