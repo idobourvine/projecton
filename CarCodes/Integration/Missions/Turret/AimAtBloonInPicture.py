@@ -139,7 +139,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                 self.azimuth_motor.send(azimuth_angle_to_send, False, True)
                 self.pitch_motor.send(pitch_angle_to_send, False, True)
 
-                time.sleep(2.5)
+                time.sleep(2)
 
             #########
             # if not self.movement_mis:
