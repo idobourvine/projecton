@@ -113,7 +113,7 @@ class MissionPlanner:
 
                 mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
                     self.device_map, rel_bloons, curr_position, curr_ori)
-
+                return mis
                 # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
                 #     self.device_map, -60, True, 13, True)
                 # #
