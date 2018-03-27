@@ -116,7 +116,11 @@ int stopp()
         stop = true;
         if(started == true)
         {
-        Serial.write(1);
+          Serial.write('2');
+        }
+        else
+        {
+         Serial.write('1');
         }
         started = false;
         return 0;
