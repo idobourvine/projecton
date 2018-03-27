@@ -43,7 +43,7 @@ class CarDrive():
         :return: False if still running, true otherwise
         """
         if(self.ser.inWaiting() > 0):
-            print "hi"
+            # print "hi"
             a = self.ser.read()
             return True
         return False
