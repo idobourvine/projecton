@@ -20,7 +20,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         :param position: the position the car will be at: tuple (x, y, angle)
         :param bloons: list of bloon tuples (x, y, z, alignment)
         """
-       # Missions.SeriesMission.SeriesMission.__init__(self, list())
+        Missions.SeriesMission.SeriesMission.__init__(self, list())
 
         self.security_vision_data = device_map.security_vision_data
 
@@ -29,8 +29,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         self.orientation = orientation  # Starting orientation (theta)
 
         self.init_missions_list(device_map, self.bloons)
-        Missions.SeriesMission.SeriesMission.__init__(self, self.missions)
-
+        
     def init_missions_list(self, device_map, bloons):
         self.missions = list()
 
