@@ -97,8 +97,9 @@ def process_security_vision_data():
     while True:
         room_bloons = security_vision_data.get_bloons()
 
-        print("Room Bloons:")
-        print(room_bloons)
+        if room_bloons:
+            print("Room Bloons:")
+            print(room_bloons)
 
         data_from_vision.put("MESSAGERoomBloons1MSG" + str(room_bloons))
 
@@ -137,19 +138,25 @@ while True:
     pi_connection.send_msg("MESSAGECarWorkingMSG" + str(safety_stopped))
     # print "sending..."
 
-    if not data_from_vision.empty():
-        while not data_from_vision.empty():
-            msg = data_from_vision.get()
-            pi_connection.send_msg(msg)
 
-    if not data_from_comp2.empty():
-        while not data_from_comp2.empty():
-            msg = data_from_comp2.get()
-            pi_connection.send_msg(msg)
+    try:
+        if not data_from_vision.empty():
+            while not data_from_vision.empty():
+                msg = data_from_vision.get()
+                pi_connection.send_msg(msg)
 
-    if not data_from_car.empty():
-        while not data_from_car.empty():
-            msg = data_from_car.get()
-            pi_connection.send_msg(msg)
+        if not data_from_comp2.empty():
+            while not data_from_comp2.empty():
+                msg = data_from_comp2.get()
+                pi_connection.send_msg(msg)
+
+        if not data_from_car.empty():
+            while not data_from_car.empty():
+                msg = data_from_car.get()
+                pi_connection.send_msg(msg)
+
+    except Exception as e:
+        print("Exception in server main loop")
+        print(e)
 
     time.sleep(0.2)

@@ -25,7 +25,13 @@ class SecurityVisionData():
         while True:
             if self.working:
                 print("Processing security vision data")
-                self.bloons = getTargets()
+                try:
+                    self.bloons = getTargets()
+                except Exception, err:
+                    print("Exception from security process")
+                    print(err)
+                    print(err.args)
+                    print(err.__class__)
             time.sleep(0.1)
 
     def get_started(self):
