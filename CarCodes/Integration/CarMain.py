@@ -27,11 +27,7 @@ class CarMain:
         physical devices etc.
         :return:
         """
-        cls.device_map.car_drive.move_distance(30)
-        while not cls.device_map.car_drive.finished_moving():
-            pass
-        cls.device_map.car_drive.rotate(90)
-        
+
         cls.mission_planner = Missions.Planning.MissionPlanner.MissionPlanner(
             device_map=cls.device_map)
         # cls.mission_handler = Missions.MissionHandler.MissionHandler()
