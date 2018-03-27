@@ -42,8 +42,8 @@ class CarDrive():
         finished
         :return: False if still running, true otherwise
         """
-        if(serial.available() > 0):
-            a = serial.read()
+        if(self.ser.inWaiting() > 0):
+            a = self.ser.read()
             return True
         return False
 
