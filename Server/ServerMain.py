@@ -21,12 +21,12 @@ if __name__ == "__main__":
     get_comp2_processed_data = True
 
     pi_connection = Communication.ServerConnection.ServerConnection(
-        Communication.ServerConnection.LISTENER)
+        Communication.ServerConnection.LISTENER, PI_PORT)
 
     data_from_comp2 = Queue()
     def get_comp2_data():
         conn = Communication.ServerConnection.ServerConnection(
-            Communication.ServerConnection.LISTENER)
+            Communication.ServerConnection.LISTENER, COMP2_PORT)
         while True:
             msg = conn.get_msg()
             if not msg:
@@ -111,6 +111,16 @@ if __name__ == "__main__":
         if not data_from_vision.empty():
             while not data_from_vision.empty():
                 msg = data_from_vision.get()
+                pi_connection.send_msg(msg)
+
+        if not data_from_comp2.empty():
+            while not data_from_comp2.empty():
+                msg = data_from_comp2.get()
+                pi_connection.send_msg(msg)
+
+        if not data_from_car.empty():
+            while not data_from_car.empty():
+                msg = data_from_car.get()
                 pi_connection.send_msg(msg)
 
         time.sleep(0.5)
