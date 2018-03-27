@@ -64,7 +64,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         #########
         if self.movement_mis:
             print("Movement mission already assigned")
-            if self.movement_mis.is_running and self.movement_mis.finished_called:
+            if self.movement_mis.finished_called:
                 print("Movement mission finished so cancelling it")
                 self.movement_mis = None
             else:
