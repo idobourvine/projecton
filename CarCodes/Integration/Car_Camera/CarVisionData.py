@@ -56,8 +56,14 @@ class CarVisionData:
     def get_did_pop(self):
         return copy.deepcopy(self.did_pop)
 
+    def get_room_bloons_1(self):
+        return copy.deepcopy(self.room_bloons_1)
+
+    def get_room_bloons_2(self):
+        return copy.deepcopy(self.room_bloons_2)
+
     def get_room_bloons(self):
-        return copy.deepcopy(self.room_bloons)
+        return self.get_room_bloons_1() + self.get_room_bloons_2()
 
     def get_car_position(self):
         return (360, 180, 30)
