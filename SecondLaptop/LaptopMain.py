@@ -98,4 +98,4 @@ if __name__ == "__main__":
         connection.send_msg("MESSAGESafetyStoppedMSG" + str(safety_stopped))
         # print "sending..."
 
-        time.sleep(0.5)
+        time.sleep(0.2)

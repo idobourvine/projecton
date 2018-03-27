@@ -13,8 +13,8 @@ class SecurityVisionData():
 
         self.started = False
 
-        # self.working = True
-        self.working = False
+        self.working = True
+        # self.working = False
 
     def set_working(self, to_set):
         self.working = to_set
