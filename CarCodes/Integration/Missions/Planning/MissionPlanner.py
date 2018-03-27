@@ -127,7 +127,7 @@ class MissionPlanner:
                     mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(self.device_map, room_bloons, curr_position,
                                                                            curr_ori)
 
-                    mis = Missions.SeriesMission.SeriesMission([mis1, mis3])
+                    mis = Missions.SeriesMission.SeriesMission([mis1])
                 return mis
             else:
                 return None
