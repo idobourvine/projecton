@@ -61,13 +61,12 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         :return:
         """
 
-
         #########
-        # if self.movement_mis:
-        #     if self.movement_mis.is_running and self.movement_mis.finished_called:
-        #         self.movement_mis = None
-        #     else:
-        #         return
+        if self.movement_mis:
+            if self.movement_mis.is_running and self.movement_mis.finished_called:
+                self.movement_mis = None
+            else:
+                return
         #########
 
         a = self.vision_data.get_car_bloons()
@@ -132,16 +131,16 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                                               pitch_angle_to_send)
                 '''
 
-                self.azimuth_motor.send(azimuth_angle_to_send, False, True)
-                self.pitch_motor.send(pitch_angle_to_send, False, True)
-                
-                time.sleep(2.5)
+                # self.azimuth_motor.send(azimuth_angle_to_send, False, True)
+                # self.pitch_motor.send(pitch_angle_to_send, False, True)
+                #
+                # time.sleep(2.5)
 
                 #########
-                # if not self.movement_mis:
-                #     self.movement_mis = MoveTurretByAngle.MoveTurretByAngle(self.device_map, azimuth_angle_to_send,
-                #                                                             True,pitch_angle_to_send, True)
-                #     self.movement_mis.start()
+                if not self.movement_mis:
+                    self.movement_mis = MoveTurretByAngle.MoveTurretByAngle(self.device_map, azimuth_angle_to_send,
+                                                                            True, pitch_angle_to_send, True)
+                    self.movement_mis.start()
                 #########
 
         if self.is_finished():

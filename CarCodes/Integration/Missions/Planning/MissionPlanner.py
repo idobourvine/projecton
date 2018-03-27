@@ -124,10 +124,13 @@ class MissionPlanner:
 
                 else:
 
-                    mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(self.device_map, room_bloons, curr_position,
-                                                                           curr_ori)
+                    # mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(self.device_map, room_bloons, curr_position,
+                    #                                                        curr_ori)
 
-                    mis = Missions.SeriesMission.SeriesMission([mis1])
+                    mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -60, True, 15, True)
+                    mis2 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -30, True, 15, True)
+
+                    mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
                 return mis
             else:
                 return None
