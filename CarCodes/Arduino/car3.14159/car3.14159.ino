@@ -271,7 +271,6 @@ end of getAngle
 *************************************************/
 
 void driveX(long distance){
-  Serial.print("banana");
   long initialLeft,initialRight;
   initialLeft=getLeft();
   initialRight=getRight();
