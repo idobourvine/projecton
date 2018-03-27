@@ -20,7 +20,9 @@ LISTEN_TIMEOUT = 1000.0
 IM_SIZE = 8192000
 SENDER = True
 LISTENER = False
-PORT = 5000
+COMP2_PORT = 5050
+PI_PORT = 5060
+
 """
 This class provides sender and receiver TCP services,
 sender is nonblocking while receiver obviously is.
@@ -28,7 +30,7 @@ sender is nonblocking while receiver obviously is.
 
 
 class LaptopConnection:
-    def __init__(self, port=PORT):
+    def __init__(self, port=COMP2_PORT):
         while True:
             try:
                 self.timeout = SEND_TIMEOUT
