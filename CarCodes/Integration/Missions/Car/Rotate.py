@@ -19,8 +19,7 @@ class Rotate(Missions.Mission.Mission):
         self.car_drive.rotate(self.angle)
 
     def execute(self):
-        pass
-
+        """"""
     def is_finished(self):
         return self.car_drive.finished_moving()
 

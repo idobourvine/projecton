@@ -1,12 +1,11 @@
 import Mission
-
+import time
 
 class SeriesMission(Mission.Mission):
     def __init__(self, missions):
         Mission.Mission.__init__(self)  # Critical line in every mission
 
         self.missions = missions  # List of missions to run
-
         self.started = [False] * len(self.missions)  # List representing
         # which missions by order have been started
         self.index = 0  # Index of current mission running in the mission list
