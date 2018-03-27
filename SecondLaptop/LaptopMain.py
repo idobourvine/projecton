@@ -3,7 +3,7 @@ import time
 
 import keyboard
 
-# import BlochsCode.SecurityVisionData
+import BlochsCode.SecurityVisionData
 import Communication.LaptopConnection
 
 if __name__ == "__main__":
@@ -15,8 +15,8 @@ if __name__ == "__main__":
     # Booleans that decide if we process the images
     process_security_vision = False
     connection = Communication.LaptopConnection.LaptopConnection()
-
-    # security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
+    if process_security_vision:
+        security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
 
     pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
 

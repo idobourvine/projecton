@@ -94,7 +94,10 @@ class CarVisionData:
             '''
 
             if stream.more():
-                next_img = stream.read()
+                if Constants.use_devices:
+                    next_img = stream.read()
+                else:
+                    next_img = cv2.imread("1.jpg")
                 connection.send_image(next_img)
 
                 cv2.imshow('Kavitz', next_img)

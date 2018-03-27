@@ -23,6 +23,7 @@ LISTENER = False
 COMP2_PORT = 5050
 PI_PORT = 5060
 PORT = 5000
+
 """
 This class provides sender and receiver TCP services,
 sender is nonblocking while receiver obviously is.
@@ -54,7 +55,10 @@ class ServerConnection:
                     self.sock.listen(1)
                     print "listening"
                     sender, address = self.sock.accept()
-                    print("Successfully connected to pi: ", address)
+                    if(port == PI_PORT):
+                        print("Successfully connected to pi: ", address)
+                    else:
+                        print("successfully connected to comp2: ", address)
                     self.socket = sender
                 break
             except:

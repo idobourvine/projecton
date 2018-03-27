@@ -1,5 +1,5 @@
 class Constants:
-    use_devices = True
+    use_devices = False
 
     # Balloon alignments
     b_friendly = 1

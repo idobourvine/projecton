@@ -21,17 +21,19 @@ if __name__ == "__main__":
     get_comp2_processed_data = True
 
     pi_connection = Communication.ServerConnection.ServerConnection(
-        Communication.ServerConnection.LISTENER, PI_PORT)
+        Communication.ServerConnection.LISTENER, Communication.ServerConnection.PI_PORT)
 
     data_from_comp2 = Queue()
+
     def get_comp2_data():
+        print "comp2 starting"
         conn = Communication.ServerConnection.ServerConnection(
-            Communication.ServerConnection.LISTENER, COMP2_PORT)
+            Communication.ServerConnection.LISTENER, Communication.ServerConnection.COMP2_PORT)
         while True:
             msg = conn.get_msg()
             if not msg:
                 continue
-            print("Recieved msg: " + msg)
+            print("Recieved msg from comp 2: " + msg)
             data_from_comp2.put(msg)
 
     if get_comp2_processed_data:
@@ -49,20 +51,18 @@ if __name__ == "__main__":
 
             car_bloons = car_vision_data.get_bloons()
 
-            # print("Car Bloons: ")
-            # print(car_bloons)
-
             can_shoot = car_vision_data.get_can_shoot()
             did_pop = car_vision_data.get_did_pop()
 
             data_from_car.put("MESSAGECarBloonsMSG" + str(car_bloons))
             data_from_car.put("MESSAGECanShootMSG" + str(can_shoot))
             data_from_car.put("MESSAGEDidPopMSG" + str(did_pop))
+            time.sleep(0.5)
 
     if process_car_vision:
         periodic_loop_thread_car_vision = threading.Thread(
             target=get_vision_data, args=())
-        periodic_loop_thread_comp2.start()
+        periodic_loop_thread_car_vision.start()
         print "car vision server is up"
 
     data_from_vision = Queue()

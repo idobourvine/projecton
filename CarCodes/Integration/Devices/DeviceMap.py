@@ -3,22 +3,21 @@ This class contains all of the physical devices of the car, to prevent
 attempting to intialize two instances of the same device
 """
 
-import Communication.Connection
-import Car_Camera.CarVisionData
-import Security_Cameras.SecurityVisionData
+import Integration.Communication.Connection
+import Integration.Car_Camera.CarVisionData
+import Integration.Security_Cameras.SecurityVisionData
 import CarDrive
 import TurretMotor
 
-
 class DeviceMap:
     def __init__(self):
-        self.connection = Communication.Connection.Connection(True)
+        self.connection = Integration.Communication.Connection.Connection(True)
 
         self.car_vision_data = \
-            Car_Camera.CarVisionData.CarVisionData(self.connection)
+            Integration.Car_Camera.CarVisionData.CarVisionData(self.connection)
 
         self.security_vision_data = \
-            Security_Cameras.SecurityVisionData.SecurityVisionData()
+            Integration.Security_Cameras.SecurityVisionData.SecurityVisionData()
 
         # serial comm with arduino that controls azimuth motor
         # self.azimuth_motor = TurretMotor.TurretMotor('COM5')  # PC port
