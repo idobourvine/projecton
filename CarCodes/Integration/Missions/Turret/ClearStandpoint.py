@@ -29,7 +29,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         self.orientation = orientation  # Starting orientation (theta)
 
         self.init_missions_list(device_map, self.bloons)
-        
+
     def init_missions_list(self, device_map, bloons):
         self.missions = list()
 
