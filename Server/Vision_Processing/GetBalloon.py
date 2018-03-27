@@ -11,8 +11,8 @@ upper_red = np.array([50, 220, 255])
 lower_red1 = np.array([170, 120, 170])
 upper_red1 = np.array([255, 220, 255])
 
-lower_car = np.array([20, 50, 0])
-upper_car = np.array([150, 255, 150])
+lower_car = np.array([45, 100, 25])
+upper_car = np.array([170, 255, 165])
 lower_line = np.array([[55, 55, 30]])
 upper_line = np.array([[95, 95, 75]])
 
@@ -375,9 +375,9 @@ def getCircleCar(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.3, 40,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.9, 30,
                                param1=80, param2=10, minRadius=0,
-                               maxRadius=10)
+                               maxRadius=15)
     bloons = []
     sizes = []
     if circles is not None:
@@ -386,11 +386,11 @@ def getCircleCar(img):
             x = lst[0]
             y = lst[1]
             r = lst[2]
-            if not isWhite(img, lst):
+            if not isWhite(img, lst) and y > 200:
                 bloons.append(lst)
                 sizes.append(math.pi * r * r)
-                #cv2.circle(output, (x, y), r, (0, 255, 0), 4)
-    #return output
+                # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+    # return output
     return bloons, sizes
 
 def getCar(img):

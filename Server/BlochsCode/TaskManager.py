@@ -11,7 +11,7 @@ from sympy import Symbol
 from Helper import *
 import time
 
-CAR_Z = 40.0
+CAR_Z = 55.0
 
 
 def startCams():
@@ -42,9 +42,8 @@ def getCarLocation():
     """returns 2D location of the car (looking from the ceiling)"""
     cams = CAMS
     img1, img2 = cams[0].getImage(), cams[1].getImage()
-    # cv2.imshow("1", img1)
-    # cv2.waitKey()
-    point1op, point2op = Vision_Processing.GetBalloon.getCar(img1), Vision_Processing.GetBalloon.getCar(img2)
+    # img1, img2 = cv2.imread("1.jpg"), cv2.imread("2.jpg")
+    point1op, point2op = GetBalloon.getCar(img1), GetBalloon.getCar(img2)
     for j in range(len(point1op)):
         point1op[j] = np.array(np.array([point1op[j][0], point1op[j][1]]))
     for j in range(len(point2op)):
@@ -53,21 +52,15 @@ def getCarLocation():
         return None
     points = [[point1op[0]], [point2op[0]]]
     car = getTargetsPlaces(copy.deepcopy(points))[0]
-    diff = abs(car[2]-CAR_Z)
-    # k=0
+    diff = abs(car[2] - CAR_Z)
     for op1 in point1op:
         for op2 in point2op:
-            # k+=1
             testPoint = [[op1], [op2]]
             testCar = getTargetsPlaces(copy.deepcopy(testPoint))[0]
-            # print testCar
-            # print op1
-            # print op2
             testDiff = abs(testCar[2] - CAR_Z)
             if testDiff < diff:
                 diff = testDiff
                 car = testCar
-    # car = np.array([car[0], car[1], CAR_Z])
     return car
 
 
