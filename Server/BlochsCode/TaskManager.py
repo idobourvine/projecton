@@ -71,8 +71,8 @@ def getTargets():
         # print("Time before getting enemies: " + str(time.time()))
         bloons, sizes = Vision_Processing.GetBalloon.getEnemies(image)
         # print("Time after getting enemies: " + str(time.time()))
-        print "getTargets"
-        print bloons
+        # print "getTargets"
+        # print bloons
         points = []
         for bloon in bloons:
             points.append(np.array([bloon[0], bloon[1]]))
