@@ -15,12 +15,13 @@ if __name__ == "__main__":
     # Booleans that decide if we process the images
     process_security_vision = True
 
-
     connection = Communication.LaptopConnection.LaptopConnection()
+    
     if process_security_vision:
         security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
 
     pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
+
 
     def update_pressed_hotkey():
         """
@@ -29,6 +30,7 @@ if __name__ == "__main__":
         """
         global pressed_hotkey
         pressed_hotkey = True
+
 
     keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
     # Starts tracking if hotkey was pressed
@@ -50,8 +52,6 @@ if __name__ == "__main__":
             print("Changing safety stop to " + str(not safety_stopped))
             pressed_hotkey = False
             safety_stopped = not safety_stopped
-
-
 
         connection.send_msg("MESSAGESafetyStopped2MSG" + str(safety_stopped))
         # print "sending..."

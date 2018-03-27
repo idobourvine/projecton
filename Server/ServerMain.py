@@ -69,10 +69,9 @@ data_from_car = Queue()
 
 
 def get_vision_data():
+    car_vision_data = Vision_Processing.CarVisionData.CarVisionData(
+        pi_connection)
     while True:
-        car_vision_data = Vision_Processing.CarVisionData.CarVisionData(
-            pi_connection)
-
         car_bloons = car_vision_data.get_bloons()
 
         can_shoot = car_vision_data.get_can_shoot()
