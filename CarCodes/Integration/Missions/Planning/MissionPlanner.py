@@ -56,7 +56,7 @@ class MissionPlanner:
         """
         # Before starting the first mission, waits some time for
         # system initialization to take place
-        if not self.device_map.car_vision_data.car_working:
+        if self.device_map.car_vision_data.get_safety_stopped():
             print("Car disabled")
             return
 
@@ -101,9 +101,9 @@ class MissionPlanner:
 
         if self.mission_state == 0:
 
-            mis1 = Missions.Turret.MoveTurretByAngle(self.device_map, 5, True, 5, True)
+            mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, 5, True, 5, True)
             mis2 = Missions.Turret.DestroyBloon.DestroyBloon(self.device_map)
-            return Missions.SeriesMission([mis1, mis2])
+            return Missions.SeriesMission.SeriesMission([mis1, mis2])
 
             '''
             if not self.entered_state_0:

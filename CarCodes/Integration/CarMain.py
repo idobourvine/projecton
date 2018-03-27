@@ -38,7 +38,7 @@ class CarMain:
             """
             cls.mission_planner.manage_missions()
 
-            if cls.device_map.car_vision_data.get_car_working():
+            if cls.device_map.car_vision_data.get_safety_stopped():
                 print("Car is safety stopped, killing all missions")
                 Missions.MissionHandler.MissionHandler.close_all()
                 time.sleep(5)

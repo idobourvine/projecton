@@ -164,8 +164,8 @@ class CarVisionData:
                         data))
 
                     elif msg_type == "SafetyStoppedMSG":
-                        self.car_working = data
-                        print("Data from server: car working: " + str(data))
+                        self.safety_stopped = data
+                        print("Data from server: safety stopped: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

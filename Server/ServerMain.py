@@ -116,15 +116,15 @@ pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
 safety_stopped = True
 
 
-def update_pressed_hotkey(self):
+def update_pressed_hotkey():
     """
     Function that is called by keyboard to update the flag if the hotkey
     was pressed
     """
-    global safety_stopped
-    safety_stopped = True
+    global pressed_hotkey
+    pressed_hotkey = True
 
-
+print("Adding hotkey")
 keyboard.add_hotkey('ctrl+enter', update_pressed_hotkey)
 # Starts tracking if hotkey was pressed
 
@@ -132,7 +132,6 @@ while True:
     # sending messages
     if pressed_hotkey:
         print("Changing safety stop to " + str(not safety_stopped))
-
         pressed_hotkey = False
         safety_stopped = not safety_stopped
 
