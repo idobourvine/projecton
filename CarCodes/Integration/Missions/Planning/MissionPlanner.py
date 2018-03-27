@@ -86,7 +86,7 @@ class MissionPlanner:
         """
 
         # letting the cameras reset
-        time.sleep(10)
+        time.sleep(15)
 
         curr_position = self.device_map.car_vision_data.get_car_position()
         curr_bloons = self.device_map.car_vision_data.get_car_bloons()
