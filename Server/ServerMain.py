@@ -136,7 +136,7 @@ while True:
         pressed_hotkey = False
         safety_stopped = not safety_stopped
 
-    pi_connection.send_msg("MESSAGECarWorkingMSG" + str(safety_stopped))
+    pi_connection.send_msg("MESSAGESafetyStoppedMSG" + str(safety_stopped))
     # print "sending..."
 
     try:

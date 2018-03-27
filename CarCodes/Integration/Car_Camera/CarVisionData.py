@@ -44,7 +44,7 @@ class CarVisionData:
         self.process_car_vision = True  # Process car camera or not
         self.process_security_vision = True  # Process security cameras or not
 
-        self.car_working = True  # True if car is working, false if it was
+        self.safety_stopped = True  # True if car is working, false if it was
         # stopped
 
     def get_car_bloons(self):
@@ -71,8 +71,8 @@ class CarVisionData:
     def get_continue_mission(self):
         return copy.deepcopy(self.continue_mission)
 
-    def get_car_working(self):
-        return copy.deepcopy(self.car_working)
+    def get_safety_stopped(self):
+        return copy.deepcopy(self.safety_stopped)
 
     def continue_mission(self):
         """
@@ -163,7 +163,7 @@ class CarVisionData:
                         print("Data from server: room bloons 2: " + str(
                         data))
 
-                    elif msg_type == "CarWorkingMSG":
+                    elif msg_type == "SafetyStoppedMSG":
                         self.car_working = data
                         print("Data from server: car working: " + str(data))
 
