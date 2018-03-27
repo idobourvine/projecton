@@ -29,14 +29,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MissionPlanner.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MissionPlanner.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Missions/Planning/MissionPlanner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="92" column="71" lean-forward="true" selection-start-line="92" selection-start-column="71" selection-end-line="92" selection-end-column="71" />
+            <state relative-caret-position="645">
+              <caret line="106" column="42" lean-forward="false" selection-start-line="106" selection-start-column="29" selection-end-line="106" selection-end-column="42" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeviceMap.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Devices/DeviceMap.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CarVisionData.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Car_Camera/CarVisionData.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="154" column="62" lean-forward="true" selection-start-line="154" selection-start-column="62" selection-end-line="154" selection-end-column="62" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Utils/Constants.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -61,6 +93,7 @@
         <option value="$PROJECT_DIR$/MissionHandler.py" />
         <option value="$PROJECT_DIR$/CarMain.py" />
         <option value="$PROJECT_DIR$/Missions/Planning/MissionPlanner.py" />
+        <option value="$PROJECT_DIR$/Car_Camera/CarVisionData.py" />
       </list>
     </option>
   </component>
@@ -98,17 +131,6 @@
               <item name="Integration" type="b2602c69:ProjectViewProjectNode" />
               <item name="Integration" type="462c0819:PsiDirectoryNode" />
               <item name="Car_Camera" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Integration" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Integration" type="462c0819:PsiDirectoryNode" />
-              <item name="Missions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Integration" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Integration" type="462c0819:PsiDirectoryNode" />
-              <item name="Missions" type="462c0819:PsiDirectoryNode" />
-              <item name="Planning" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Integration" type="b2602c69:ProjectViewProjectNode" />
@@ -371,12 +393,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Utils/Constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="24" lean-forward="false" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Missions/Planning/MissionPlanner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="92" column="71" lean-forward="true" selection-start-line="92" selection-start-column="71" selection-end-line="92" selection-end-column="71" />
+        <state relative-caret-position="645">
+          <caret line="106" column="42" lean-forward="false" selection-start-line="106" selection-start-column="29" selection-end-line="106" selection-end-column="42" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devices/DeviceMap.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Car_Camera/CarVisionData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="154" column="62" lean-forward="true" selection-start-line="154" selection-start-column="62" selection-end-line="154" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

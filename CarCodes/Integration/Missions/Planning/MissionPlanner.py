@@ -105,7 +105,7 @@ class MissionPlanner:
                 print()
 
                 if Constants.car_or_turret:
-                    print("Moving 1 meter, rotating 90 degrees")
+                    print("Testing movements")
 
                     mis1 = Missions.Car.MoveDistance.MoveDistance(
                         self.device_map, 20)

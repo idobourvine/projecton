@@ -140,29 +140,29 @@ class CarVisionData:
 
                     if msg_type == "CarBloonsMSG":
                         self.car_bloons = data
-                        print("Data from server: bloons: " + str(data))
+                        # print("Data from server: bloons: " + str(data))
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
-                        print("Data from server: can shoot: " + str(data))
+                        # print("Data from server: can shoot: " + str(data))
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-                        print("Data from server: did pop: " + str(data))
+                        # print("Data from server: did pop: " + str(data))
 
                     elif msg_type == "RoomBloons1MSG":
                         self.room_bloons_1 = data
-                        print("Data from server: room bloons 1: " + str(
-                        data))
+                        # print("Data from server: room bloons 1: " + str(
+                        # data))
 
                     elif msg_type == "RoomBloons2MSG":
                         self.room_bloons_2 = data
-                        print("Data from server: room bloons 2: " + str(
-                        data))
+                        # print("Data from server: room bloons 2: " + str(
+                        # data))
 
                     elif msg_type == "CarWorkingMSG":
                         self.car_working = data
-                        print("Data from server: car working: " + str(data))
+                        # print("Data from server: car working: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")
