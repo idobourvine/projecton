@@ -2,11 +2,11 @@ import Mission
 import time
 
 class SeriesMission(Mission.Mission):
-    def __init__(self, missions):
+    def __init__(self, missions, device_map):
         Mission.Mission.__init__(self)  # Critical line in every mission
 
         self.missions = missions  # List of missions to run
-
+        self.device_map = device_map
         self.started = [False] * len(self.missions)  # List representing
         # which missions by order have been started
         self.index = 0  # Index of current mission running in the mission list
@@ -18,6 +18,8 @@ class SeriesMission(Mission.Mission):
     def execute(self):
         if self.index < len(self.missions):  # If there are still missions
             # to run
+            if self.device_map.car_drive.finished_moving():
+                print True
             mission = self.missions[self.index]  # Current mission
             if not mission.am_i_running():  # If current mission is not
                 # running, either it hasnt yet been started, or its finished
