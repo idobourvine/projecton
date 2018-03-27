@@ -42,10 +42,9 @@ class CarDrive():
         finished
         :return: False if still running, true otherwise
         """
-        if(self.ser.inWaiting() > 0):
-            a = self.ser.read()
-            print "bad kavi"
-            return str(a) == "1"
+        if(serial.available() > 0):
+            a = serial.read()
+            return True
         return False
 
     def send_data(self,numToSend):
