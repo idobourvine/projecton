@@ -61,3 +61,10 @@ class TurretMotor(Motor.Motor):
 
         # Should be fixed to be based on data from serial
         return True
+
+    def finished_moving(self):
+        if (self.ser.inWaiting() > 0):
+            a = self.ser.read()
+            print str(a) == "1"
+            return True
+        return False

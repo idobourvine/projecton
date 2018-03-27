@@ -40,7 +40,8 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         pass
 
     def is_finished(self):
-        return (time.time() - self.start_time) > self.duration
+        return self.azimuth_motor.finished_moving() and \
+               self.pitch_motor.finished_moving()
 
     def finish(self):
         # self.azimuth_motor.send(0, False, True)
