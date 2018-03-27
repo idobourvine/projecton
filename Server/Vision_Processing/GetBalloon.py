@@ -164,7 +164,7 @@ red_lower = [0, 20, 140]  # security cameras
 red_upper = [185, 160, 255]
 red_lower_sec = [0, 0, 70]  # car camera
 red_upper_sec = [110, 100, 180]
-MIN_PIXEL_DIST = 130
+MIN_PIXEL_DIST = 40
 
 def canShoot1(circles):
     """return if you can shoot or not"""
@@ -234,22 +234,25 @@ def getCircleSec(img):
 def getEnemies(img):
     """returns a list of enemy balloons and their sizes in image works for
     the security cameras!!!"""
-    red_bloons = []
-    red_sizes = []
-
-    # cv2.imwrite("image_server" + str(time.time()) + ".jpg", img)
-
+    red_bloons1 = []
+    red_sizes1 = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRed(img, bloons[i]):
-            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
-                i][2]), (0, 0, 255), 4)
-            red_bloons.append(bloons[i])
-            red_sizes.append(sizes[i])
+            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+            #     i][2]),
+            #            (0, 0, 255), 4)
+            red_bloons1.append(bloons[i])
+            red_sizes1.append(sizes[i])
         else:
             cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
-                i][2]), (0, 255, 0), 4)
-
+                                                                            i][
+                                                                            2]),
+                       (0, 255, 0), 4)
+    red_bloons, red_sizes = filter_close_bloons(red_bloons1, red_sizes1)
+    for i in range(len(red_bloons)):
+        cv2.circle(img, (int(red_bloons[i][0]), int(red_bloons[i][1])),
+                   int(red_bloons[i][2]), (0, 0, 255), 4)
     cv2.imshow("image", img)
     cv2.waitKey(2000)
     cv2.destroyAllWindows()
@@ -259,13 +262,15 @@ def getEnemies(img):
 
 def getFriends(img):
     """returns a list of friendly balloons and their sizes in image"""
-    friend_bloons = []
-    friend_sizes = []
+    friend_bloons1 = []
+    friend_sizes1 = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if not isRedSec(img, bloons[i]):
-            friend_bloons.append(bloons[i])
-            friend_sizes.append(sizes[i])
+            friend_bloons1.append(bloons[i])
+            friend_sizes1.append(sizes[i])
+    friend_bloons, friend_sizes = filter_close_bloons(friend_bloons1,
+                                                      friend_sizes1)
     return [friend_bloons, friend_sizes]
 
 
@@ -288,19 +293,24 @@ def getCircle(img):
                 bloons.append(lst)
                 sizes.append(math.pi * r * r)
                 # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+    return [bloons, sizes]
+
+
+def filter_close_bloons(bloons ,sizes):
     bad_indexes = []
     new_bloons = []
     new_sizes = []
     for i in range(len(bloons)):
         for j in range(len(bloons)):
-            if i not in bad_indexes and j not in bad_indexes:
-                if (bloons[i][0] - bloons[j][0])**2 + (bloons[i][1] - bloons[i][
-                    2])**2 <= MIN_PIXEL_DIST**2:
+            if i not in bad_indexes and j not in bad_indexes and i != j:
+                dist = (bloons[i][0] - bloons[j][0]) ** 2 + (bloons[i][1] -
+                                                             bloons[j][1]) ** 2
+                if dist <= MIN_PIXEL_DIST ** 2:
                     mid_x = (bloons[i][0] + bloons[j][0]) / 2
                     mid_y = (bloons[i][1] + bloons[j][1]) / 2
                     new_r = bloons[i][2] + bloons[j][2]
                     bloons[i] = (mid_x, mid_y, new_r)
-                    sizes[i] = new_r*new_r*math.pi
+                    sizes[i] = new_r * new_r * math.pi
                     bad_indexes.append(j)
     for i in range(len(bloons)):
         if i not in bad_indexes:
@@ -345,7 +355,8 @@ def isRed(img, circle):
     average_color = cv2.mean(cropImg)
     if red_lower[0] <= average_color[0] <= red_upper[0] and red_lower[1] <= \
             average_color[1] <= red_upper[1] and red_lower[2] <= \
-            average_color[2] <= red_upper[2]:
+            average_color[2] <= red_upper[2] and average_color[2] > \
+            average_color[1] and average_color[2] > average_color[0]:
         return True
     else:
         return False
