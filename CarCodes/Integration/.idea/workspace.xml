@@ -29,14 +29,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MissionPlanner.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MissionPlanner.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Missions/Planning/MissionPlanner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="129" column="68" lean-forward="false" selection-start-line="129" selection-start-column="68" selection-end-line="129" selection-end-column="68" />
+            <state relative-caret-position="221">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TurretMotor.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Devices/TurretMotor.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="24" column="23" lean-forward="false" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -127,6 +137,7 @@
         <option value="$PROJECT_DIR$/Car_Camera/CarVisionData.py" />
         <option value="$PROJECT_DIR$/Utils/Constants.py" />
         <option value="$PROJECT_DIR$/Missions/Planning/MissionPlanner.py" />
+        <option value="$PROJECT_DIR$/Devices/TurretMotor.py" />
       </list>
     </option>
   </component>
@@ -496,11 +507,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Missions/Planning/MissionPlanner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="129" column="68" lean-forward="false" selection-start-line="129" selection-start-column="68" selection-end-line="129" selection-end-column="68" />
+        <state relative-caret-position="221">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Devices/TurretMotor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="24" column="23" lean-forward="false" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>

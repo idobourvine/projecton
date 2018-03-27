@@ -16,14 +16,13 @@ class TurretMotor(Motor.Motor):
         self.port = port
         self.use_devices = Utils.Constants.Constants.use_devices
         if self.use_devices:
-            # self.ser = serial.Serial(port, baudrate)
+            self.ser = serial.Serial(port, baudrate)
             print("opened port " + str(port))
             time.sleep(5)
 
     def close(self):
         if self.use_devices:
-            print "lol"
-            # self.ser.close()
+            self.ser.close()
 
     def send(self, angle, shut, isRel):
         angle1, angle2 = self.pack_to_two_angles(int(angle * 5.825), shut,
@@ -32,8 +31,8 @@ class TurretMotor(Motor.Motor):
             print(
             "Sending (" + str(angle1) + ", " + str(angle2) + ") to " + str(
                 self.port))
-            # self.ser.write(struct.pack('>B', int(angle1)))
-            # self.ser.write(struct.pack('>B', int(angle2)))
+            self.ser.write(struct.pack('>B', int(angle1)))
+            self.ser.write(struct.pack('>B', int(angle2)))
 
     def getAngle(self):
         """"""
@@ -52,7 +51,7 @@ class TurretMotor(Motor.Motor):
         if not isRel:
             # 16384=2^14
             angle += 8192
-        # print(int((angle) / 256), int((angle) % 256))
+        print(int((angle) / 256), int((angle) % 256))
         return (int((angle) / 256), int((angle) % 256))
 
     def on_target(self):
