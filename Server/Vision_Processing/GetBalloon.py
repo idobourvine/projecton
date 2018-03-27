@@ -246,6 +246,10 @@ def getEnemies(img):
         else:
             cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
                        (0, 255, 0), 4)
+
+    cv2.imshow("image", img)
+    cv2.waitKey(2000)
+    cv2.destroyAllWindows()
     # return img
     return [red_bloons, red_sizes]
 

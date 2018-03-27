@@ -96,6 +96,7 @@ if __name__ == "__main__":
         did_pop = car_vision_data.get_did_pop()
 
         room_bloons = security_vision_data.get_bloons()
+        room_bloons = room_bloons
         print "Room bloons:"
         print room_bloons
 
