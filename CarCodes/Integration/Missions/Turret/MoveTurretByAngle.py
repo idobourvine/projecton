@@ -32,9 +32,11 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         while self.azimuth_motor.ser.inWaiting > 0:
             print("Flushing azimuth")
             self.azimuth_motor.ser.read()
+            print("Flushed azimuth")
         while self.pitch_motor.ser.inWaiting() > 0:
             print("Flushing pitch")
             self.pitch_motor.ser.read()
+            print("Flushing pitch")
         print("moving angles: " + str((self.azimuth, self.azimuth_rel,
                                       self.pitch, self.pitch_rel)))
         if self.azimuth != 0:
