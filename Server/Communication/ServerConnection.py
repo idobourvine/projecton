@@ -20,6 +20,8 @@ LISTEN_TIMEOUT = 1000.0
 IM_SIZE = 8192000
 SENDER = True
 LISTENER = False
+COMP2_PORT = 5050
+PI_PORT = 5060
 PORT = 5000
 """
 This class provides sender and receiver TCP services,
