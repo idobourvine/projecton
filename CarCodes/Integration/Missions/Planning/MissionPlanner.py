@@ -106,7 +106,7 @@ class MissionPlanner:
 
                 mis1 = Missions.Car.MoveDistance.MoveDistance(
                     self.device_map, 20)
-                mis2 = Missions.Car.Rotate.Rotate(self.device_map, -90)
+                mis2 = Missions.Car.Rotate.Rotate(self.device_map, 90)
                 mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
 
                 return mis
