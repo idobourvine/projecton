@@ -37,11 +37,13 @@ class WebcamStream:
                 # print("Read frame")
             else:
                 frame = cv2.imread("1.jpg")
+                grabbed = True
 
-            if self.Q.full():
-                # read the next frame from the file
-                self.Q.get()
-            self.Q.put(frame)
+            if grabbed:
+                if self.Q.full():
+                    # read the next frame from the file
+                    self.Q.get()
+                self.Q.put(frame)
 
     def read(self):
         # return next frame in the queue
