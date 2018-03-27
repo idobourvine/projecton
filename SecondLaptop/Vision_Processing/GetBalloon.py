@@ -216,6 +216,9 @@ def getEnemies(img):
     the security cameras!!!"""
     red_bloons = []
     red_sizes = []
+
+    cv2.imwrite("image_server" + str(time.time()) + ".jpg", img)
+
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRed(img, bloons[i]):
