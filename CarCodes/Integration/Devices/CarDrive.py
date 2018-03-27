@@ -44,6 +44,7 @@ class CarDrive():
         """
         if(self.ser.inWaiting() > 0):
             a = self.ser.read()
+            print "bad kavi"
             return str(a) == "1"
         return False
 
