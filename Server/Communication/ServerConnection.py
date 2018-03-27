@@ -39,7 +39,7 @@ class ServerConnection:
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     s.settimeout(self.timeout)
                     s.connect((LAPTOP_IP, port))
-                    print("Connected to GUI!")
+                    print("BADDD decision!")
                     self.socket = s
                 else:
                     ## fix ip ##
@@ -53,7 +53,10 @@ class ServerConnection:
                     self.sock = s
                     self.sock.settimeout(self.timeout)
                     self.sock.listen(1)
-                    print "listening"
+                    if(port == PI_PORT):
+                        print "listening to pi"
+                    else:
+                        print "listening to comp2"
                     sender, address = self.sock.accept()
                     if(port == PI_PORT):
                         print("Successfully connected to pi: ", address)
