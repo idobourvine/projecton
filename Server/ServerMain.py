@@ -35,6 +35,7 @@ if __name__ == "__main__":
                 continue
             print("Recieved msg from comp 2: " + msg)
             data_from_comp2.put(msg)
+            time.sleep(0.1)
 
     if get_comp2_processed_data:
         periodic_loop_thread_comp2 = threading.Thread(
@@ -57,6 +58,7 @@ if __name__ == "__main__":
             data_from_car.put("MESSAGECarBloonsMSG" + str(car_bloons))
             data_from_car.put("MESSAGECanShootMSG" + str(can_shoot))
             data_from_car.put("MESSAGEDidPopMSG" + str(did_pop))
+            time.sleep(0.1)
 
     if process_car_vision:
         periodic_loop_thread_car_vision = threading.Thread(
@@ -78,6 +80,8 @@ if __name__ == "__main__":
             data_from_vision.put("MESSAGERoomBloonsMSG" + str(room_bloons))
             data_from_vision.put(
                 "MESSAGEContinueMissionMSG" + str(continue_mission))
+
+            time.sleep(0.1)
 
     if process_security_vision:
         periodic_loop_thread_comp2 = threading.Thread(
@@ -125,4 +129,4 @@ if __name__ == "__main__":
                 msg = data_from_car.get()
                 pi_connection.send_msg(msg)
 
-        time.sleep(0.5)
+        time.sleep(0.2)
