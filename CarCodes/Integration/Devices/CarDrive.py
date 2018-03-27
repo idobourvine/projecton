@@ -53,12 +53,12 @@ class CarDrive():
         :return: void
         '''
         temp = numToSend
-        b1 = int(temp / (2 ** 17))
-        temp = temp % (2 ** 17)
-        b2 = int(temp / (2 ** 10))
-        temp = temp % (2 ** 10)
-        b3 = int(temp / (2 ** 3))
-        temp = temp % (2 ** 3)
+        b1 = int(temp / (2 ** 18))
+        temp = temp % (2 ** 18)
+        b2 = int(temp / (2 ** 11))
+        temp = temp % (2 ** 11)
+        b3 = int(temp / (2 ** 4))
+        temp = temp % (2 ** 4)
         b4 = temp
         #send the data devided to half-bytes
         #print b1
@@ -81,5 +81,7 @@ class CarDrive():
         temp = int(angle) * 5 * 4096 + distance % 2048
         if (isReverse):
             temp = temp + 2048
+        if angle < 0:
+            temp += 8388608
         self.send_data(temp)
         print temp
