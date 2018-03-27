@@ -114,9 +114,9 @@ class MissionPlanner:
                 # mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
                 #     self.device_map, rel_bloons, curr_position, curr_ori)
                 mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -90, True, -10, True)
+                    self.device_map, -90, True, 10, True)
                 mis2 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -30, True, -10, True)
+                    self.device_map, -30, True, 10, True)
                 # mis = Missions.Turret.AimAtBloonInPicture\
                 #     .AimAtBloonInPicture(self.device_map)
                 mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
