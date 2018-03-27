@@ -35,7 +35,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
 
         # TODO: figure out starting angles better
         # Assumes starting pitch is 0 and azimuth as car
-        last_angles = (self.orientation, -5)
+        last_angles = (self.orientation, 8)
         print("Bloons to be popped at: ")
         print(bloons)
         for bloon in bloons:
