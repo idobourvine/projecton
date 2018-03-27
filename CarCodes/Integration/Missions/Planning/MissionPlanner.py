@@ -104,7 +104,8 @@ class MissionPlanner:
 
                 print("Moving 1 meter, rotating 90 degrees")
 
-                mis1 = Missions.Car.MoveDistance.MoveDistance(self.device_map, 1)
+                mis1 = Missions.Car.MoveDistance.MoveDistance(
+                    self.device_map, 20)
                 mis2 = Missions.Car.Rotate.Rotate(self.device_map, 90)
                 mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
 
