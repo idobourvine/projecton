@@ -114,11 +114,7 @@ int stopp()
         digitalWrite(outputdirB, LOW);   // turn the motor off
         analogWrite(enA, LOW);   // turn the motor off
         stop = true;
-        if(started == true)
-        {
-          Serial.write('2');
-        }
-        else
+        if(started != true)
         {
          Serial.write('1');
         }
