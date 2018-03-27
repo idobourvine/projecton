@@ -102,7 +102,7 @@ class CarVisionData:
 
                 connection.send_image(next_img)
 
-                print("Showing image")
+                # print("Showing image")
                 cv2.imshow('Kavitz', next_img)
 
                 cv2.waitKey(150)
@@ -134,15 +134,15 @@ class CarVisionData:
 
                     if msg_type == "CarBloonsMSG":
                         self.car_bloons = data
-                        # print("Data from server: bloons: " + str(data))
+                        print("Data from server: bloons: " + str(data))
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
-                        # print("Data from server: can shoot: " + str(data))
+                        print("Data from server: can shoot: " + str(data))
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-                        # print("Data from server: did pop: " + str(data))
+                        print("Data from server: did pop: " + str(data))
 
                     elif msg_type == "RoomBloons1MSG":
                         self.room_bloons_1 = data
