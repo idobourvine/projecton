@@ -20,8 +20,9 @@ class CarVisionData:
         self.can_shoot = [0]
         self.did_pop = [0]
 
-        self.room_bloons = []
-        self.continue_mission = True
+        self.room_bloons_1 = []
+
+        self.room_bloons_2 = []
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
@@ -55,8 +56,14 @@ class CarVisionData:
     def get_did_pop(self):
         return copy.deepcopy(self.did_pop)
 
+    def get_room_bloons_1(self):
+        return copy.deepcopy(self.room_bloons_1)
+
+    def get_room_bloons_2(self):
+        return copy.deepcopy(self.room_bloons_2)
+
     def get_room_bloons(self):
-        return copy.deepcopy(self.room_bloons)
+        return self.get_room_bloons_1() + self.get_room_bloons_2()
 
     def get_car_position(self):
         return (360, 180, 30)
@@ -97,9 +104,14 @@ class CarVisionData:
             '''
 
             if stream.more():
-                next_img = stream.read()
+                if Constants.use_devices:
+                    next_img = stream.read()
+                else:
+                    next_img = cv2.imread("1.jpg")
+
                 connection.send_image(next_img)
 
+                # print("Showing image")
                 cv2.imshow('Kavitz', next_img)
 
                 cv2.waitKey(150)
@@ -131,27 +143,29 @@ class CarVisionData:
 
                     if msg_type == "CarBloonsMSG":
                         self.car_bloons = data
-                        # print("Data from server: bloons: " + str(data))
+                        print("Data from server: bloons: " + str(data))
 
                     elif msg_type == "CanShootMSG":
                         self.can_shoot = data
-                        # print("Data from server: can shoot: " + str(data))
+                        print("Data from server: can shoot: " + str(data))
 
                     elif msg_type == "DidPopMSG":
                         self.did_pop = data
-                        # print("Data from server: did pop: " + str(data))
+                        print("Data from server: did pop: " + str(data))
 
-                    elif msg_type == "RoomBloonsMSG":
-                        self.room_bloons = data
-                        # print("Data from server: room bloons: " + str(data))
+                    elif msg_type == "RoomBloons1MSG":
+                        self.room_bloons_1 = data
+                        print("Data from server: room bloons 1: " + str(
+                        data))
 
-                    elif msg_type == "ContinueMissionMSG":
-                        self.continue_mission = data
-                        # print("Data from server: continue mission: " + str(data))
+                    elif msg_type == "RoomBloons2MSG":
+                        self.room_bloons_2 = data
+                        print("Data from server: room bloons 2: " + str(
+                        data))
 
                     elif msg_type == "CarWorkingMSG":
                         self.car_working = data
-                        #print("Data from server: car working: " + str(data))
+                        print("Data from server: car working: " + str(data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

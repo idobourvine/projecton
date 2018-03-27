@@ -1,7 +1,7 @@
 import TurretMotor
 import struct
 
-t = TurretMotor.TurretMotor(5,2000000)
+t = TurretMotor.TurretMotor(5, 2000000)
 
 
 

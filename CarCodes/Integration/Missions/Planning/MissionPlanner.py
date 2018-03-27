@@ -5,9 +5,14 @@ import Missions.SeriesMission
 import Missions.Turret.AimAtBloonInPicture
 import Missions.Turret.ClearStandpoint
 import Missions.Turret.MoveTurretByAngle
+import Missions.Car.MoveDistance
+import Missions.Car.Rotate
+import Missions.Turret.DestroyBloon
 import math
 from Utils.Constants import *
 from Utils.UtilFunctions import *
+
+import collections
 
 
 class MissionPlanner:
@@ -95,8 +100,12 @@ class MissionPlanner:
         curr_ori = 270
 
         if self.mission_state == 0:
-            # return Missions.DoNothingMission.DoNothingMission()
 
+            mis1 = Missions.Turret.MoveTurretByAngle(self.device_map, 5, True, 5, True)
+            mis2 = Missions.Turret.DestroyBloon.DestroyBloon(self.device_map)
+            return Missions.SeriesMission([mis1, mis2])
+
+            '''
             if not self.entered_state_0:
                 self.entered_state_0 = True
                 # Testing mode
@@ -104,39 +113,34 @@ class MissionPlanner:
                 print("Running Tests")
                 print()
 
-                # In the test bloons are further away than the system
-                rel_bloons = [bloon for bloon in curr_bloons if bloon[0] >
-                              curr_position[0]]
+                if Constants.car_or_turret:
+                    print("Moving 1 meter, rotating 90 degrees")
 
-                # mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(
-                #     self.device_map, rel_bloons, curr_position, curr_ori)
+                    # mis1 = Missions.Car.MoveDistance.MoveDistance(
+                    #     self.device_map, 10)
+                    mis2 = Missions.Car.Rotate.Rotate(self.device_map, 10)
+                    # mis3 = Missions.Car.MoveDistance.MoveDistance(
+                    #     self.device_map, 10)
+                    mis4 = Missions.Car.Rotate.Rotate(self.device_map, -10)
+                    # mis5 = Missions.Car.MoveDistance.MoveDistance(
+                    #     self.device_map, 10)
+                    mis6 = Missions.Car.Rotate.Rotate(self.device_map, 20)
+                    # mis7 = Missions.Car.MoveDistance.MoveDistance(
+                    #     self.device_map, 10)
+                    mis8 = Missions.Car.Rotate.Rotate(self.device_map, -20)
+                    mis = Missions.SeriesMission.SeriesMission([mis2, mis4,
+                                                                mis6, mis8])
 
-                # return mis
-
-                # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -60, 13)
-                #
-                # mis2 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-                #
-                # mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -13, 6)
-                #
-                # mis4 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-                #
-                # mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                #     self.device_map, -15, 6)
-                #
-                # mis6 = Missions.Turret.AimAtBloonInPicture \
-                #     .AimAtBloonInPicture(self.device_map)
-
-                # mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
-                #                                             mis3, mis4, mis5])
-
-                return None
+                else:
+                    mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                        self.device_map, -60, True, 13, False)
+                    mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
+                        self.device_map, -13, True, 0, False)
+                    mis = Missions.SeriesMission.SeriesMission([mis1, mis3])
+                return mis
             else:
                 return None
+                '''
 
         elif self.mission_state == 1:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(

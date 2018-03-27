@@ -114,9 +114,9 @@ int stopp()
         digitalWrite(outputdirB, LOW);   // turn the motor off
         analogWrite(enA, LOW);   // turn the motor off
         stop = true;
-        if(started == true)
+        if(started != true)
         {
-        Serial.print("HERE");
+         Serial.write('1');
         }
         started = false;
         return 0;
@@ -139,8 +139,8 @@ int get_angle()
           angle %= 360;
         }
         angle *= ratio;
-        rORa = RELATIVE;
-     */
+        rORa = ABSOLUTE;*/
+     
     if (Serial.available() > 1) {
         stop = false;
         int angle1 = (int)Serial.read();
@@ -200,6 +200,17 @@ int get_angle()
             angle += backlash;
           }
           goal = angle;
+          
+          if(goal < absmin && clockwise)
+          {
+           goal = absmax + goal;
+           clockwise = !clockwise;
+          }
+          if (goal > absmax && !clockwise)
+          {
+            goal = goal - absmax;
+            clockwise = !clockwise;
+          }
         }
         //should be moved to whne stopping
         Int = 0;

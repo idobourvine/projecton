@@ -118,7 +118,7 @@ int stopp()
 
   if(started == true)
   {
-  Serial.print("HERE");
+  Serial.write('1');
   }
   started = false;
   return 0;
@@ -126,7 +126,7 @@ int stopp()
 
 int get_angle()
 {
-  
+/*
      if (Serial.available() > 0) {
       //Serial.print("get_angle");
         stop = false;
@@ -143,7 +143,7 @@ int get_angle()
         }
         angle *= ratio;
         rORa = RELATIVE;
-     /*
+     */
     if (Serial.available() > 1) {
         stop = false;
         //startup = false;
@@ -156,7 +156,7 @@ int get_angle()
         laser_on = ((raw_angle/4096))%2;
         //bit #14 is 0 for relative move and 1 for absoolute move
         rORa = (raw_angle/8192)%2;
-         */ 
+         
       started = true;
 
         if(rORa == RELATIVE)
@@ -181,11 +181,11 @@ int get_angle()
             //Serial.print("abs");
             if (angle < encoder0Pos)
             {
-              clockwise = false;
+              clockwise = true;
             }
             else
             {
-              clockwise = true;
+              clockwise = false;
             }
             goal = angle;
           }
@@ -336,13 +336,13 @@ int stops()
       //Serial.print("2youve got to the right place!");
       stopp();
     }
-    
-    if(clockwise && lahutz)
+   
+      valOld = valNew;
+    }
+        if(clockwise && lahutz)
     {
       //Serial.print("this is illegitimate dir");
       stopp();
-    }
-      valOld = valNew;
     }
 }
 int change_laser(int laser_on)

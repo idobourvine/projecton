@@ -17,6 +17,7 @@ class CarVisionData:
         self.connection = connection
         self.stream = PiStream.PiStream(connection=self.connection,
                                         queueSize=2).start()
+
         print("Started image stream from pi")
 
         self.eg1 = threading.Thread(target=BalloonDetection.Webcamera,

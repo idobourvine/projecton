@@ -41,7 +41,7 @@ def Webcamera(stream, bloons, canShoot, didPop):
                 didPop.append(GetBalloon.didPop(Image0, Image1))
                 if len(didPop) > 0 and didPop[0] == 1:
                     start_time = time.time()
-            cv2.waitKey(10)
+            time.sleep(0.1)
             Image0 = copy.deepcopy(Image1)
 
     if stream.stopped:

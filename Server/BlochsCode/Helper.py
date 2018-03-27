@@ -10,29 +10,28 @@ import triangulation
 BIG_INT = 999999
 MIN_DIST = 10
 # Right camera
-CAM1 = Cam.Cam(0, np.array([-49.0, 108.5, 128.0]), np.array([668.5 ,206.5 ,
+CAM1 = Cam.Cam(0, np.array([-49.0, 108.5, 128.0]), np.array([668.5, 206.5,
                                                              116.0]),
-               np.array([668.5, 240.0, 69.5]), np.array([668.5 , 60.0, 54.5]), [272, 294], [475, 310],
+               np.array([668.5, 240.0, 69.5]), np.array([668.5, 60.0, 54.5]), [272, 294], [475, 310],
                640.0,
                480.0, 30.0, 25.0, 0)
 # Left camera
 CAM2 = Cam.Cam(1, np.array([-57.0, 252.0, 135.0]), np.array([669.0, 117.0,
-                                                              139.0]),
+                                                             139.0]),
                np.array([668.5, 240.0, 69.5]), np.array([668.5, 60.0, 54.5]), [179, 310], [378, 335],
                640.0,
                480.0, 30.0, 25.0, 1)
 
-CAM3 = Cam.Cam(2, np.array([664.0, 28.0, 128.0]), np.array([-57.0 , 222.0, 135.0]),
+CAM3 = Cam.Cam(2, np.array([664.0, 28.0, 128.0]), np.array([-57.0, 222.0, 135.0]),
                np.array([-56.0, 60.0, 80.5]), np.array([-57.0, 240.0, 50.5]), [141.0, 295.0], [334.0, 331.0],
                640.0,
                480.0, 30.0, 25.0, 1)
 # Left camera
-CAM4 = Cam.Cam(3, np.array([664.0, 269.0, 120.0]), np.array([-57.0 ,170. ,
+CAM4 = Cam.Cam(3, np.array([664.0, 269.0, 120.0]), np.array([-57.0, 170.,
                                                              120.0]),
                np.array([-56.0, 60.0, 80.5]), np.array([-57.0, 240.0, 50.5]), [205.0, 274.0], [395.0, 321.0],
                640.0,
                480.0, 30.0, 25.0, 0)
-
 
 CAMS = [CAM1, CAM2]
 
@@ -66,7 +65,7 @@ def locateCar(theta1, theta2):
     cosAlpha = cosAlpha[0]
     sinAlpha = math.sqrt(1 - cosAlpha ** 2)
     l = ROOM_X * (
-    sinAlpha * math.cos(theta1) + cosAlpha * math.sin(theta1)) / math.sin(
+            sinAlpha * math.cos(theta1) + cosAlpha * math.sin(theta1)) / math.sin(
         theta1)
     x = l * cosAlpha
     y = l * sinAlpha
@@ -85,7 +84,7 @@ def filterLines(cam1, cam2):
      a target from one camera should be visible from the other)"""
     cams = [cam1, cam2]
     lines = []
-    if(len(cams[0].sizes) == 0 or len(cams[1].sizes) == 0):
+    if (len(cams[0].sizes) == 0 or len(cams[1].sizes) == 0):
         lines.append(cams[0].getLines())
         lines.append(cams[1].getLines())
         return lines
@@ -107,7 +106,7 @@ def filterLines(cam1, cam2):
 
 def dist(point1, point2):
     return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2 + (
-    point1[2] - point2[2]) ** 2) ** 0.5
+            point1[2] - point2[2]) ** 2) ** 0.5
 
 
 def connectTargets():
@@ -242,16 +241,18 @@ def triangulate():
     each line"""
 
     targets = []
-    connections = connectTargets()
-    for connection in connections:
-        point = connection[0].intersect(connection[1])
+    print("Time 1 in triangulation")
+    points_connections = connectTargets()
+    for point_connection in points_connections:
+        point = point_connection[0].intersect(point_connection[1])
         isIn = False
         for target in targets:
             if (target[0] - point[0]) ** 2 + (target[1] - point[1]) ** 2 + (
-                        target[2] - point[2]) ** 2 < 25:
+                    target[2] - point[2]) ** 2 < 25:
                 isIn = True
         if not isIn:
             targets.append(point.tolist())
+    print("Time 2 in triangulation")
     return targets
 
 
@@ -271,10 +272,10 @@ def cartesianToSpheric(targetsCartesian, place, orientation):
         print target
         direction = target - place
         x, y, z = direction[0], direction[1], direction[2]
-        theta = math.atan2(y,x)
+        theta = math.atan2(y, x)
         theta = theta - theta0
         theta = radToDeg(theta)
-        phi = math.atan2(z, math.sqrt(x**2+y**2))
+        phi = math.atan2(z, math.sqrt(x ** 2 + y ** 2))
         phi = phi - phi0
         phi = radToDeg(phi)
         targetsSpheric.append([theta, phi])

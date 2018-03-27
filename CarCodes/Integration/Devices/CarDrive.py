@@ -42,8 +42,8 @@ class CarDrive():
         finished
         :return: False if still running, true otherwise
         """
-        if(serial.available() > 0):
-            a = serial.read()
+        if(self.ser.inWaiting() > 0):
+            a = self.ser.read()
             return True
         return False
 
@@ -53,13 +53,17 @@ class CarDrive():
         :return: void
         '''
         temp = numToSend
-        b1 = int(temp / (2 ** 17))
-        temp = temp % (2 ** 17)
-        b2 = int(temp / (2 ** 10))
-        temp = temp % (2 ** 10)
-        b3 = int(temp / (2 ** 3))
-        temp = temp % (2 ** 3)
+        b1 = int(temp / (2 ** 18))
+        # print "b1 - " + str(b1)
+        temp = temp % (2 ** 18)
+        b2 = int(temp / (2 ** 11))
+        # print "b2 - " + str(b2)
+        temp = temp % (2 ** 11)
+        b3 = int(temp / (2 ** 4))
+        # print "b3 - " + str(b3)
+        temp = temp % (2 ** 4)
         b4 = temp
+        # print "b4 - " + str(b4)
         #send the data devided to half-bytes
         #print b1
         self.ser.write((chr(b1)))
@@ -78,8 +82,10 @@ class CarDrive():
         :param distance: the distance in cm include dir
         :return: void
         """
-        temp = int(angle) * 5 * 4096 + distance % 2048
+        temp = int(abs(angle)) * 5 * 4096 + distance % 2048
         if (isReverse):
             temp = temp + 2048
+        if angle < 0:
+            temp += 8388608
         self.send_data(temp)
         print temp

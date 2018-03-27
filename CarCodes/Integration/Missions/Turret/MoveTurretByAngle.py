@@ -28,8 +28,13 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         self.duration = 3  # 3 seconds to wait
 
     def initialize(self):
-        print("moving angles: " + str(self.azimuth, self.azimuth_rel,
-                                      self.pitch, self.pitch_rel))
+        # flush the buffer so we won't say finished for no reason
+        while self.azimuth_motor.ser.inWaiting > 0:
+            self.azimuth_motor.ser.read()
+        while self.pitch_motor.ser.inWaiting() > 0:
+            self.pitch_motor.ser.read()
+        print("moving angles: " + str((self.azimuth, self.azimuth_rel,
+                                      self.pitch, self.pitch_rel)))
         if self.azimuth != 0:
             self.azimuth_motor.send(self.azimuth, False, self.azimuth_rel)
         if self.pitch != 0:
@@ -40,7 +45,10 @@ class MoveTurretByAngle(Missions.Mission.Mission):
         pass
 
     def is_finished(self):
-        return (time.time() - self.start_time) > self.duration
+        if time.time() - self.start_time > 5:
+            return True
+        return self.azimuth_motor.finished_moving() and \
+               self.pitch_motor.finished_moving()
 
     def finish(self):
         self.azimuth_motor.send(0, False, True)

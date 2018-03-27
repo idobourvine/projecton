@@ -13,14 +13,18 @@ RIGHT = "0"
 LEFT = "1"
 CLOSE = "close"
 
-LAPTOP_IP = '192.168.137.1'
+SERVER_IP = '192.168.137.1'
+#SERVER_IP = '127.0.0.1' 
+
 SUBNET_MASK = '255.255.255.0'
-SEND_TIMEOUT = 20.0  # seconds
+SEND_TIMEOUT = 1.0  # seconds
 LISTEN_TIMEOUT = 1000.0
-IM_SIZE = 8192000
+IM_SIZE = 200000
 SENDER = True
 LISTENER = False
-PORT = 5000
+COMP2_PORT = 5050
+PI_PORT = 5060
+
 """
 This class provides sender and receiver TCP services,
 sender is nonblocking while receiver obviously is.
@@ -28,14 +32,14 @@ sender is nonblocking while receiver obviously is.
 
 
 class Connection:
-    def __init__(self, type, port=PORT):
+    def __init__(self, type, port=PI_PORT):
         while True:
             try:
                 if (type == SENDER):
                     self.timeout = SEND_TIMEOUT
                     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     s.settimeout(self.timeout)
-                    s.connect((LAPTOP_IP, port))
+                    s.connect((SERVER_IP, port))
                     print("Connected to GUI!")
                     self.socket = s
                 else:
