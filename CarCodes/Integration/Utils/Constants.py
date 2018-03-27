@@ -1,7 +1,7 @@
 class Constants:
-    use_devices = False
+    use_devices = True
 
-    car_or_turret = False  # False for turret, True for car
+    car_or_turret = True  # False for turret, True for car
 
     # Balloon alignments
     b_friendly = 1
