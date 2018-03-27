@@ -171,5 +171,6 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         # self.pitch_motor.send(0, False, True)
 
         # Unlocks the motors
+
         self.azimuth_motor.unlock()
         self.pitch_motor.unlock()
