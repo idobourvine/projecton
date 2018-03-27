@@ -113,7 +113,7 @@ if process_security_vision:
     print "security vision thread up"
 
 pressed_hotkey = False  # flag if hotkey of ctrl+enter was pressed
-safety_stopped = True
+safety_stopped = False
 
 
 def update_pressed_hotkey():
