@@ -26,7 +26,6 @@ class SeriesMission(Mission.Mission):
                     self.started[self.index] = True
                 else:  # Case mission finished
                     self.index += 1  # Inidicates moving on to the next mission
-                    time.sleep(5)
 
     def is_finished(self):
         """
