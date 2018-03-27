@@ -43,7 +43,7 @@ def getCarLocation():
     cams = CAMS
     img1, img2 = cams[0].getImage(), cams[1].getImage()
     # img1, img2 = cv2.imread("1.jpg"), cv2.imread("2.jpg")
-    point1op, point2op = GetBalloon.getCar(img1), GetBalloon.getCar(img2)
+    point1op, point2op = Vision_Processing.GetBalloon.getCar(img1), Vision_Processing.GetBalloon.getCar(img2)
     for j in range(len(point1op)):
         point1op[j] = np.array(np.array([point1op[j][0], point1op[j][1]]))
     for j in range(len(point2op)):

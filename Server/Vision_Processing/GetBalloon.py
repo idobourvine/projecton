@@ -395,6 +395,11 @@ def getCircleCar(img):
 
 def getCar(img):
     """returns an array of green balloons from the regular web-cams"""
+
+    cv2.imshow("image", img)
+    cv2.waitKey(1000)
+    cv2.destroyAllWindows()
+
     options, sizes = getCircleCar(img)
     filtered = []
     for option in options:
