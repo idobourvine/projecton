@@ -35,13 +35,15 @@ class MoveTurretByAngle(Missions.Mission.Mission):
             print("Flushing azimuth")
             self.azimuth_motor.ser.read()
         print("Flushed azimuth")
+        print("Azimuth len after flush: " + str(self.azimuth_motor.ser.inWaiting()))
 
         len_to_flush_pitch = self.pitch_motor.ser.inWaiting()
-        print("Going to flush azimuth: " + str(len_to_flush_pitch))
+        print("Going to flush pitch: " + str(len_to_flush_pitch))
         for i in range(len_to_flush_pitch):
             print("Flushing pitch")
             self.pitch_motor.ser.read()
         print("Flushing pitch")
+        print("Pitch len after flush: " + str(self.pitch_motor.ser.inWaiting()))
 
         print("moving angles: " + str((self.azimuth, self.azimuth_rel,
                                       self.pitch, self.pitch_rel)))
