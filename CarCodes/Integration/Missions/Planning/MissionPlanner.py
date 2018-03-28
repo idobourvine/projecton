@@ -110,11 +110,14 @@ class MissionPlanner:
                 self.entered_state_0 = True
                 # Testing mode
 
-                mis1 = Missions.Car.DriveToPoint.DriveToPoint(self.device_map,
-                                                              (curr_location[0], curr_location[1], curr_ori),
-                                                              (480, 240))
+                # mis1 = Missions.Car.DriveToPoint.DriveToPoint(self.device_map,
+                #                                               (curr_location[0], curr_location[1], curr_ori),
+                #                                               (480, 240))
 
-                mis = Missions.SeriesMission.SeriesMission([mis1])
+                mis1 = Missions.Car.Rotate.Rotate(self.device_map, 90)
+                mis2 = Missions.Car.Rotate.Rotate(self.device_map, -90)
+
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis2])
                 return mis
 
             else:
