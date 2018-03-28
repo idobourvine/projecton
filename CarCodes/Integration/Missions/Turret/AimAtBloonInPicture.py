@@ -79,6 +79,9 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
 
         a = self.vision_data.get_car_bloons()
         if a:  # Might be empty if no bloons were detected
+
+            self.starting_time = time.time()
+
             self.min_bloon = None  # Object of the bloon that is
             # closest to the center of the picture
             self.min_dist = 100000  # just some big number
