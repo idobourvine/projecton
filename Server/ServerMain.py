@@ -10,9 +10,7 @@ from Queue import Queue
 
 import keyboard
 
-import BlochsCode.SecurityVisionData
 import Communication.ServerConnection
-import Vision_Processing.CarVisionData
 
 if __name__ == "__main__":
     print("Server running")
