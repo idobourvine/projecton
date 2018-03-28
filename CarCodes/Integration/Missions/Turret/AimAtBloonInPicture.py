@@ -39,8 +39,6 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
 
         self.movement_mis = None
 
-        self.starting_time = time.time()
-
     def initialize(self):
         """
         To be overriden
@@ -52,7 +50,6 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         #           "used by another one")
         #     self.kill()
         # else:
-        self.starting_time = time.time()
         pass
             # self.azimuth_motor.lock()  # Locks the motor for safety
             # self.pitch_motor.lock()  # Locks the motor for safety
@@ -79,9 +76,6 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
 
         a = self.vision_data.get_car_bloons()
         if a:  # Might be empty if no bloons were detected
-
-            self.starting_time = time.time()
-
             self.min_bloon = None  # Object of the bloon that is
             # closest to the center of the picture
             self.min_dist = 100000  # just some big number
@@ -164,9 +158,6 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         (center of camera) for a certain number of loops
         :return:
         """
-        if (time.time() - self.starting_time) > 10:
-            return True
-
         a = self.vision_data.get_can_shoot()
         if len(a) > 0:
             return a[0] == 1
