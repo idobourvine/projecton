@@ -53,7 +53,7 @@ if __name__ == "__main__":
                         '', stripped)
 
                     msg_as_was_sent = "MESSAGE" + removed_useless_num
-                    print("Recieved msg from comp 2: " + msg_as_was_sent)
+                    # print("Recieved msg from comp 2: " + msg_as_was_sent)
                     data_from_comp2.put(msg_as_was_sent)
                     time.sleep(0.1)
 
@@ -102,13 +102,13 @@ def process_security_vision_data():
         car_location = security_vision_data.get_car_location()
         room_friends = security_vision_data.get_friends()
 
-        if room_bloons:
-            print("Room Bloons:")
-            print(room_bloons)
+        # if room_bloons:
+        #     print("Room Bloons:")
+            # print(room_bloons)
 
-        if room_friends:
-            print "Room friends:"
-            print room_friends
+        # if room_friends:
+        #     print "Room friends:"
+        #     print room_friends
 
         data_from_vision.put("MESSAGERoomBloons1MSG" + str(room_bloons))
         data_from_vision.put("MESSAGECarLocation1MSG" + str(car_location))
