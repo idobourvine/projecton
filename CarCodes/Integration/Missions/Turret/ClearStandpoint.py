@@ -39,7 +39,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
         print("Bloons to be popped at: ")
         print(bloons)
 
-        self.missions.append(Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, 0, False, 0, False))
+        self.missions.append(MoveTurretByAngle.MoveTurretByAngle(device_map, 0, False, 0, False))
 
         for bloon in bloons:
             angles = self.convert_bloon_to_angles(bloon)
