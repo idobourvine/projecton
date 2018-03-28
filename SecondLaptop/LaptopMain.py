@@ -57,7 +57,7 @@ if __name__ == "__main__":
             print "Car Location"
             print car_location
 
-            connection.send_msg("MESSAGERCarLocation2MSG" + str(car_location))
+            connection.send_msg("MESSAGECarLocation2MSG" + str(car_location))
 
 
         if pressed_hotkey:
