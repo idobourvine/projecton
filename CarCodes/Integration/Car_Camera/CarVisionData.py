@@ -21,8 +21,10 @@ class CarVisionData:
         self.did_pop = [0]
 
         self.room_bloons_1 = []
-
         self.room_bloons_2 = []
+
+        self.room_friends_1 = []
+        self.room_friends_2 = []
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
@@ -64,6 +66,15 @@ class CarVisionData:
 
     def get_room_bloons(self):
         return self.get_room_bloons_1() + self.get_room_bloons_2()
+
+    def get_room_friends_1(self):
+        return copy.deepcopy(self.room_friends_1)
+
+    def get_room_friends_2(self):
+        return copy.deepcopy(self.room_friends_2)
+
+    def get_room_friends(self):
+        return self.get_room_friends_1() + self.get_room_friends_2()
 
     def get_car_position(self):
         return (360, 180, 30)
@@ -109,7 +120,7 @@ class CarVisionData:
                 connection.send_image(next_img)
 
                 # print("Showing image")
-                cv2.imshow('Kavitz', next_img)
+                # cv2.imshow('Kavitz', next_img)
 
                 cv2.waitKey(150)
 
@@ -153,16 +164,25 @@ class CarVisionData:
                     elif msg_type == "RoomBloons1MSG":
                         self.room_bloons_1 = data
                         print("Data from server: room bloons 1: " + str(
-                        data))
+                            data))
 
                     elif msg_type == "RoomBloons2MSG":
                         self.room_bloons_2 = data
                         print("Data from server: room bloons 2: " + str(
-                        data))
+                            data))
 
                     elif msg_type == "CarWorkingMSG":
                         self.car_working = data
                         print("Data from server: car working: " + str(data))
+
+                    elif msg_type == "MESSAGERoomFriends1MSG":
+                        self.room_friends_1 = data
+                        print("Data from server: room friends 1: " + str(data))
+
+                    elif msg_type == "MESSAGERoomFriends2MSG":
+                        self.room_friends_2 = data
+                        print("Data from server: room friends 2: " + str(data))
+
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

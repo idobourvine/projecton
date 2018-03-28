@@ -17,7 +17,7 @@ CAR_Z = 40.0
 def startCams():
     for cam in CAMS:
         cam.stream.start()
-    time.sleep(7)
+    time.sleep(6)
 
 
 def stopCams():
@@ -65,14 +65,17 @@ def getTargets():
     """return 3D points in space of the targets"""
     cams = CAMS
     for cam in cams:
+
         cam.resetTargets()
         cam.resetSizes()
         image = cam.getImage()
-        # print("Time before getting enemies: " + str(time.time()))
+        print("Time before getting enemies: " + str(time.time()))
         bloons, sizes = Vision_Processing.GetBalloon.getEnemies(image)
-        # print("Time after getting enemies: " + str(time.time()))
+        print("Time after getting enemies: " + str(time.time()))
+
         # print "getTargets"
         # print bloons
+
         points = []
         for bloon in bloons:
             points.append(np.array([bloon[0], bloon[1]]))
@@ -81,7 +84,10 @@ def getTargets():
             cam.addSize(sizes[i])
 
     targets = triangulate()
-    # print("Time after triangulation: " + str(time.time()))
+    print("Time after triangulation: " + str(time.time()))
+    print "getTargets"
+    print targets
+
 
     # targets = cartesianToSpheric(targets, place, orientation)
     return targets
@@ -92,8 +98,12 @@ def getInnocents():
 
     cams = CAMS
     for cam in cams:
+        cam.resetTargets()
+        cam.resetSizes()
         image = cam.getImage()
+        print("Time before getting friends: " + str(time.time()))
         bloons, sizes = Vision_Processing.GetBalloon.getFriends(image)
+        print("Time after getting friends: " + str(time.time()))
         points = []
         for bloon in bloons:
             points.append(np.array([bloon[0], bloon[1]]))

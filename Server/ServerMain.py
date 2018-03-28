@@ -96,12 +96,18 @@ def process_security_vision_data():
     security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
     while True:
         room_bloons = security_vision_data.get_bloons()
+        room_friends = security_vision_data.get_friends()
 
         if room_bloons:
             print("Room Bloons:")
             print(room_bloons)
 
+        if room_friends:
+            print "Room friends:"
+            print room_friends
+
         data_from_vision.put("MESSAGERoomBloons1MSG" + str(room_bloons))
+        data_from_vision.put("MESSAGERoomFriends1MSG" + str(room_friends))
 
         time.sleep(0.1)
 

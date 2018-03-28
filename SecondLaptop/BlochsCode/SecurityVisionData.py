@@ -7,6 +7,7 @@ import copy
 class SecurityVisionData():
     def __init__(self):
         self.bloons = []
+        self.friends = []
         self.process_thread = Thread(target=self.process,
                                      args=())
         self.process_thread.start()
@@ -25,7 +26,14 @@ class SecurityVisionData():
         while True:
             if self.working:
                 print("Processing security vision data")
-                self.bloons = getTargets()
+                try:
+                    self.bloons = getTargets()
+                    self.friends = getInnocents()
+                except Exception, err:
+                    print("Exception from security process")
+                    print(err)
+                    print(err.args)
+                    print(err.__class__)
             time.sleep(0.1)
 
     def get_started(self):
@@ -34,4 +42,9 @@ class SecurityVisionData():
     def get_bloons(self):
         if len(self.bloons) > 0:
             return copy.deepcopy(self.bloons)
+        return []
+
+    def get_friends(self):
+        if len(self.friends) > 0:
+            return copy.deepcopy(self.friends)
         return []

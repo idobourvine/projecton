@@ -151,20 +151,20 @@ def didPop(imgBEFORE, imgAFTER):
         return 0
 
 
-d = 30
+d = 25
 BAD1 = [5, 5, 5]
 d1 = 10
 BAD2 = [200, 200, 200]
 d2 = 56
-BAD3 = [5, 5, 250]
+BAD3 = [5, 5, 5]
 d3 = 10
-BAD4 = [65, 15, 150]
+BAD4 = [5, 5, 5]
 d4 = 25
 red_lower = [0, 20, 140]  # security cameras
 red_upper = [185, 160, 255]
 red_lower_sec = [0, 0, 70]  # car camera
 red_upper_sec = [110, 100, 180]
-
+MIN_PIXEL_DIST = 40
 
 def canShoot1(circles):
     """return if you can shoot or not"""
@@ -196,7 +196,7 @@ def getEnemiesSec(img):
     the car camera!!"""
     red_bloons = []
     red_sizes = []
-    bloons, sizes = getCircle(img)
+    bloons, sizes = getCircleSec(img)
     for i in range(len(bloons)):
         if isRedSec(img, bloons[i]):
             # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
@@ -210,41 +210,67 @@ def getEnemiesSec(img):
     # cv2.imshow("image_car")
     return [red_bloons, red_sizes]
 
+def getCircleSec(img):
+    """returns a list of circles and their sizes in image"""
+    output = img.copy()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 0.7, 50,
+                               param1=80, param2=7, minRadius=7,
+                               maxRadius=0)
+    bloons = []
+    sizes = []
+    if circles is not None:
+        circles = circles[0]  # syntax
+        for lst in circles:
+            x = lst[0]
+            y = lst[1]
+            r = lst[2]
+            if not isWhite(img, lst):
+                bloons.append(lst)
+                sizes.append(math.pi * r * r)
+                # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+    return [bloons, sizes]
 
 def getEnemies(img):
     """returns a list of enemy balloons and their sizes in image works for
     the security cameras!!!"""
-    red_bloons = []
-    red_sizes = []
-
-    # cv2.imwrite("image_server" + str(time.time()) + ".jpg", img)
-
+    red_bloons1 = []
+    red_sizes1 = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
         if isRed(img, bloons[i]):
-            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
-                       (0, 0, 255), 4)
-            red_bloons.append(bloons[i])
-            red_sizes.append(sizes[i])
+            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+            #     i][2]),
+            #            (0, 0, 255), 4)
+            red_bloons1.append(bloons[i])
+            red_sizes1.append(sizes[i])
         else:
-            cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2],
+            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+                                                                            i][
+                                                                            2]),
                        (0, 255, 0), 4)
-    # cv2.imwrite("image_security" + str(time.time()) + ".jpg", img)
-    cv2.imshow("image_security", img)
+    red_bloons, red_sizes = filter_close_bloons(red_bloons1, red_sizes1)
+    for i in range(len(red_bloons)):
+        cv2.circle(img, (int(red_bloons[i][0]), int(red_bloons[i][1])),
+                   int(red_bloons[i][2]), (0, 0, 255), 4)
+    cv2.imshow("image", img)
     cv2.waitKey(2000)
     cv2.destroyAllWindows()
+    # return img
     return [red_bloons, red_sizes]
 
 
 def getFriends(img):
     """returns a list of friendly balloons and their sizes in image"""
-    friend_bloons = []
-    friend_sizes = []
+    friend_bloons1 = []
+    friend_sizes1 = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if not isRedSec(img, bloons[i]):
-            friend_bloons.append(bloons[i])
-            friend_sizes.append(sizes[i])
+        if not isRed(img, bloons[i]):
+            friend_bloons1.append(bloons[i])
+            friend_sizes1.append(sizes[i])
+    friend_bloons, friend_sizes = filter_close_bloons(friend_bloons1,
+                                                      friend_sizes1)
     return [friend_bloons, friend_sizes]
 
 
@@ -252,7 +278,7 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 100,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 22,
                                param1=80, param2=5, minRadius=7,
                                maxRadius=0)
     bloons = []
@@ -268,6 +294,29 @@ def getCircle(img):
                 sizes.append(math.pi * r * r)
                 # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
     return [bloons, sizes]
+
+
+def filter_close_bloons(bloons ,sizes):
+    bad_indexes = []
+    new_bloons = []
+    new_sizes = []
+    for i in range(len(bloons)):
+        for j in range(len(bloons)):
+            if i not in bad_indexes and j not in bad_indexes and i != j:
+                dist = (bloons[i][0] - bloons[j][0]) ** 2 + (bloons[i][1] -
+                                                             bloons[j][1]) ** 2
+                if dist <= MIN_PIXEL_DIST ** 2:
+                    mid_x = (bloons[i][0] + bloons[j][0]) / 2
+                    mid_y = (bloons[i][1] + bloons[j][1]) / 2
+                    new_r = bloons[i][2] + bloons[j][2]
+                    bloons[i] = (mid_x, mid_y, new_r)
+                    sizes[i] = new_r * new_r * math.pi
+                    bad_indexes.append(j)
+    for i in range(len(bloons)):
+        if i not in bad_indexes:
+            new_bloons.append(bloons[i])
+            new_sizes.append(sizes[i])
+    return [new_bloons, new_sizes]
 
 
 def inBetween(ToCheck, BadArray, d):
@@ -306,7 +355,8 @@ def isRed(img, circle):
     average_color = cv2.mean(cropImg)
     if red_lower[0] <= average_color[0] <= red_upper[0] and red_lower[1] <= \
             average_color[1] <= red_upper[1] and red_lower[2] <= \
-            average_color[2] <= red_upper[2]:
+            average_color[2] <= red_upper[2] and average_color[2] > \
+            average_color[1] and average_color[2] > average_color[0]:
         return True
     else:
         return False
