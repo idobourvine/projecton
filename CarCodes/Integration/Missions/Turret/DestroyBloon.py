@@ -10,7 +10,7 @@ sys.path.append('..')
 
 
 class DestroyBloon(Missions.Mission.Mission):
-    def __init__(self, device_map):
+    def __init__(self, device_map, countdown = 5):
         Missions.Mission.Mission.__init__(self)
 
         self.old_time = 0
@@ -18,6 +18,8 @@ class DestroyBloon(Missions.Mission.Mission):
 
         self.laser_pointer = device_map.pitch_motor
         self.vision_data = device_map.car_vision_data
+
+        self.countdown = countdown
 
     def initialize(self):
         self.old_time = time.time()
@@ -35,7 +37,7 @@ class DestroyBloon(Missions.Mission.Mission):
             a = a[0]
         else:
             a = False
-        return self.new_time - self.old_time > 5 or a
+        return self.new_time - self.old_time > self.countdown or a
 
     def finish(self):
         self.laser_pointer.send(0, False, True)

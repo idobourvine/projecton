@@ -7,6 +7,7 @@ import Missions.Turret.ClearStandpoint
 import Missions.Turret.MoveTurretByAngle
 import Missions.Car.MoveDistance
 import Missions.Car.Rotate
+import Missions.Turret.DestroyBloon
 import math
 from Utils.Constants import *
 from Utils.UtilFunctions import *
@@ -127,6 +128,10 @@ class MissionPlanner:
 
         elif self.mission_state == 1:
 
+            mis1 = Missions.Turret.DestroyBloon.DestroyBloon(self.device_map, 3)
+            return mis1
+
+            '''
             print("Current orientation before clear standpoint: " + str(curr_ori))
             mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(self.device_map, room_bloons, curr_location,
                                                                    curr_ori + 10)
@@ -135,7 +140,7 @@ class MissionPlanner:
             # will be clearing preset standpoints
 
             return mis1
-
+            '''
         elif self.mission_state == 2:
             if len(self.preset_standpoint) == 0:
                 # Meaning we went through all preset points
