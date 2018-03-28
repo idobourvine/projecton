@@ -55,6 +55,9 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
             # a mathematical plane
 
             diff_pitch = (angles[1] - last_angles[1])
+
+            if angles[1] > 30:
+                diff_pitch = 30 - last_angles[1]
             # diff_pitch = (angles[1])
 
             print("Going to move angles: " + str((diff_azimuth, diff_pitch)))
