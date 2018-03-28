@@ -118,16 +118,16 @@ class MissionPlanner:
                 # mis1 = Missions.Car.Rotate.Rotate(self.device_map, 90)
                 # mis2 = Missions.Car.Rotate.Rotate(self.device_map, -90)
 
-                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -140, True, 20, True)
+                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -120, True, 20, True)
                 mis2 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
 
-                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -105, True, 0, True)
+                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -120, True, 0, True)
                 mis4 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
 
-                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -20, True, 0, True)
+                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -10, True, 0, True)
                 mis6 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
 
-                mis7 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -20, True, 0, True)
+                mis7 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -30, True, -10, True)
                 mis8 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
 
                 mis = Missions.SeriesMission.SeriesMission([mis1, mis2, mis3, mis4, mis5, mis6, mis7, mis8])
