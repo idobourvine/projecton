@@ -126,10 +126,10 @@ class MissionPlanner:
                 return None
 
         elif self.mission_state == 1:
-            
+
             print("Current orientation before clear standpoint: " + str(curr_ori))
             mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(self.device_map, room_bloons, curr_location,
-                                                                   curr_ori + 10)
+                                                                   curr_ori)
 
             # self.mission_state = 2  # Next mission that will be returned
             # will be clearing preset standpoints

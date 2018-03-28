@@ -49,7 +49,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
 
             # diff_azimuth = -1 * clamp_to_0_360(angles[0] - last_angles[0])
 
-            diff_azimuth = -1 * clamp_to_0_360(angles[0])
+            diff_azimuth = -1 * clamp_to_0_360(angles[0] + 90)
 
             # Azimuth motor is moving reversed relative to normal angles in
             # a mathematical plane
