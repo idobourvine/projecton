@@ -26,19 +26,18 @@ class DriveToPoint(Missions.SeriesMission.SeriesMission):
         self.init_missions_list(device_map=device_map)
 
     def init_missions_list(self, device_map):
-
         rel_x = self.point[0] - self.starting_pos[0]
         rel_y = self.point[1] - self.starting_pos[1]
 
         movement_heading = to_degs(math.atan2(rel_y, rel_x))
         self.movement_heading = movement_heading
-        amount_to_rotate = clamp_to_180(movement_heading - self.starting_pos[2])
+        amount_to_rotate = int(clamp_to_180(movement_heading - self.starting_pos[2]))
+
         self.missions.append(Missions.Car.Rotate.Rotate(
             device_map, amount_to_rotate))
 
-        dist = pythagoras((rel_x, rel_y))
-        self.missions.append(
-            Missions.Car.MoveDistance.MoveDistance(device_map,
-                                                               dist))
+        dist = int(pythagoras((rel_x, rel_y)))
+
+        self.missions.append(Missions.Car.MoveDistance.MoveDistance(device_map, dist))
 
         self.missions.append(Missions.NumberedMission.NumberedMission(1, 10))
