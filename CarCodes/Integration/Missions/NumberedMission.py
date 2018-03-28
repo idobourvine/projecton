@@ -5,11 +5,11 @@ import Mission
 
 
 class NumberedMission(Mission.Mission):
-    def __init__(self, num):
+    def __init__(self, num, duration):
         Mission.Mission.__init__(self)  # Critical line in every mission
         self.num = num
         self.start_time = time.time()
-        self.duration = random()
+        self.duration = duration
 
     def initialize(self):
         print("Numbered mission " + str(self.num) + " initialized")

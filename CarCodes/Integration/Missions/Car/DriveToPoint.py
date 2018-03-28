@@ -1,6 +1,7 @@
 import Missions.Car.MoveDistance
 import Missions.Car.Rotate
 import Missions.SeriesMission
+import Missions.NumberedMission
 from Utils.UtilFunctions import *
 
 
@@ -31,7 +32,7 @@ class DriveToPoint(Missions.SeriesMission.SeriesMission):
 
         movement_heading = to_degs(math.atan2(rel_y, rel_x))
         self.movement_heading = movement_heading
-        amount_to_rotate = movement_heading - self.starting_pos[2]
+        amount_to_rotate = clamp_to_180(movement_heading - self.starting_pos[2])
         self.missions.append(Missions.Car.Rotate.Rotate(
             device_map, amount_to_rotate))
 
@@ -39,3 +40,5 @@ class DriveToPoint(Missions.SeriesMission.SeriesMission):
         self.missions.append(
             Missions.Car.MoveDistance.MoveDistance(device_map,
                                                                dist))
+
+        self.missions.append(Missions.NumberedMission.NumberedMission(1, 10))

@@ -1,5 +1,4 @@
 import time
-import Communication.Connection
 import Vision_Processing.PiStream
 import Vision_Processing.CarVisionData
 import BlochsCode.SecurityVisionData
@@ -56,7 +55,7 @@ if __name__ == "__main__":
                         '', stripped)
 
                     msg_as_was_sent = "MESSAGE" + removed_useless_num
-                    # print("Recieved msg from comp 2: " + msg_as_was_sent)
+                    print("Recieved msg from comp 2: " + msg_as_was_sent)
                     data_from_comp2.put(msg_as_was_sent)
                     time.sleep(0.1)
 

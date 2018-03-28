@@ -20,13 +20,15 @@ class MoveDistance(Missions.Mission.Mission):
 
     def execute(self):
         """"""
+        pass
 
     def is_finished(self):
         return self.car_drive.finished_moving()
 
     def finish(self):
-
         """
         do nothing
         :return:
         """
+        pass
+
