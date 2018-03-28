@@ -33,7 +33,7 @@ CAM4 = Cam.Cam(3, np.array([664.0, 269.0, 120.0]), np.array([-57.0 , 226.0, 115.
                480.0, 30.0, 25.0, 0)
 
 
-CAMS = [CAM1, CAM2]
+CAMS = [CAM4, CAM3]
 
 # ToDo - remeasure
 ROOM_X = 640

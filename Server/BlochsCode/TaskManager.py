@@ -11,7 +11,7 @@ from sympy import Symbol
 from Helper import *
 import time
 
-CAR_Z = 55.0
+CAR_Z = 45.0
 
 
 def startCams():
@@ -59,8 +59,16 @@ def getCarLocation():
             testCar = getTargetsPlaces(copy.deepcopy(testPoint))[0]
             testDiff = abs(testCar[2] - CAR_Z)
             if testDiff < diff:
+                points = testPoint
                 diff = testDiff
                 car = testCar
+    # print points
+    # cv2.circle(img1, (points[0][0][0], points[0][0][1]), 10, (0, 255, 0), 10)
+    # cv2.imshow("1", img1)
+    # cv2.waitKey(1000)
+    # cv2.circle(img2, (points[1][0][0], points[1][0][1]), 5, (0, 0, 255), 4)
+    # cv2.imshow("2", img2)
+    # cv2.waitKey(1000)
     return car
 
 
