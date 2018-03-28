@@ -64,6 +64,9 @@ class CarVisionData:
     def get_car_location(self):
         return copy.deepcopy(self.car_location)
 
+    def get_green_line_angle(self):
+        return self.green_line_angle
+
     def get_continue_mission(self):
         return copy.deepcopy(self.continue_mission)
 
@@ -155,12 +158,12 @@ class CarVisionData:
 
                     elif msg_type == "CarLocationMSG":
                         self.car_location = data
-                        # print("Data from server: car location: " + str(data))
+                        print("Data from server: car location: " + str(data))
 
                     elif msg_type == "GreenLineAngleMSG":
                         self.green_line_angle = data
-                        # print("Data from server: green line angle: " + str(
-                        # data))
+                        print("Data from server: green line angle: " + str(
+                        data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")
