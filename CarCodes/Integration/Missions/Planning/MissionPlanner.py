@@ -111,16 +111,32 @@ class MissionPlanner:
                 self.entered_state_0 = True
                 # Testing mode
 
-                mis1 = Missions.Car.DriveToPoint.DriveToPoint(self.device_map,
-                                                              (curr_location[0], curr_location[1], curr_ori),
-                                                              (480, 240))
+                # mis1 = Missions.Car.DriveToPoint.DriveToPoint(self.device_map,
+                #                                               (curr_location[0], curr_location[1], curr_ori),
+                #                                               (480, 240))
 
                 # mis1 = Missions.Car.Rotate.Rotate(self.device_map, 90)
                 # mis2 = Missions.Car.Rotate.Rotate(self.device_map, -90)
 
-                self.mission_state = 1
+                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -150, True, 20, True)
+                mis2 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
 
-                return mis1
+                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -100, True, 0, True)
+                mis4 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
+
+                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -20, True, 0, True)
+                mis6 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
+
+                mis7 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -20, True, 0, True)
+                mis8 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
+
+                mis = Missions.SeriesMission.SeriesMission([mis1, mis2, mis3, mis4, mis5, mis6, mis7, mis8])
+
+                # self.mission_state = 1
+
+                return mis
+
+
 
             else:
                 return None
