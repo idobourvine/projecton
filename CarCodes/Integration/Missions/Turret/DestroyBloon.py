@@ -37,7 +37,10 @@ class DestroyBloon(Missions.Mission.Mission):
             a = a[0]
         else:
             a = False
-        return self.new_time - self.old_time > self.countdown or a
+        # return self.new_time - self.old_time > self.countdown or a
+        print("Checking is finished of destroy: " + str(a))
+
+        return self.new_time - self.old_time > self.countdown
 
     def finish(self):
         self.laser_pointer.send(0, False, True)
