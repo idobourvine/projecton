@@ -102,13 +102,19 @@ def process_security_vision_data():
     while True:
         room_bloons = security_vision_data.get_bloons()
         car_location = security_vision_data.get_car_location()
+        room_friends = security_vision_data.get_friends()
 
         if room_bloons:
             print("Room Bloons:")
             print(room_bloons)
 
+        if room_friends:
+            print "Room friends:"
+            print room_friends
+
         data_from_vision.put("MESSAGERoomBloons1MSG" + str(room_bloons))
         data_from_vision.put("MESSAGECarLocation1MSG" + str(car_location))
+        data_from_vision.put("MESSAGERoomFriends1MSG" + str(room_friends))
 
         time.sleep(0.1)
 

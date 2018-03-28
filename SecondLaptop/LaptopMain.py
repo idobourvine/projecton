@@ -43,10 +43,15 @@ if __name__ == "__main__":
 
         if process_security_vision:
             room_bloons = security_vision_data.get_bloons()
+            room_friends = security_vision_data.get_friends()
             print "Room bloons:"
             print room_bloons
 
+            print "Room friends:"
+            print room_friends
+
             connection.send_msg("MESSAGERoomBloons2MSG" + str(room_bloons))
+            connection.send_msg("MESSAGERoomFriends2MSG" + str(room_friends))
 
             car_location = security_vision_data.get_car_location()
             print "Car Location"

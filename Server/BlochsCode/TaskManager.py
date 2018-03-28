@@ -98,6 +98,8 @@ def getTargets():
     print("Time after triangulation: " + str(time.time()))
     print "getTargets"
     print targets
+
+
     # targets = cartesianToSpheric(targets, place, orientation)
     return targets
 
@@ -107,8 +109,12 @@ def getInnocents():
 
     cams = CAMS
     for cam in cams:
+        cam.resetTargets()
+        cam.resetSizes()
         image = cam.getImage()
+        print("Time before getting friends: " + str(time.time()))
         bloons, sizes = Vision_Processing.GetBalloon.getFriends(image)
+        print("Time after getting friends: " + str(time.time()))
         points = []
         for bloon in bloons:
             points.append(np.array([bloon[0], bloon[1]]))

@@ -27,6 +27,8 @@ class CarVisionData:
         self.car_location_2 = []
 
         self.continue_mission = True
+        self.room_friends_1 = []
+        self.room_friends_2 = []
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
@@ -68,6 +70,15 @@ class CarVisionData:
 
     def get_room_bloons(self):
         return self.get_room_bloons_1() + self.get_room_bloons_2()
+
+    def get_room_friends_1(self):
+        return copy.deepcopy(self.room_friends_1)
+
+    def get_room_friends_2(self):
+        return copy.deepcopy(self.room_friends_2)
+
+    def get_room_friends(self):
+        return self.get_room_friends_1() + self.get_room_friends_2()
 
     def get_car_position(self):
         return (360, 180, 37)
@@ -168,12 +179,12 @@ class CarVisionData:
                     elif msg_type == "RoomBloons1MSG":
                         self.room_bloons_1 = data
                         # print("Data from server: room bloons 1: " + str(
-                        # data))
+                        #     data))
 
                     elif msg_type == "RoomBloons2MSG":
                         self.room_bloons_2 = data
                         # print("Data from server: room bloons 2: " + str(
-                        # data))
+                        #     data))
 
                     elif msg_type == "CarWorkingMSG":
                         self.car_working = data
@@ -186,6 +197,15 @@ class CarVisionData:
                     elif msg_type == "CarLocation2MSG":
                         self.car_location_2 = data
                         print("Data from server: car location 2: " + str(data))
+
+                    elif msg_type == "RoomFriends1MSG":
+                        self.room_friends_1 = data
+                        print("Data from server: room friends 1: " + str(data))
+
+                    elif msg_type == "RoomFriends2MSG":
+                        self.room_friends_2 = data
+                        print("Data from server: room friends 2: " + str(data))
+
 
             except Exception as e:
                 print("Message parsing exception, msg was: " + msg)

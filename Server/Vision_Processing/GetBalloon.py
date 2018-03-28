@@ -280,7 +280,7 @@ def getFriends(img):
     friend_sizes1 = []
     bloons, sizes = getCircle(img)
     for i in range(len(bloons)):
-        if not isRedSec(img, bloons[i]):
+        if not isRed(img, bloons[i]):
             friend_bloons1.append(bloons[i])
             friend_sizes1.append(sizes[i])
     friend_bloons, friend_sizes = filter_close_bloons(friend_bloons1,
