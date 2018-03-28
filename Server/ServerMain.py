@@ -55,7 +55,7 @@ if __name__ == "__main__":
                         '', stripped)
 
                     msg_as_was_sent = "MESSAGE" + removed_useless_num
-                    # print("Recieved msg from comp 2: " + msg_as_was_sent)
+                    print("Recieved msg from comp 2: " + msg_as_was_sent)
                     data_from_comp2.put(msg_as_was_sent)
                     time.sleep(0.1)
 
@@ -80,13 +80,10 @@ def get_vision_data():
 
         can_shoot = car_vision_data.get_can_shoot()
         did_pop = car_vision_data.get_did_pop()
-        # green_line_angle = car_vision_data.get_green_line_angle()
 
         data_from_car.put("MESSAGECarBloonsMSG" + str(car_bloons))
         data_from_car.put("MESSAGECanShootMSG" + str(can_shoot))
         data_from_car.put("MESSAGEDidPopMSG" + str(did_pop))
-        # data_from_car.put("MESSAGEGreenLineAngleMSG" + str(
-        #     green_line_angle))
 
         time.sleep(0.1)
 
@@ -111,7 +108,7 @@ def process_security_vision_data():
             print(room_bloons)
 
         data_from_vision.put("MESSAGERoomBloons1MSG" + str(room_bloons))
-        data_from_vision.put("MESSAGECarLocationMSG" + str(car_location))
+        data_from_vision.put("MESSAGECarLocation1MSG" + str(car_location))
 
         time.sleep(0.1)
 

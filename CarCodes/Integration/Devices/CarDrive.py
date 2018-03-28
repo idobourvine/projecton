@@ -3,6 +3,7 @@ import time
 import serial
 import Utils.Constants
 
+
 class CarDrive():
 
     def __init__(self, port, baudrate=2000000):
@@ -11,9 +12,17 @@ class CarDrive():
             self.ser = serial.Serial(port, baudrate)
             time.sleep(5)
 
+        self.curr_ori = 270  # Starting orientation
+
     def close(self):
         if self.use_devices:
             self.ser.close()
+
+    def get_curr_ori(self):
+        return self.curr_ori
+
+    def set_curr_ori(self, to_set):
+        self.curr_ori = to_set
 
     def move_distance(self, length):
         """
@@ -22,6 +31,9 @@ class CarDrive():
         :param length: distance to drive (in meters)
         :return: None
         """
+
+        length *= -1  # Distances are reversed
+
         if length < 0:
             self.send(0, abs(length), 1)
         else:
@@ -34,7 +46,10 @@ class CarDrive():
         :param length: distance to drive (in meters)
         :return: None
         """
-        self.send(angle,0,0)
+
+        self.curr_ori += angle
+
+        self.send(angle, 0, 0)
 
     def finished_moving(self):
         """
@@ -42,12 +57,12 @@ class CarDrive():
         finished
         :return: False if still running, true otherwise
         """
-        if(self.ser.inWaiting() > 0):
+        if (self.ser.inWaiting() > 0):
             a = self.ser.read()
             return True
         return False
 
-    def send_data(self,numToSend):
+    def send_data(self, numToSend):
         '''
         :param numToSend: send to arduino
         :return: void
@@ -64,14 +79,14 @@ class CarDrive():
         temp = temp % (2 ** 4)
         b4 = temp
         # print "b4 - " + str(b4)
-        #send the data devided to half-bytes
-        #print b1
+        # send the data devided to half-bytes
+        # print b1
         self.ser.write((chr(b1)))
-        #print b2
+        # print b2
         self.ser.write((chr(b2)))
-        #print b3
+        # print b3
         self.ser.write((chr(b3)))
-        #print b4
+        # print b4
         self.ser.write((chr(b4)))
 
         # print(b1,b2,b3)

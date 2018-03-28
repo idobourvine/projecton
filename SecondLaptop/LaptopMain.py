@@ -48,6 +48,13 @@ if __name__ == "__main__":
 
             connection.send_msg("MESSAGERoomBloons2MSG" + str(room_bloons))
 
+            car_location = security_vision_data.get_car_location()
+            print "Car Location"
+            print car_location
+
+            connection.send_msg("MESSAGERCarLocation2MSG" + str(car_location))
+
+
         if pressed_hotkey:
             print("Changing safety stop to " + str(not safety_stopped))
             pressed_hotkey = False

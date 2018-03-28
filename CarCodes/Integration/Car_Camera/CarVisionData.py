@@ -23,8 +23,8 @@ class CarVisionData:
         self.room_bloons_1 = []
         self.room_bloons_2 = []
 
-        self.car_location = []
-        self.green_line_angle = 999
+        self.car_location_1 = []
+        self.car_location_2 = []
 
         self.continue_mission = True
 
@@ -73,10 +73,14 @@ class CarVisionData:
         return (360, 180, 37)
 
     def get_car_location(self):
-        return copy.deepcopy(self.car_location)
-
-    def get_green_line_angle(self):
-        return self.green_line_angle
+        if not self.car_location_1 and not self.car_location_2:
+            return None
+        elif not self.car_location_2:
+            return copy.deepcopy(self.car_location_1)
+        elif not self.car_location_1:
+            return copy.deepcopy(self.car_location_2)
+        else:
+            return copy.deepcopy(self.car_location_1)
 
     def get_continue_mission(self):
         return copy.deepcopy(self.continue_mission)
@@ -175,14 +179,13 @@ class CarVisionData:
                         self.car_working = data
                         # print("Data from server: car working: " + str(data))
 
-                    elif msg_type == "CarLocationMSG":
-                        self.car_location = data
-                        # print("Data from server: car location: " + str(data))
+                    elif msg_type == "CarLocation1MSG":
+                        self.car_location_1 = data
+                        print("Data from server: car location 1: " + str(data))
 
-                    elif msg_type == "GreenLineAngleMSG":
-                        self.green_line_angle = data
-                        # print("Data from server: green line angle: " + str(
-                        # data))
+                    elif msg_type == "CarLocation2MSG":
+                        self.car_location_2 = data
+                        print("Data from server: car location 2: " + str(data))
 
             except Exception as e:
                 print("Message parsing exception, msg was: " + msg)

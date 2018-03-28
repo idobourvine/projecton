@@ -89,10 +89,13 @@ class MissionPlanner:
         time.sleep(15)
 
         curr_position = self.device_map.car_vision_data.get_car_position()
+
+        curr_location = self.device_map.car_vision_data.get_car_location()
+
         curr_bloons = self.device_map.car_vision_data.get_car_bloons()
         room_bloons = self.device_map.car_vision_data.get_room_bloons()
 
-        curr_ori = 280
+        curr_ori = self.device_map.car_drive.get_curr_ori()
 
         if self.mission_state == 0:
 
@@ -101,30 +104,15 @@ class MissionPlanner:
                 self.entered_state_0 = True
                 # Testing mode
 
-                print("Running Tests")
-                print()
+                mis1 = Missions.Car.DriveToPoint.DriveToPoint(self.device_map,
+                                                              (curr_location[0], curr_location[1], curr_ori),
+                                                              (480, 240))
 
-                print("Testing movements")
-
-                mis1 = Missions.Car.MoveDistance.MoveDistance(
-                    self.device_map, 20)
-                mis2 = Missions.Car.Rotate.Rotate(self.device_map, 10)
-                mis3 = Missions.Car.MoveDistance.MoveDistance(
-                    self.device_map, 20)
-                mis4 = Missions.Car.Rotate.Rotate(self.device_map, -10)
-                mis5 = Missions.Car.MoveDistance.MoveDistance(
-                    self.device_map, 20)
-                mis6 = Missions.Car.Rotate.Rotate(self.device_map, 20)
-                mis7 = Missions.Car.MoveDistance.MoveDistance(
-                    self.device_map, 20)
-                mis8 = Missions.Car.Rotate.Rotate(self.device_map, -20)
-                mis = Missions.SeriesMission.SeriesMission([mis1, mis2, mis3, mis4, mis5,
-                                                            mis6, mis7, mis8])
-
+                mis = Missions.SeriesMission.SeriesMission([mis1])
                 return mis
+
             else:
                 return None
-
 
         elif self.mission_state == 1:
             bloons_to_destroy = self.get_bloons_relevant_for_standpoint(
