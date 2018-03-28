@@ -90,8 +90,8 @@ class MissionPlanner:
         print("Cameras reset")
         time.sleep(5)
 
-        curr_location = self.device_map.car_vision_data.get_car_location()
-
+        # curr_location = self.device_map.car_vision_data.get_car_location()
+        curr_location = (360, 180, 40)
         curr_bloons = self.device_map.car_vision_data.get_car_bloons()
         room_bloons = self.device_map.car_vision_data.get_room_bloons()
 
