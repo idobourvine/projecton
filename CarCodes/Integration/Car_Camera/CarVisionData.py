@@ -20,17 +20,13 @@ class CarVisionData:
         self.can_shoot = [0]
         self.did_pop = [0]
 
-<<<<<<< HEAD
         self.room_bloons_1 = []
-
         self.room_bloons_2 = []
-=======
-        self.room_bloons = []
+
         self.car_location = []
         self.green_line_angle = 999
 
         self.continue_mission = True
->>>>>>> system_tri
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 

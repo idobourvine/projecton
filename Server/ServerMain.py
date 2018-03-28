@@ -1,5 +1,4 @@
 import time
-import Communication.Connection
 import Vision_Processing.PiStream
 import Vision_Processing.CarVisionData
 import BlochsCode.SecurityVisionData
@@ -24,7 +23,7 @@ if __name__ == "__main__":
     # Booleans that decide if we process the images
     process_car_vision = True
     process_security_vision = True
-    get_comp2_processed_data = True
+    get_comp2_processed_data = False
 
     pi_connection = Communication.ServerConnection.ServerConnection(
         Communication.ServerConnection.LISTENER,

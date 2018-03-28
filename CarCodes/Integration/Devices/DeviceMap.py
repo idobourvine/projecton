@@ -20,17 +20,15 @@ class DeviceMap:
         self.security_vision_data = \
             Security_Cameras.SecurityVisionData.SecurityVisionData()
 
-        if Constants.car_or_turret:
-            self.car_drive = CarDrive.CarDrive('/dev/ttyUSB0')  # Pi port
-            # Serial communication with car arduino
+        self.car_drive = CarDrive.CarDrive('/dev/ttyUSB2')  # Pi port
+        # Serial communication with car arduino
 
-        else:
-            # serial comm with arduino that controls azimuth motor
-            # self.azimuth_motor = TurretMotor.TurretMotor('COM5')  # PC port
-            self.azimuth_motor = TurretMotor.TurretMotor('/dev/ttyUSB1')  # Pi port
+        # serial comm with arduino that controls azimuth motor
+        # self.azimuth_motor = TurretMotor.TurretMotor('COM5')  # PC port
+        self.azimuth_motor = TurretMotor.TurretMotor('/dev/ttyUSB1')  # Pi port
 
-            # serial comm with arduino that controls pitch motor
-            # self.pitch_motor = TurretMotor.TurretMotor('COM4')  # PC port
-            self.pitch_motor = TurretMotor.TurretMotor('/dev/ttyUSB0')  # Pi port
+        # serial comm with arduino that controls pitch motor
+        # self.pitch_motor = TurretMotor.TurretMotor('COM4')  # PC port
+        self.pitch_motor = TurretMotor.TurretMotor('/dev/ttyUSB0')  # Pi port
 
 
