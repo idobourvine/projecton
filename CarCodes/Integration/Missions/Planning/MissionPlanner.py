@@ -58,7 +58,7 @@ class MissionPlanner:
         if not self.current_mission:
             if Constants.use_devices:
                 print("Going to sleep")
-                time.sleep(15)
+                time.sleep(5)
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
@@ -87,7 +87,7 @@ class MissionPlanner:
 
         # letting the cameras reset
         print("Cameras reset")
-        time.sleep(10)
+        time.sleep(5)
 
         curr_location = self.device_map.car_vision_data.get_car_location()
 
