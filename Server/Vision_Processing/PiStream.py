@@ -39,7 +39,7 @@ class PiStream:
 
     def read(self):
         # return next frame in the queue
-        return self.Q.get()
+        return self.Q.queue[0]
 
     def more(self):
         # return True if there are still frames in the queue

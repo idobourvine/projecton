@@ -1,3 +1,9 @@
+import time
+import Communication.Connection
+import Vision_Processing.PiStream
+import Vision_Processing.CarVisionData
+import BlochsCode.SecurityVisionData
+
 import re
 import threading
 import time
@@ -25,7 +31,6 @@ if __name__ == "__main__":
         Communication.ServerConnection.PI_PORT)
 
     data_from_comp2 = Queue()
-
 
     def get_comp2_data():
         print "comp2 starting"
@@ -76,10 +81,14 @@ def get_vision_data():
 
         can_shoot = car_vision_data.get_can_shoot()
         did_pop = car_vision_data.get_did_pop()
+        green_line_angle = car_vision_data.get_green_line_angle()
 
         data_from_car.put("MESSAGECarBloonsMSG" + str(car_bloons))
         data_from_car.put("MESSAGECanShootMSG" + str(can_shoot))
         data_from_car.put("MESSAGEDidPopMSG" + str(did_pop))
+        data_from_car.put("MESSAGEGreenLineAngleMSG" + str(
+            green_line_angle))
+
         time.sleep(0.1)
 
 
@@ -96,12 +105,15 @@ def process_security_vision_data():
     security_vision_data = BlochsCode.SecurityVisionData.SecurityVisionData()
     while True:
         room_bloons = security_vision_data.get_bloons()
+        car_location = security_vision_data.get_car_location()
 
         if room_bloons:
             print("Room Bloons:")
             print(room_bloons)
 
+
         data_from_vision.put("MESSAGERoomBloons1MSG" + str(room_bloons))
+        data_from_vision.put("MESSAGECarLocationMSG" + str(car_location))
 
         time.sleep(0.1)
 
@@ -138,7 +150,6 @@ while True:
     pi_connection.send_msg("MESSAGECarWorkingMSG" + str(safety_stopped))
     # print "sending..."
 
-
     try:
         if not data_from_vision.empty():
             while not data_from_vision.empty():
@@ -158,5 +169,7 @@ while True:
     except Exception as e:
         print("Exception in server main loop")
         print(e)
+
+        # print "sending..."
 
     time.sleep(0.2)

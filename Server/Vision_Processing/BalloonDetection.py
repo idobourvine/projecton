@@ -6,7 +6,7 @@ import cv2
 import GetBalloon
 BALLOONS = []
 
-def Webcamera(stream, bloons, canShoot, didPop):
+def Webcamera(stream, bloons, canShoot, didPop, greenLineAngle):
     global BALLOONS
     Image0 = None
     start_time = -1
@@ -18,12 +18,12 @@ def Webcamera(stream, bloons, canShoot, didPop):
             if Image0 is None:
                 Image0 = copy.deepcopy(Image1)
 
-            try:
-                # print('showing')
-                cv2.imshow('image_car', Image1)
-                cv2.waitKey(50)
-            except Exception as e:
-                print(e)
+            # try:
+            #     # print('showing')
+            #     # cv2.imshow('image_car', Image1)
+            #     # cv2.waitKey(50)
+            # except Exception as e:
+            #     print(e)
 
             del temp[:]
             temp.append(GetBalloon.getBalloon(Image1))
@@ -42,6 +42,10 @@ def Webcamera(stream, bloons, canShoot, didPop):
                 didPop.append(GetBalloon.didPop(Image0, Image1))
                 if len(didPop) > 0 and didPop[0] == 1:
                     start_time = time.time()
+
+            del greenLineAngle[:]
+            greenLineAngle.append(GetBalloon.getOrientation(Image0))
+
             time.sleep(0.1)
             Image0 = copy.deepcopy(Image1)
 

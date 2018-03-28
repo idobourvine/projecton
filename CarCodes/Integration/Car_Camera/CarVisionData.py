@@ -20,9 +20,17 @@ class CarVisionData:
         self.can_shoot = [0]
         self.did_pop = [0]
 
+<<<<<<< HEAD
         self.room_bloons_1 = []
 
         self.room_bloons_2 = []
+=======
+        self.room_bloons = []
+        self.car_location = []
+        self.green_line_angle = 999
+
+        self.continue_mission = True
+>>>>>>> system_tri
 
         self.stream = WebcamStream.WebcamStream(queueSize=2).start()
 
@@ -68,6 +76,12 @@ class CarVisionData:
     def get_car_position(self):
         return (360, 180, 37)
 
+    def get_car_location(self):
+        return copy.deepcopy(self.car_location)
+
+    def get_green_line_angle(self):
+        return self.green_line_angle
+
     def get_continue_mission(self):
         return copy.deepcopy(self.continue_mission)
 
@@ -76,7 +90,7 @@ class CarVisionData:
         Should return whether there are more balloons to pop in the room
         :return:
         """
-        return True
+        return self.continue_mission
 
     def set_process_car_vision(self, bool):
         self.process_car_vision = bool
@@ -164,6 +178,15 @@ class CarVisionData:
                     elif msg_type == "CarWorkingMSG":
                         self.car_working = data
                         # print("Data from server: car working: " + str(data))
+
+                    elif msg_type == "CarLocationMSG":
+                        self.car_location = data
+                        print("Data from server: car location: " + str(data))
+
+                    elif msg_type == "GreenLineAngleMSG":
+                        self.green_line_angle = data
+                        print("Data from server: green line angle: " + str(
+                        data))
 
             except Exception as e:
                 print("EXCEPTION CAUGHT")

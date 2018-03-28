@@ -11,7 +11,7 @@ from sympy import Symbol
 from Helper import *
 import time
 
-CAR_Z = 40.0
+CAR_Z = 45.0
 
 
 def startCams():
@@ -35,12 +35,15 @@ def getTargetsPlaces(points):
     return targets
 
 
+def getGreenLineAngle(img):
+    return Vision_Processing.GetBalloon.getOrientation(img)
+
 def getCarLocation():
     """returns 2D location of the car (looking from the ceiling)"""
     cams = CAMS
     img1, img2 = cams[0].getImage(), cams[1].getImage()
-    potint1op, point2op = GetBalloonOld.getCar(img1), GetBalloonOld.getCar(
-        img2)
+    # img1, img2 = cv2.imread("1.jpg"), cv2.imread("2.jpg")
+    point1op, point2op = Vision_Processing.GetBalloon.getCar(img1), Vision_Processing.GetBalloon.getCar(img2)
     for j in range(len(point1op)):
         point1op[j] = np.array(np.array([point1op[j][0], point1op[j][1]]))
     for j in range(len(point2op)):
@@ -56,8 +59,16 @@ def getCarLocation():
             testCar = getTargetsPlaces(copy.deepcopy(testPoint))[0]
             testDiff = abs(testCar[2] - CAR_Z)
             if testDiff < diff:
+                points = testPoint
                 diff = testDiff
                 car = testCar
+    # print points
+    # cv2.circle(img1, (points[0][0][0], points[0][0][1]), 10, (0, 255, 0), 10)
+    # cv2.imshow("1", img1)
+    # cv2.waitKey(1000)
+    # cv2.circle(img2, (points[1][0][0], points[1][0][1]), 5, (0, 0, 255), 4)
+    # cv2.imshow("2", img2)
+    # cv2.waitKey(1000)
     return car
 
 

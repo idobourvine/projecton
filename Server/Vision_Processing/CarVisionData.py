@@ -4,6 +4,7 @@ import threading
 import PiStream
 import BalloonDetection
 
+
 class CarVisionData:
     """
     Wrapper class for the data that comes from vision processing
@@ -13,6 +14,7 @@ class CarVisionData:
         self.bloons = []  # Array of balloons detected by vision processing
         self.can_shoot = [0]
         self.did_pop = [0]
+        self.green_line_angle = [0]
 
         self.connection = connection
         self.stream = PiStream.PiStream(connection=self.connection,
@@ -24,7 +26,7 @@ class CarVisionData:
                                     args=(self.stream,
                                           self.bloons,
                                           self.can_shoot,
-                                          self.did_pop))  # Thread that runs
+                                          self.did_pop, self.green_line_angle))  # Thread that runs
         self.eg1.start()
         print("Started image processing thread")
 
@@ -36,6 +38,9 @@ class CarVisionData:
 
     def get_did_pop(self):
         return copy.deepcopy(self.did_pop)
+
+    def get_green_line_angle(self):
+        return copy.deepcopy(self.green_line_angle)[0]
 
     def continue_mission(self):
         """
