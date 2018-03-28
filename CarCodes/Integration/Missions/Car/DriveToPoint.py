@@ -31,7 +31,7 @@ class DriveToPoint(Missions.SeriesMission.SeriesMission):
 
         movement_heading = to_degs(math.atan2(rel_y, rel_x))
         self.movement_heading = movement_heading
-        amount_to_rotate = int(clamp_to_180(movement_heading - self.starting_pos[2]))
+        amount_to_rotate = int(clamp_to_0_360(movement_heading - self.starting_pos[2]))
 
         print("Going to turn " + str(amount_to_rotate))
 
