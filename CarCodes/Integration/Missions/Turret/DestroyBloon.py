@@ -10,25 +10,24 @@ sys.path.append('..')
 
 
 class DestroyBloon(Missions.Mission.Mission):
-    def __init__(self, device_map, countdown = 3):
+    def __init__(self, device_map, max_counter = 10):
         Missions.Mission.Mission.__init__(self)
 
-        self.start_time = time.time()
-
+        self.counter = 0
         self.laser_pointer = device_map.pitch_motor
         self.vision_data = device_map.car_vision_data
 
-        self.countdown = countdown
+        self.max_counter = max_counter
 
     def initialize(self):
-        self.start_time = time.time()
+        self.counter = 0
+
         self.laser_pointer.send(0, True, True)
-        time.sleep(3)
 
     def execute(self):
         """"""
-        # self.new_time = time.time()
-        print("curr diff: " + str(time.time() - self.start_time))
+        self.counter += 1
+        print("counter: " + str(self.counter))
 
     def is_finished(self):
         a = self.vision_data.get_did_pop()
@@ -39,7 +38,7 @@ class DestroyBloon(Missions.Mission.Mission):
         # return self.new_time - self.old_time > self.countdown or a
         print("Checking is finished of destroy: " + str(a))
 
-        return time.time() - self.start_time > self.countdown
+        return self.counter > self.max_counter
 
     def finish(self):
         self.laser_pointer.send(0, False, True)
