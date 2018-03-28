@@ -118,10 +118,10 @@ class MissionPlanner:
                 # mis1 = Missions.Car.Rotate.Rotate(self.device_map, 90)
                 # mis2 = Missions.Car.Rotate.Rotate(self.device_map, -90)
 
-                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -150, True, 20, True)
+                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -140, True, 20, True)
                 mis2 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
 
-                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -100, True, 0, True)
+                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -105, True, 0, True)
                 mis4 = Missions.Turret.AimAtBloonInPicture.AimAtBloonInPicture(self.device_map)
 
                 mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -20, True, 0, True)
