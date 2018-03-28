@@ -88,14 +88,15 @@ class MissionPlanner:
         # letting the cameras reset
         time.sleep(15)
 
-        curr_position = self.device_map.car_vision_data.get_car_position()
-
         curr_location = self.device_map.car_vision_data.get_car_location()
 
         curr_bloons = self.device_map.car_vision_data.get_car_bloons()
         room_bloons = self.device_map.car_vision_data.get_room_bloons()
 
         curr_ori = self.device_map.car_drive.get_curr_ori()
+
+        print("Mission planner: (curr_location, curr_bloons, room_bloons, curr_ori)")
+        print(str((curr_location, curr_bloons, room_bloons, curr_ori)))
 
         if self.mission_state == 0:
 

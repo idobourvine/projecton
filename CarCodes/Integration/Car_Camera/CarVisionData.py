@@ -192,19 +192,19 @@ class CarVisionData:
 
                     elif msg_type == "CarLocation1MSG":
                         self.car_location_1 = data
-                        print("Data from server: car location 1: " + str(data))
+                        # print("Data from server: car location 1: " + str(data))
 
                     elif msg_type == "CarLocation2MSG":
                         self.car_location_2 = data
-                        print("Data from server: car location 2: " + str(data))
+                        # print("Data from server: car location 2: " + str(data))
 
                     elif msg_type == "RoomFriends1MSG":
                         self.room_friends_1 = data
-                        print("Data from server: room friends 1: " + str(data))
+                        # print("Data from server: room friends 1: " + str(data))
 
                     elif msg_type == "RoomFriends2MSG":
                         self.room_friends_2 = data
-                        print("Data from server: room friends 2: " + str(data))
+                        # print("Data from server: room friends 2: " + str(data))
 
 
             except Exception as e:
