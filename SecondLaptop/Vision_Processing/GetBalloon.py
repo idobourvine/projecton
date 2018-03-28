@@ -14,6 +14,11 @@ upper_red = np.array([50, 220, 255])
 lower_red1 = np.array([170, 120, 170])
 upper_red1 = np.array([255, 220, 255])
 
+lower_car = np.array([45, 100, 25])
+upper_car = np.array([170, 255, 165])
+lower_line = np.array([[55, 55, 30]])
+upper_line = np.array([[95, 95, 75]])
+
 lower_lights = np.array([100, 100, 100])
 upper_lights = np.array([255, 255, 255])
 
@@ -70,8 +75,8 @@ def getBall(img):
         if ratio > 2 or ratio < 0.5:
             toDelete.append(contours[j])
         elif cv2.contourArea(contours[j]) < \
-                                                0.5 * 0.25 * ellipse[1][0] * \
-                                ellipse[1][1] * math.pi:
+                0.5 * 0.25 * ellipse[1][0] * \
+                ellipse[1][1] * math.pi:
             toDelete.append(contours[j])
         elif cv2.contourArea(contours[j]) < 150:
             toDelete.append(contours[j])
@@ -116,8 +121,8 @@ def canShoot(img):
         if ratio > 2 or ratio < 0.5:
             toDelete.append(contours[j])
         elif cv2.contourArea(contours[j]) < \
-                                                0.5 * 0.25 * ellipse[1][0] * \
-                                ellipse[1][1] * math.pi:
+                0.5 * 0.25 * ellipse[1][0] * \
+                ellipse[1][1] * math.pi:
             toDelete.append(contours[j])
         elif cv2.contourArea(contours[j]) < 150:
             toDelete.append(contours[j])
@@ -132,6 +137,16 @@ def getColor(img):
     ing = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     lower_color = np.array(red_lower)
     upper_color = np.array(red_upper)
+    mask = cv2.inRange(ing, lower_color, upper_color)
+    res1 = cv2.bitwise_and(ing, ing, mask=mask)
+    return res1
+
+
+def getColor1(img, colorMin, colorMax):
+    """returns a binary image of the color specified"""
+    ing = img
+    lower_color = np.array(colorMin)
+    upper_color = np.array(colorMax)
     mask = cv2.inRange(ing, lower_color, upper_color)
     res1 = cv2.bitwise_and(ing, ing, mask=mask)
     return res1
@@ -158,19 +173,21 @@ BAD2 = [200, 200, 200]
 d2 = 56
 BAD3 = [5, 5, 5]
 d3 = 10
-BAD4 = [5, 5, 5]
-d4 = 25
+BAD4 = [112, 132, 145]
+d4 = 15
 red_lower = [0, 20, 140]  # security cameras
-red_upper = [185, 160, 255]
+red_upper = [140, 140, 255]
+red_mean = [60, 80, 200]
 red_lower_sec = [0, 0, 70]  # car camera
 red_upper_sec = [110, 100, 180]
-MIN_PIXEL_DIST = 40
+MIN_PIXEL_DIST = 25
+
 
 def canShoot1(circles):
     """return if you can shoot or not"""
     for circle in circles:
         if (FIXED_PIX[0] - circle[0]) ** 2 + (FIXED_PIX[1] - circle[1]) ** 2 < \
-                        FACTOR_OF_ENLARGEMENT * circle[2] ** 2:
+                FACTOR_OF_ENLARGEMENT * circle[2] ** 2:
             return 1
     return 0
 
@@ -199,16 +216,19 @@ def getEnemiesSec(img):
     bloons, sizes = getCircleSec(img)
     for i in range(len(bloons)):
         if isRedSec(img, bloons[i]):
-            # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
-            #
-            # 255, 0), 4)
-            # cv2.imshow("image", img)
-            cv2.waitKey(100)
+            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+            #     i][2]), (0,0,255), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
+        else:
+            pass
+            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+            #     i][2]),(0,255,0),4)
     # cv2.imwrite("image_car" + str(time.time()) + ".jpg", img)
     # cv2.imshow("image_car")
+    # return img
     return [red_bloons, red_sizes]
+
 
 def getCircleSec(img):
     """returns a list of circles and their sizes in image"""
@@ -231,6 +251,7 @@ def getCircleSec(img):
                 # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
     return [bloons, sizes]
 
+
 def getEnemies(img):
     """returns a list of enemy balloons and their sizes in image works for
     the security cameras!!!"""
@@ -245,11 +266,9 @@ def getEnemies(img):
             red_bloons1.append(bloons[i])
             red_sizes1.append(sizes[i])
         else:
-            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
-                                                                            i][
-                                                                            2]),
-                       (0, 255, 0), 4)
-    red_bloons, red_sizes = filter_close_bloons(red_bloons1, red_sizes1)
+            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])),
+                       int(bloons[i][2]), (0, 255, 0), 4)
+    red_bloons, red_sizes = filter_close_bloons(red_bloons1, red_sizes1, img)
     for i in range(len(red_bloons)):
         cv2.circle(img, (int(red_bloons[i][0]), int(red_bloons[i][1])),
                    int(red_bloons[i][2]), (0, 0, 255), 4)
@@ -270,7 +289,7 @@ def getFriends(img):
             friend_bloons1.append(bloons[i])
             friend_sizes1.append(sizes[i])
     friend_bloons, friend_sizes = filter_close_bloons(friend_bloons1,
-                                                      friend_sizes1)
+                                                      friend_sizes1, img)
     return [friend_bloons, friend_sizes]
 
 
@@ -278,8 +297,8 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 22,
-                               param1=80, param2=5, minRadius=7,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 25,
+                               param1=80, param2=30, minRadius=7,
                                maxRadius=0)
     bloons = []
     sizes = []
@@ -296,7 +315,22 @@ def getCircle(img):
     return [bloons, sizes]
 
 
-def filter_close_bloons(bloons ,sizes):
+def get_avg_color(img, circle):
+    circle_copy = [int(X) for X in circle]
+    xc, yc, r = circle_copy
+    cropImg = img[yc - r:yc + r, xc - r:xc + r]
+    average_color = cv2.mean(cropImg)
+    return average_color
+
+
+def get_diff_from(color1, color2):
+    diff = 0
+    for i in range(2):
+        diff += abs(color1[i] - color2[i])
+    return diff
+
+
+def filter_close_bloons(bloons, sizes, img):
     bad_indexes = []
     new_bloons = []
     new_sizes = []
@@ -305,10 +339,17 @@ def filter_close_bloons(bloons ,sizes):
             if i not in bad_indexes and j not in bad_indexes and i != j:
                 dist = (bloons[i][0] - bloons[j][0]) ** 2 + (bloons[i][1] -
                                                              bloons[j][1]) ** 2
-                if dist <= MIN_PIXEL_DIST ** 2:
-                    mid_x = (bloons[i][0] + bloons[j][0]) / 2
-                    mid_y = (bloons[i][1] + bloons[j][1]) / 2
-                    new_r = bloons[i][2] + bloons[j][2]
+                if dist <= max(MIN_PIXEL_DIST ** 2, (bloons[i][2] + bloons[
+                    j][2]) ** 2):
+                    if get_diff_from(get_avg_color(img, bloons[i]),
+                                     red_mean) <= get_diff_from(
+                        get_avg_color(img, bloons[j]), red_mean):
+                        minR = i
+                    else:
+                        minR = j
+                    mid_x = bloons[minR][0]
+                    mid_y = bloons[minR][1]
+                    new_r = bloons[minR][2]
                     bloons[i] = (mid_x, mid_y, new_r)
                     sizes[i] = new_r * new_r * math.pi
                     bad_indexes.append(j)
@@ -322,9 +363,9 @@ def filter_close_bloons(bloons ,sizes):
 def inBetween(ToCheck, BadArray, d):
     """checks if ToCheck is in the range (badArray - d, badArray + d)"""
     if (BadArray[0] - d < ToCheck[0] < BadArray[0] + d) and (
-                        BadArray[1] - d < ToCheck[1] < BadArray[
-                1] + d) and (BadArray[2] - d < ToCheck[2] <
-                                     BadArray[2] + d):
+            BadArray[1] - d < ToCheck[1] < BadArray[
+        1] + d) and (BadArray[2] - d < ToCheck[2] <
+                     BadArray[2] + d):
         return True
     else:
         return False
@@ -341,7 +382,7 @@ def manyConds(ToCheck, BadArrays, ds):
 def isClose(color, dist):
     if abs(color[0] - color[1]) < dist and abs(color[1] - color[2]) < dist \
             and \
-                    abs(color[2] - color[0]) < dist:
+            abs(color[2] - color[0]) < dist:
         return True
     else:
         return False
@@ -356,7 +397,8 @@ def isRed(img, circle):
     if red_lower[0] <= average_color[0] <= red_upper[0] and red_lower[1] <= \
             average_color[1] <= red_upper[1] and red_lower[2] <= \
             average_color[2] <= red_upper[2] and average_color[2] > \
-            average_color[1] and average_color[2] > average_color[0]:
+            average_color[0] and average_color[2] > average_color[1]:
+        print average_color
         return True
     else:
         return False
@@ -369,10 +411,10 @@ def isRedSec(img, circle):
     cropImg = img[yc - r:yc + r, xc - r:xc + r]
     average_color = cv2.mean(cropImg)
     if red_lower_sec[0] <= average_color[0] <= red_upper_sec[0] and \
-                            red_lower_sec[1] <= \
-                            average_color[1] <= red_upper_sec[1] and \
-                            red_lower_sec[2] <= \
-                            average_color[2] <= red_upper_sec[2]:
+            red_lower_sec[1] <= \
+            average_color[1] <= red_upper_sec[1] and \
+            red_lower_sec[2] <= \
+            average_color[2] <= red_upper_sec[2]:
         return True
     else:
         return False
@@ -390,3 +432,121 @@ def isWhite(img, circle):
         return True
     else:
         return False
+
+
+def drawCircle(img, r):
+    contour = []
+    xc = len(img) / 2
+    yc = len(img[0]) / 2
+    for i in range(len(img)):
+        for j in range(len(img[0])):
+            if ((i - xc) ** 2 + (j - yc) ** 2) < r ** 2:
+                contour.append([i, j])
+    return contour
+
+
+def isGreen(img, circle):
+    """checks if a circle average color is red-ish"""
+    circle = [int(X) for X in circle]
+    xc, yc, r = circle
+    cropImg = img[yc - r:yc + r, xc - r:xc + r]
+    # cv2.imshow("1", cropImg)
+    # cv2.waitKey()
+    contour = drawCircle(cropImg, r)
+    average_color = [0.0, 0.0, 0.0]
+    for i in range(len(cropImg)):
+        for j in range(len(cropImg[0])):
+            if [i, j] in contour:
+                average_color = [average_color[0] + cropImg[i][j][0], average_color[1] + cropImg[i][j][1],
+                                 average_color[2] + cropImg[i][j][2]]
+    average_color = [average_color[0] / len(contour), average_color[1] / len(contour), average_color[2] / len(contour)]
+    if lower_car[0] <= average_color[0] <= upper_car[0] and lower_car[1] <= \
+            average_color[1] <= upper_car[1] and lower_car[2] <= \
+            average_color[2] <= upper_car[2]:
+        return True
+    else:
+        return False
+
+
+def getCircleCar(img):
+    """returns a list of circles and their sizes in image"""
+    output = img.copy()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.9, 30,
+                               param1=80, param2=10, minRadius=0,
+                               maxRadius=15)
+    bloons = []
+    sizes = []
+    if circles is not None:
+        circles = circles[0]  # syntax
+        for lst in circles:
+            x = lst[0]
+            y = lst[1]
+            r = lst[2]
+            if not isWhite(img, lst) and y > 200:
+                bloons.append(lst)
+                sizes.append(math.pi * r * r)
+                # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+    # return output
+    return bloons, sizes
+
+
+def getCar(img):
+    """returns an array of green balloons from the regular web-cams"""
+
+    options, sizes = getCircleCar(img)
+    filtered = []
+    for option in options:
+        if isGreen(img, option):
+            filtered.append(option)
+    return filtered
+
+
+def getOrientation(img):
+    options = getLine(img, lower_line, upper_line)
+    if not options:
+        return None
+    counter, x, y = 0.0, 0.0, 0.0
+    for option in options:
+        counter += 1
+        x += option[2][0]
+        y += option[3][0]
+    x, y = x / counter, y / counter
+    if inLine(np.array([x, y])):
+        return 0
+    return (320.0 - x) / 640.0 * 30.0
+
+
+def inLine(point):
+    if (point[0] > 330 or point[0] < 310):
+        return False
+    return True
+
+
+def getLine(img, colorMin1, colorMax1):
+    """checks the car's relation to the orientation line"""
+    res1 = getColor1(img, colorMin1, colorMax1)
+    kernel1 = np.ones((12, 12), np.uint8)
+    kernel3 = np.ones((6, 6), np.uint8)
+    close1 = cv2.morphologyEx(res1, cv2.MORPH_CLOSE, kernel1)
+    open1 = cv2.morphologyEx(close1, cv2.MORPH_OPEN, kernel3)
+    gray = cv2.cvtColor(open1, cv2.COLOR_HSV2BGR)
+    gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
+    im1, contours, hier = cv2.findContours(gray, cv2.RETR_EXTERNAL,
+                                           cv2.CHAIN_APPROX_NONE)
+    if not len(contours):
+        close1 = cv2.morphologyEx(res1, cv2.MORPH_CLOSE, kernel1)
+        gray = cv2.cvtColor(close1, cv2.COLOR_HSV2BGR)
+        gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
+        im1, contours, hier = cv2.findContours(gray, cv2.RETR_TREE,
+                                               cv2.CHAIN_APPROX_NONE)
+    if not len(contours):
+        return None
+    bloons = []
+    for j in range(len(contours)):
+        if (len(contours[j]) > 100):
+            line = cv2.fitLine(contours[j], 1, 0, 0.01, 0.01)
+            dir = np.array([line[0][0], line[1][0]])
+            if abs(dir.dot(np.array([0, 1]))) > 0.95:
+                bloons.append(line)
+    return bloons
