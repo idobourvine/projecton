@@ -98,6 +98,11 @@ class MissionPlanner:
         print("Mission planner: (curr_location, curr_bloons, room_bloons, curr_ori)")
         print(str((curr_location, curr_bloons, room_bloons, curr_ori)))
 
+        if not curr_location:
+            print("No current location yet")
+            time.sleep(3)
+            return None
+
         if self.mission_state == 0:
 
             # return Missions.DoNothingMission.DoNothingMission()
