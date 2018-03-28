@@ -35,7 +35,7 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
 
         # TODO: figure out starting angles better
         # Assumes starting pitch is 0 and azimuth as car
-        last_angles = (self.orientation, 8)
+        last_angles = (self.orientation, 0)
         print("Bloons to be popped at: ")
         print(bloons)
 
@@ -47,22 +47,22 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
             ############
             # Relative
 
-            # diff_azimuth = -1 * clamp_to_0_360(angles[0] - last_angles[0])
+            diff_azimuth = -1 * clamp_to_0_360(angles[0] - last_angles[0])
 
-            diff_azimuth = -1 * clamp_to_0_360(angles[0] + 90)
+            # diff_azimuth = -1 * clamp_to_0_360(angles[0] + 90)
 
             # Azimuth motor is moving reversed relative to normal angles in
             # a mathematical plane
 
-            # diff_pitch = (angles[1] - last_angles[1])
-            diff_pitch = (angles[1])
+            diff_pitch = (angles[1] - last_angles[1])
+            # diff_pitch = (angles[1])
 
-            print("Going to move to angles: " + str((diff_azimuth, diff_pitch)))
+            print("Going to move angles: " + str((diff_azimuth, diff_pitch)))
 
             self.missions.append(
                 MoveTurretByAngle.MoveTurretByAngle(device_map,
-                                                    diff_azimuth, False,
-                                                    diff_pitch, False))
+                                                    diff_azimuth, True,
+                                                    diff_pitch, True))
 
             ############
             # Absolute

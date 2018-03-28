@@ -10,7 +10,7 @@ sys.path.append('..')
 
 
 class DestroyBloon(Missions.Mission.Mission):
-    def __init__(self, device_map, countdown = 5):
+    def __init__(self, device_map, countdown = 3):
         Missions.Mission.Mission.__init__(self)
 
         self.old_time = 0
