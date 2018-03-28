@@ -95,51 +95,51 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                 if dist < self.min_dist:
                     self.min_dist = dist
                     self.min_bloon = bloon
-            if self.min_bloon:
-                azimuth_angle_to_send = self.min_bloon[0]
+                if self.min_bloon:
+                    azimuth_angle_to_send = self.min_bloon[0]
 
-                pitch_angle_to_send = self.min_bloon[1]
+                    pitch_angle_to_send = self.min_bloon[1]
 
-                # This should be log
-                print("angles to send (azimuth, pitch): ({}, " \
-                      "{})".format(azimuth_angle_to_send,
-                                   pitch_angle_to_send))
+                    # This should be log
+                    print("angles to send (azimuth, pitch): ({}, " \
+                          "{})".format(azimuth_angle_to_send,
+                                       pitch_angle_to_send))
 
-                # Sends angle to arduino, is the angle is small, gives a
-                #  smaller angle
-                """if 1 < abs(azimuth_angle_to_send) < 3:
-                    azimuth_angle_to_send *= 0.25
-                elif 0.1 < abs(azimuth_angle_to_send) < 1:
-                    azimuth_angle_to_send =
-                    0.2*azimuth_angle_to_send/abs(
-                        azimuth_angle_to_send)
-                elif abs(azimuth_angle_to_send) < 0.1:
-                    azimuth_angle_to_send = 0
-                if 1 < abs(pitch_angle_to_send) < 3:
-                    pitch_angle_to_send *= 0.25
-                elif abs(pitch_angle_to_send) < 1:
-                    pitch_angle_to_send = 0.2*pitch_angle_to_send / abs(
-                        pitch_angle_to_send)
-                       """
-                '''
-                if 1 <= abs(azimuth_angle_to_send) <= 3:
-                    azimuth_angle_to_send *= 0.25
-                elif abs(azimuth_angle_to_send) < 1:
-                    azimuth_angle_to_send = 0.2 * azimuth_angle_to_send \
-                                            / abs(
-                        azimuth_angle_to_send)
-                if 1 <= abs(pitch_angle_to_send) <= 3:
-                    pitch_angle_to_send *= 0.25
-                elif abs(pitch_angle_to_send) < 1:
-                    pitch_angle_to_send = 0.2 * pitch_angle_to_send / \
-                                          abs(
-                                              pitch_angle_to_send)
-                '''
+                    # Sends angle to arduino, is the angle is small, gives a
+                    #  smaller angle
+                    """if 1 < abs(azimuth_angle_to_send) < 3:
+                        azimuth_angle_to_send *= 0.25
+                    elif 0.1 < abs(azimuth_angle_to_send) < 1:
+                        azimuth_angle_to_send =
+                        0.2*azimuth_angle_to_send/abs(
+                            azimuth_angle_to_send)
+                    elif abs(azimuth_angle_to_send) < 0.1:
+                        azimuth_angle_to_send = 0
+                    if 1 < abs(pitch_angle_to_send) < 3:
+                        pitch_angle_to_send *= 0.25
+                    elif abs(pitch_angle_to_send) < 1:
+                        pitch_angle_to_send = 0.2*pitch_angle_to_send / abs(
+                            pitch_angle_to_send)
+                           """
+                    '''
+                    if 1 <= abs(azimuth_angle_to_send) <= 3:
+                        azimuth_angle_to_send *= 0.25
+                    elif abs(azimuth_angle_to_send) < 1:
+                        azimuth_angle_to_send = 0.2 * azimuth_angle_to_send \
+                                                / abs(
+                            azimuth_angle_to_send)
+                    if 1 <= abs(pitch_angle_to_send) <= 3:
+                        pitch_angle_to_send *= 0.25
+                    elif abs(pitch_angle_to_send) < 1:
+                        pitch_angle_to_send = 0.2 * pitch_angle_to_send / \
+                                              abs(
+                                                  pitch_angle_to_send)
+                    '''
 
-                self.azimuth_motor.send(azimuth_angle_to_send, False, True)
-                self.pitch_motor.send(pitch_angle_to_send, False, True)
+                    self.azimuth_motor.send(azimuth_angle_to_send, False, True)
+                    self.pitch_motor.send(pitch_angle_to_send, False, True)
 
-                time.sleep(2.5)
+                    time.sleep(2.5)
 
             #########
             # if not self.movement_mis:
