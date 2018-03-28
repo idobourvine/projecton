@@ -183,8 +183,8 @@ class CarVisionData:
 
                     elif msg_type == "RoomBloons2MSG":
                         self.room_bloons_2 = data
-                        # print("Data from server: room bloons 2: " + str(
-                        #     data))
+                        print("Data from server: room bloons 2: " + str(
+                            data))
 
                     elif msg_type == "CarWorkingMSG":
                         self.car_working = data
