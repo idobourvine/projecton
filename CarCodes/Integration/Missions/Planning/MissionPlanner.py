@@ -58,7 +58,7 @@ class MissionPlanner:
         if not self.current_mission:
             if Constants.use_devices:
                 print("Going to sleep")
-                time.sleep(5)
+                time.sleep(15)
 
         if not self.current_mission or \
                 self.current_mission.finished_called_since_start():
