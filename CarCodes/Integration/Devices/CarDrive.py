@@ -49,7 +49,7 @@ class CarDrive():
 
         self.curr_ori += angle
 
-        self.send(angle, 0, 0)
+        self.send(-1 * angle, 0, 0)
 
     def finished_moving(self):
         """

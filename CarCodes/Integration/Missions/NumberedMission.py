@@ -15,10 +15,11 @@ class NumberedMission(Mission.Mission):
         print("Numbered mission " + str(self.num) + " initialized")
 
         self.start_time = time.time()
-        self.duration = random()
+        # self.duration = random()
 
     def execute(self):
-        print("Current time: " + str(time.time()))
+        pass
+        # print("Current time: " + str(time.time()))
 
     def is_finished(self):
         return (time.time() - self.start_time) > self.duration

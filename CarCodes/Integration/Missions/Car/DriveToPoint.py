@@ -33,10 +33,14 @@ class DriveToPoint(Missions.SeriesMission.SeriesMission):
         self.movement_heading = movement_heading
         amount_to_rotate = int(clamp_to_180(movement_heading - self.starting_pos[2]))
 
+        print("Going to turn " + str(amount_to_rotate))
+
         self.missions.append(Missions.Car.Rotate.Rotate(
             device_map, amount_to_rotate))
 
         dist = int(pythagoras((rel_x, rel_y)))
+
+        print("Going to move " + str(dist))
 
         self.missions.append(Missions.Car.MoveDistance.MoveDistance(device_map, dist))
 
