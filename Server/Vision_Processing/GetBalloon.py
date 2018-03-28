@@ -171,13 +171,14 @@ BAD2 = [200, 200, 200]
 d2 = 56
 BAD3 = [5, 5, 5]
 d3 = 10
-BAD4 = [5, 5, 5]
-d4 = 25
+BAD4 = [112, 132, 145]
+d4 = 15
 red_lower = [0, 20, 140]  # security cameras
-red_upper = [185, 160, 255]
+red_upper = [140, 140, 255]
+red_mean = [60, 80, 200]
 red_lower_sec = [0, 0, 70]  # car camera
 red_upper_sec = [110, 100, 180]
-MIN_PIXEL_DIST = 40
+MIN_PIXEL_DIST = 25
 
 
 def canShoot1(circles):
@@ -213,15 +214,17 @@ def getEnemiesSec(img):
     bloons, sizes = getCircleSec(img)
     for i in range(len(bloons)):
         if isRedSec(img, bloons[i]):
-            # cv2.circle(img, (bloons[i][0], bloons[i][1]), bloons[i][2], (0,
-            #
-            # 255, 0), 4)
-            # cv2.imshow("image", img)
-            cv2.waitKey(100)
+            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+            #     i][2]), (0,0,255), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
+        else:
+            pass
+            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+            #     i][2]),(0,255,0),4)
     # cv2.imwrite("image_car" + str(time.time()) + ".jpg", img)
     # cv2.imshow("image_car")
+    # return img
     return [red_bloons, red_sizes]
 
 def getCircleSec(img):
@@ -245,6 +248,7 @@ def getCircleSec(img):
                 # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
     return [bloons, sizes]
 
+
 def getEnemies(img):
     """returns a list of enemy balloons and their sizes in image works for
     the security cameras!!!"""
@@ -259,14 +263,12 @@ def getEnemies(img):
             red_bloons1.append(bloons[i])
             red_sizes1.append(sizes[i])
         else:
-            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
-                                                                            i][
-                                                                            2]),
-                       (0, 255, 0), 4)
-    red_bloons, red_sizes = filter_close_bloons(red_bloons1, red_sizes1)
+            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])),
+            int(bloons[i][2]),(0, 255, 0), 4)
+    red_bloons, red_sizes = filter_close_bloons(red_bloons1, red_sizes1, img)
     for i in range(len(red_bloons)):
         cv2.circle(img, (int(red_bloons[i][0]), int(red_bloons[i][1])),
-                   int(red_bloons[i][2]), (0, 0, 255), 4)
+                   int(red_bloons[i][2]), (0,0,255), 4)
     cv2.imshow("image", img)
     cv2.waitKey(2000)
     cv2.destroyAllWindows()
@@ -284,7 +286,7 @@ def getFriends(img):
             friend_bloons1.append(bloons[i])
             friend_sizes1.append(sizes[i])
     friend_bloons, friend_sizes = filter_close_bloons(friend_bloons1,
-                                                      friend_sizes1)
+                                                      friend_sizes1, img)
     return [friend_bloons, friend_sizes]
 
 
@@ -292,8 +294,8 @@ def getCircle(img):
     """returns a list of circles and their sizes in image"""
     output = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 22,
-                               param1=80, param2=5, minRadius=7,
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.0, 25,
+                               param1=80, param2=30, minRadius=7,
                                maxRadius=0)
     bloons = []
     sizes = []
@@ -310,7 +312,20 @@ def getCircle(img):
     return [bloons, sizes]
 
 
-def filter_close_bloons(bloons ,sizes):
+def get_avg_color(img, circle):
+    circle_copy = [int(X) for X in circle]
+    xc, yc, r = circle_copy
+    cropImg = img[yc - r:yc + r, xc - r:xc + r]
+    average_color = cv2.mean(cropImg)
+    return average_color
+
+def get_diff_from(color1, color2):
+    diff = 0
+    for i in range(2):
+        diff += abs(color1[i] - color2[i])
+    return diff
+
+def filter_close_bloons(bloons ,sizes, img):
     bad_indexes = []
     new_bloons = []
     new_sizes = []
@@ -319,10 +334,17 @@ def filter_close_bloons(bloons ,sizes):
             if i not in bad_indexes and j not in bad_indexes and i != j:
                 dist = (bloons[i][0] - bloons[j][0]) ** 2 + (bloons[i][1] -
                                                              bloons[j][1]) ** 2
-                if dist <= MIN_PIXEL_DIST ** 2:
-                    mid_x = (bloons[i][0] + bloons[j][0]) / 2
-                    mid_y = (bloons[i][1] + bloons[j][1]) / 2
-                    new_r = bloons[i][2] + bloons[j][2]
+                if dist <= max(MIN_PIXEL_DIST ** 2, (bloons[i][2] + bloons[
+                    j][2])**2) :
+                    if get_diff_from(get_avg_color(img, bloons[i]),
+                                     red_mean) <= get_diff_from(
+                        get_avg_color(img, bloons[j]), red_mean):
+                        minR = i
+                    else:
+                        minR = j
+                    mid_x = bloons[minR][0]
+                    mid_y = bloons[minR][1]
+                    new_r = bloons[minR][2]
                     bloons[i] = (mid_x, mid_y, new_r)
                     sizes[i] = new_r * new_r * math.pi
                     bad_indexes.append(j)
@@ -370,7 +392,8 @@ def isRed(img, circle):
     if red_lower[0] <= average_color[0] <= red_upper[0] and red_lower[1] <= \
             average_color[1] <= red_upper[1] and red_lower[2] <= \
             average_color[2] <= red_upper[2] and average_color[2] > \
-            average_color[1] and average_color[2] > average_color[0]:
+            average_color[0] and average_color[2] > average_color[1]:
+        print average_color
         return True
     else:
         return False
