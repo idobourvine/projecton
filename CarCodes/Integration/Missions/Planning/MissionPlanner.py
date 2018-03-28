@@ -101,67 +101,6 @@ class MissionPlanner:
                 self.entered_state_0 = True
                 # Testing mode
 
-                print("Running Tests")
-                print()
-<<<<<<< HEAD
-
-                if Constants.car_or_turret:
-                    print("Testing movements")
-
-                    mis1 = Missions.Car.MoveDistance.MoveDistance(
-                        self.device_map, 20)
-                    mis2 = Missions.Car.Rotate.Rotate(self.device_map, 10)
-                    mis3 = Missions.Car.MoveDistance.MoveDistance(
-                        self.device_map, 20)
-                    mis4 = Missions.Car.Rotate.Rotate(self.device_map, -10)
-                    mis5 = Missions.Car.MoveDistance.MoveDistance(
-                        self.device_map, 20)
-                    mis6 = Missions.Car.Rotate.Rotate(self.device_map, 20)
-                    mis7 = Missions.Car.MoveDistance.MoveDistance(
-                        self.device_map, 20)
-                    mis8 = Missions.Car.Rotate.Rotate(self.device_map, -20)
-                    mis = Missions.SeriesMission.SeriesMission([mis1, mis2, mis3, mis4, mis5,
-                                                                mis6, mis7, mis8])
-
-                else:
-
-                    mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(self.device_map, room_bloons, curr_position,
-                                                                           curr_ori)
-
-                    # mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -60, True, 15, True)
-                    # mis2 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(self.device_map, -30, True, 15, True)
-
-                    mis = Missions.SeriesMission.SeriesMission([mis1])
-=======
-                '''
-                print("Testing aim at preset angles, then aim at bloon in "
-                      "picture")
-
-                mis1 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -60, 13)
-
-                mis2 = Missions.Turret.AimAtBloonInPicture \
-                    .AimAtBloonInPicture(self.device_map)
-
-                mis3 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -13, 6)
-
-                mis4 = Missions.Turret.AimAtBloonInPicture \
-                    .AimAtBloonInPicture(self.device_map)
-
-                mis5 = Missions.Turret.MoveTurretByAngle.MoveTurretByAngle(
-                    self.device_map, -15, 6)
-
-                mis6 = Missions.Turret.AimAtBloonInPicture \
-                    .AimAtBloonInPicture(self.device_map)
-
-                mis = Missions.SeriesMission.SeriesMission([mis1, mis2,
-                                                            mis3, mis4,
-                                                            mis5, mis6])
-
->>>>>>> system_tri
-                return mis
-                '''
                 return None
             else:
                 return None
