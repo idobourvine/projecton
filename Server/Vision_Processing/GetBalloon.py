@@ -218,13 +218,11 @@ def getEnemiesSec(img):
                 i][2]), (0,0,255), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
-        else:
-            pass
             cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
                 i][2]),(0,255,0),4)
     cv2.imshow("image_car", img)
     cv2.waitKey(20)
-    return img
+    # return img
     return [red_bloons, red_sizes]
 
 def getCircleSec(img):

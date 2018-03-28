@@ -45,12 +45,12 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         Code that happens when the mission starts
         :return:
         """
-        if self.azimuth_motor.is_locked() or self.pitch_motor.is_locked():
-            print("Tried to start mission when one of the motors is already "
-                  "used by another one")
-            self.kill()
-        else:
-            pass
+        # if self.azimuth_motor.is_locked() or self.pitch_motor.is_locked():
+        #     print("Tried to start mission when one of the motors is already "
+        #           "used by another one")
+        #     self.kill()
+        # else:
+        pass
             # self.azimuth_motor.lock()  # Locks the motor for safety
             # self.pitch_motor.lock()  # Locks the motor for safety
 
@@ -139,7 +139,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
                 self.azimuth_motor.send(azimuth_angle_to_send, False, True)
                 self.pitch_motor.send(pitch_angle_to_send, False, True)
 
-                time.sleep(2)
+                time.sleep(2.5)
 
             #########
             # if not self.movement_mis:
@@ -174,5 +174,5 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
 
         # Unlocks the motors
 
-        self.azimuth_motor.unlock()
-        self.pitch_motor.unlock()
+        # self.azimuth_motor.unlock()
+        # self.pitch_motor.unlock()
