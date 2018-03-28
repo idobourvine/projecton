@@ -86,7 +86,8 @@ class MissionPlanner:
         """
 
         # letting the cameras reset
-        time.sleep(15)
+        print("Cameras reset")
+        time.sleep(10)
 
         curr_location = self.device_map.car_vision_data.get_car_location()
 
@@ -117,23 +118,21 @@ class MissionPlanner:
                 # mis1 = Missions.Car.Rotate.Rotate(self.device_map, 90)
                 # mis2 = Missions.Car.Rotate.Rotate(self.device_map, -90)
 
-                mis = Missions.SeriesMission.SeriesMission([mis1])
-                return mis
+                self.mission_state = 1
+
+                return mis1
 
             else:
                 return None
 
         elif self.mission_state == 1:
-            bloons_to_destroy = self.get_bloons_relevant_for_standpoint(
-                curr_bloons, curr_position)
 
-            mis = Missions.Turret.ClearStandpoint.ClearStandpoint(
-                device_map, bloons_to_destroy, curr_position)
+            mis1 = Missions.Turret.ClearStandpoint.ClearStandpoint(self.device_map, room_bloons, curr_location, curr_ori)
 
-            self.mission_state = 2  # Next mission that will be returned
+            # self.mission_state = 2  # Next mission that will be returned
             # will be clearing preset standpoints
 
-            return mis
+            return mis1
 
         elif self.mission_state == 2:
             if len(self.preset_standpoint) == 0:
