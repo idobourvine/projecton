@@ -390,3 +390,36 @@ def isWhite(img, circle):
         return True
     else:
         return False
+
+MIN_ANGLE = 3.5  # degs
+
+def filter_bloons(enemy_bloons, friend_bloons, car_location):
+    enemy_vecs = []
+    friend_vecs = []
+    enemy_bloons_shoot = []
+    for i in range(len(enemy_bloons)):
+        enemy_vecs.append((enemy_bloons[i][0] - car_location[0], enemy_bloons[i][1] -
+                           car_location[1], enemy_bloons[i][2] - car_location[2]))
+    for i in range(len(friend_bloons)):
+        friend_vecs.append((friend_bloons[i][0] - car_location[0], friend_bloons[i][1] -
+                           car_location[1], friend_bloons[i][2] - car_location[2]))
+    for i in range(len(enemy_bloons)):
+        out = False
+        for j in range(len(friend_bloons)):
+            if abs(angle_bet(enemy_vecs[i], friend_vecs[j]) < MIN_ANGLE):
+                out = True
+                break
+        if not out:
+            enemy_bloons_shoot.append(enemy_bloons[i])
+    return enemy_bloons_shoot
+
+
+def unit_vec(vec):
+    return vec / np.linalg.norm(vec)
+
+
+def angle_bet(v1, v2):
+    v1_u = unit_vec(v1)
+    v2_u = unit_vec(v2)
+    rad = np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
+    return rad*180.0/math.pi
