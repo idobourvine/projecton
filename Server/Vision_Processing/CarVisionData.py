@@ -14,7 +14,7 @@ class CarVisionData:
         self.bloons = []  # Array of balloons detected by vision processing
         self.can_shoot = [0]
         self.did_pop = [0]
-        self.green_line_angle = [0]
+        self.green_line_angle = [999]
 
         self.connection = connection
         self.stream = PiStream.PiStream(connection=self.connection,
@@ -40,6 +40,8 @@ class CarVisionData:
         return copy.deepcopy(self.did_pop)
 
     def get_green_line_angle(self):
+        if not self.green_line_angle[0]:
+            return [999]
         return copy.deepcopy(self.green_line_angle)[0]
 
     def continue_mission(self):

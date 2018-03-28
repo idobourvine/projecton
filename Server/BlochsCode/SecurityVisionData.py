@@ -10,8 +10,6 @@ class SecurityVisionData():
 
         self.car_location = []
 
-        self.green_line_angle = 999  # Default starting value
-
         self.process_thread = Thread(target=self.process,
                                      args=())
         self.process_thread.start()
@@ -51,6 +49,3 @@ class SecurityVisionData():
 
     def get_car_location(self):
         return copy.deepcopy(self.car_location)
-
-    def get_green_line_angle(self):
-        return copy.deepcopy(self.green_line_angle)
