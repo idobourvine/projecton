@@ -208,5 +208,6 @@ class CarVisionData:
 
 
             except Exception as e:
-                print("Message parsing exception, msg was: " + msg)
-                print(str(e))
+                # print("Message parsing exception, msg was: " + msg)
+                # print(str(e))
+                pass
