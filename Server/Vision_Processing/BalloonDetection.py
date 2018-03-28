@@ -6,7 +6,7 @@ import cv2
 import GetBalloon
 BALLOONS = []
 
-def Webcamera(stream, bloons, canShoot, didPop, greenLineAngle):
+def Webcamera(stream, bloons, canShoot, didPop):
     global BALLOONS
     Image0 = None
     start_time = -1
@@ -42,9 +42,6 @@ def Webcamera(stream, bloons, canShoot, didPop, greenLineAngle):
                 didPop.append(GetBalloon.didPop(Image0, Image1))
                 if len(didPop) > 0 and didPop[0] == 1:
                     start_time = time.time()
-
-            del greenLineAngle[:]
-            greenLineAngle.append(GetBalloon.getOrientation(Image0))
 
             time.sleep(0.1)
             Image0 = copy.deepcopy(Image1)

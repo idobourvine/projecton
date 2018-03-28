@@ -26,7 +26,7 @@ class CarVisionData:
                                     args=(self.stream,
                                           self.bloons,
                                           self.can_shoot,
-                                          self.did_pop, self.green_line_angle))  # Thread that runs
+                                          self.did_pop))  # Thread that runs
         self.eg1.start()
         print("Started image processing thread")
 
