@@ -125,11 +125,12 @@ class CarVisionData:
 
     def read_messages(self, connection):
         while True:
-            try:
-                msg = connection.get_msg()
-                if not msg:
-                    continue
 
+            msg = connection.get_msg()
+            if not msg:
+                continue
+
+            try:
                 messages = msg.split('MESSAGE')
                 for real_msg in messages:
                     if real_msg == '':
@@ -176,13 +177,13 @@ class CarVisionData:
 
                     elif msg_type == "CarLocationMSG":
                         self.car_location = data
-                        print("Data from server: car location: " + str(data))
+                        # print("Data from server: car location: " + str(data))
 
                     elif msg_type == "GreenLineAngleMSG":
                         self.green_line_angle = data
-                        print("Data from server: green line angle: " + str(
-                        data))
+                        # print("Data from server: green line angle: " + str(
+                        # data))
 
             except Exception as e:
-                print("EXCEPTION CAUGHT")
+                print("Message parsing exception, msg was: " + msg)
                 print(str(e))

@@ -110,7 +110,6 @@ def process_security_vision_data():
             print("Room Bloons:")
             print(room_bloons)
 
-
         data_from_vision.put("MESSAGERoomBloons1MSG" + str(room_bloons))
         data_from_vision.put("MESSAGECarLocationMSG" + str(car_location))
 
