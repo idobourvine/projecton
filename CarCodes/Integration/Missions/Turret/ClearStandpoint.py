@@ -83,7 +83,6 @@ class ClearStandpoint(Missions.SeriesMission.SeriesMission):
             #                                         diff_azimuth, True,
             #                                         diff_pitch, True))
 
-
             self.missions.append(
                 AimAtBloonInPicture.AimAtBloonInPicture(
                     device_map))
