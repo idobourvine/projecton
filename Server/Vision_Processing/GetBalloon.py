@@ -214,17 +214,17 @@ def getEnemiesSec(img):
     bloons, sizes = getCircleSec(img)
     for i in range(len(bloons)):
         if isRedSec(img, bloons[i]):
-            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
-            #     i][2]), (0,0,255), 4)
+            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+                i][2]), (0,0,255), 4)
             red_bloons.append(bloons[i])
             red_sizes.append(sizes[i])
         else:
             pass
-            # cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
-            #     i][2]),(0,255,0),4)
-    # cv2.imwrite("image_car" + str(time.time()) + ".jpg", img)
-    # cv2.imshow("image_car")
-    # return img
+            cv2.circle(img, (int(bloons[i][0]), int(bloons[i][1])), int(bloons[
+                i][2]),(0,255,0),4)
+    cv2.imshow("image_car")
+    cv2.waitKey(20)
+    return img
     return [red_bloons, red_sizes]
 
 def getCircleSec(img):
