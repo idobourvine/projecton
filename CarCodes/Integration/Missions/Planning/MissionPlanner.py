@@ -39,7 +39,7 @@ class MissionPlanner:
         Targeted elimination - so long as there are bloons, travels
         to the closest one and destroys all bloons from position
         """
-        self.mission_state = 0
+        self.mission_state = 1
 
         # For testing state
         self.entered_state_0 = False
