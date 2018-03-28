@@ -39,6 +39,8 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
 
         self.movement_mis = None
 
+        self.starting_time = time.time()
+
     def initialize(self):
         """
         To be overriden
@@ -50,6 +52,7 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         #           "used by another one")
         #     self.kill()
         # else:
+        self.starting_time = time.time()
         pass
             # self.azimuth_motor.lock()  # Locks the motor for safety
             # self.pitch_motor.lock()  # Locks the motor for safety
@@ -158,6 +161,9 @@ class AimAtBloonInPicture(Missions.Mission.Mission):
         (center of camera) for a certain number of loops
         :return:
         """
+        if (time.time() - self.starting_time) > 10:
+            return True
+
         a = self.vision_data.get_can_shoot()
         if len(a) > 0:
             return a[0] == 1
