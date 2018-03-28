@@ -25,7 +25,7 @@ class DestroyBloon(Missions.Mission.Mission):
         self.old_time = time.time()
         self.new_time = time.time()
         self.laser_pointer.send(0, True, True)
-        time.sleep(10)
+        time.sleep(3)
 
     def execute(self):
         """"""
