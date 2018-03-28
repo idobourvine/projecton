@@ -47,9 +47,9 @@ class CarDrive():
         :return: None
         """
 
-        angle *= 1.23
-
         self.curr_ori += angle
+
+        angle *= 1.23
 
         self.send(angle, 0, 0)
 
